@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pasar Modern Pemerintahan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
@@ -108,18 +109,30 @@
         <div class="container">
             <h2 class="section-title text-center">Galeri Foto</h2>
             <div class="row g-3" id="galeri-list">
-                <!-- Dummy galeri, nanti diganti AJAX -->
+                <!-- Galeri dengan gambar lokal -->
                 <div class="col-6 col-md-3">
-                    <img src="https://source.unsplash.com/400x400/?market,building" class="w-100 gallery-img" alt="Galeri 1">
+                    <img src="/assets/img/pasar1.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 1">
                 </div>
                 <div class="col-6 col-md-3">
-                    <img src="https://source.unsplash.com/400x400/?market,activity" class="w-100 gallery-img" alt="Galeri 2">
+                    <img src="/assets/img/pasar2.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 2">
                 </div>
                 <div class="col-6 col-md-3">
-                    <img src="https://source.unsplash.com/400x400/?market,shop" class="w-100 gallery-img" alt="Galeri 3">
+                    <img src="/assets/img/pasar3.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 3">
                 </div>
                 <div class="col-6 col-md-3">
-                    <img src="https://source.unsplash.com/400x400/?market,food" class="w-100 gallery-img" alt="Galeri 4">
+                    <img src="/assets/img/pasar4.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 4">
+                </div>
+                <div class="col-6 col-md-3">
+                    <img src="/assets/img/pasar5.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 5">
+                </div>
+                <div class="col-6 col-md-3">
+                    <img src="/assets/img/pasar6.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 6">
+                </div>
+                <div class="col-6 col-md-3">
+                    <img src="/assets/img/pasar7.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 7">
+                </div>
+                <div class="col-6 col-md-3">
+                    <img src="/assets/img/pasar8.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 8">
                 </div>
             </div>
         </div>
@@ -230,7 +243,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Optional: Custom JS -->
-    <script src="/assets/js/custom.js"></script>
+    <script src="/assets/js/landing.js"></script>
 </body>
 </html> 
