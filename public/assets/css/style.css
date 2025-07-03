@@ -1,41 +1,57 @@
-/* Custom CSS untuk Landing Page Pasar Modern */
+/* Custom CSS untuk Website Perumda Pasar Modern */
 
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
+    line-height: 1.6;
 }
 
+/* Navbar Styling */
 .navbar-brand span {
     letter-spacing: 1px;
-    color: #0d6efd;
+    color: #fff;
 }
 
 .navbar-nav .nav-link {
     transition: color 0.2s;
+    font-weight: 500;
 }
 
 .navbar-nav .nav-link:hover {
-    color: #198754 !important;
+    color: #ffc107 !important;
 }
 
 .nav-link.active {
     font-weight: bold;
-    color: #0d6efd !important;
+    color: #ffc107 !important;
 }
 
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #0d6efd;
+}
+
+/* Hero Section */
 .hero {
     background-image: url('/assets/img/bannerpasar.jpeg');
     background-size: cover;
     background-position: center;
     position: relative;
     color: #fff;
-    padding: 100px 0;
+    padding: 120px 0;
+    min-height: 70vh;
 }
 
 .hero::after {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.5);
     z-index: 1;
 }
 
@@ -44,37 +60,89 @@ body {
     z-index: 2;
 }
 
+.hero h1 {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    margin-bottom: 1rem;
+}
+
+.hero .lead {
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    font-size: 1.25rem;
+}
+
+/* Section Titles */
 .section-title {
     font-weight: bold;
-    margin-bottom: 32px;
+    margin-bottom: 40px;
+    color: #2c3e50;
+    position: relative;
+    padding-bottom: 15px;
 }
 
-.price-tab {
-    margin-bottom: 24px;
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #0d6efd, #198754);
+    border-radius: 2px;
 }
 
-.btn-primary {
-    background: linear-gradient(90deg, #0d6efd 60%, #198754 100%);
-    border: none;
-    transition: background 0.2s;
-}
-
-.btn-primary:hover {
-    background: linear-gradient(90deg, #198754 60%, #0d6efd 100%);
-}
-
+/* Cards Styling */
 .card {
     border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    overflow: hidden;
 }
 
 .card:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 
-/* Styling untuk galeri */
+.card-img-top {
+    transition: transform 0.3s ease;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+/* Info Cards */
+.bi {
+    transition: transform 0.3s ease;
+}
+
+.card:hover .bi {
+    transform: scale(1.1);
+}
+
+/* Table Styling */
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background: linear-gradient(90deg, #0d6efd, #198754);
+    color: white;
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Gallery Styling */
 .gallery-img {
     width: 100%;
     height: 200px;
@@ -90,77 +158,172 @@ body {
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 
+/* Footer Styling */
 .footer {
-    background: #222;
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
     color: #fff;
-    padding: 32px 0;
+    padding: 40px 0 20px;
+}
+
+.footer h6 {
+    color: #ffc107;
+    font-weight: 600;
+    margin-bottom: 15px;
 }
 
 .footer a {
-    opacity: 0.8;
-    transition: opacity 0.2s;
+    color: #bdc3c7;
+    transition: color 0.3s ease;
+    text-decoration: none;
 }
 
 .footer a:hover {
-    opacity: 1;
+    color: #ffc107;
 }
 
+.social-links a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background: #ffc107;
+    color: #2c3e50 !important;
+    transform: translateY(-2px);
+}
+
+/* Logo */
 .logo {
-    height: 60px;
+    height: 50px;
+    filter: brightness(0) invert(1);
 }
 
-/* Custom untuk tab nav-pills agar lebih user friendly */
-.price-tab .nav-link {
-    padding: 0.75rem 2rem;
-    font-size: 1.15rem;
-    border-radius: 1.5rem !important;
-    margin: 0 0.5rem;
-    min-width: 120px;
-    box-shadow: 0 2px 8px rgba(13,110,253,0.08);
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-}
-
-.price-tab .nav-link.active, .price-tab .nav-link:focus {
+/* Buttons */
+.btn-primary {
     background: linear-gradient(90deg, #0d6efd 60%, #198754 100%);
-    color: #fff !important;
-    box-shadow: 0 4px 16px rgba(13,110,253,0.15);
+    border: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    padding: 10px 25px;
+    border-radius: 25px;
 }
 
-.price-tab .nav-link:hover:not(.active) {
-    background: #e9ecef;
-    color: #0d6efd !important;
+.btn-primary:hover {
+    background: linear-gradient(90deg, #198754 60%, #0d6efd 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13,110,253,0.3);
 }
 
-/* Responsive design */
+.btn-outline-primary {
+    border-color: #0d6efd;
+    color: #0d6efd;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background: #0d6efd;
+    border-color: #0d6efd;
+    transform: translateY(-1px);
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
     .hero { 
-        padding: 60px 0; 
+        padding: 80px 0; 
+        min-height: 60vh;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero .lead {
+        font-size: 1.1rem;
     }
     
     .section-title { 
         font-size: 1.5rem; 
+        margin-bottom: 30px;
     }
     
     .gallery-img {
         height: 150px;
     }
     
-    .price-tab .nav-link {
-        padding: 0.5rem 1.5rem;
-        font-size: 1rem;
-        min-width: 100px;
-        margin: 0 0.25rem;
+    .card-body {
+        padding: 1.25rem;
+    }
+    
+    .footer {
+        text-align: center;
+    }
+    
+    .social-links {
+        margin-top: 15px;
     }
 }
 
 @media (max-width: 576px) {
+    .hero {
+        padding: 60px 0;
+        min-height: 50vh;
+    }
+    
+    .hero h1 {
+        font-size: 1.75rem;
+    }
+    
     .gallery-img {
         height: 120px;
     }
     
-    .price-tab .nav-link {
-        padding: 0.4rem 1rem;
+    .table-responsive {
         font-size: 0.9rem;
-        min-width: 80px;
     }
+    
+    .btn {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Animation for cards */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #0d6efd, #198754);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(90deg, #198754, #0d6efd);
 } 
