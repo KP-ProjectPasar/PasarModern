@@ -867,4 +867,80 @@ function showNotification(message, type = 'info') {
             notification.remove();
         }
     }, 3000);
-} 
+}
+
+// --- AJAX Komoditas ---
+function fetchKomoditas() {
+    const grid = document.getElementById('komoditasGrid');
+    if (!grid) return;
+    grid.innerHTML = '<div class="text-center w-100 py-5">Loading data komoditas...</div>';
+    fetch('/api/komoditas')
+        .then(res => res.json())
+        .then(data => {
+            if (!data.length) {
+                grid.innerHTML = '<div class="text-center w-100 py-5">Tidak ada data komoditas.</div>';
+                return;
+            }
+            grid.innerHTML = data.map(item => `
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 komoditas-item" data-kategori="${item.kategori}" data-perubahan="${item.perubahan}">
+                    <div class="komoditas-card card border-0 shadow-sm h-100">
+                        <div class="card-body p-4 text-center position-relative">
+                            <h5 class="product-name mb-2">${item.nama}</h5>
+                            <div class="price-container mb-3">
+                                <div class="current-price">Rp ${item.harga.toLocaleString()}</div>
+                                <div class="price-unit text-muted">per ${item.satuan}</div>
+                            </div>
+                            <div class="product-details">
+                                <div class="detail-item">
+                                    <i class="bi bi-calendar3 text-muted"></i>
+                                    <span class="text-muted">Update: ${item.last_update}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="bi bi-graph-${item.perubahan === 'naik' ? 'up text-danger' : 'down text-success'}"></i>
+                                    <span class="${item.perubahan === 'naik' ? 'text-danger' : 'text-success'}">${item.perubahan}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        })
+        .catch(() => {
+            grid.innerHTML = '<div class="text-center w-100 py-5 text-danger">Gagal memuat data komoditas.</div>';
+        });
+}
+
+// --- AJAX Berita ---
+function fetchBerita() {
+    const list = document.getElementById('beritaList');
+    if (!list) return;
+    list.innerHTML = '<div class="text-center w-100 py-5">Loading berita...</div>';
+    fetch('/api/berita')
+        .then(res => res.json())
+        .then(data => {
+            if (!data.length) {
+                list.innerHTML = '<div class="text-center w-100 py-5">Tidak ada berita.</div>';
+                return;
+            }
+            list.innerHTML = data.map(item => `
+                <div class="col-md-4 mb-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <h6 class="fw-bold text-primary">${item.judul}</h6>
+                            <p class="small text-muted mb-2">${item.tanggal}</p>
+                            <p class="card-text">${item.isi.substring(0, 80)}...</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        })
+        .catch(() => {
+            list.innerHTML = '<div class="text-center w-100 py-5 text-danger">Gagal memuat berita.</div>';
+        });
+}
+
+// Panggil saat halaman siap
+window.addEventListener('DOMContentLoaded', function() {
+    fetchKomoditas();
+    fetchBerita();
+}); 

@@ -111,41 +111,7 @@
     <section id="berita" class="py-5">
         <div class="container">
             <h2 class="section-title text-center">Berita & Info Terkini</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card border-0 shadow-sm h-100">
-                        <img src="https://source.unsplash.com/400x250/?market,news" class="card-img-top" alt="Berita 1">
-                        <div class="card-body">
-                            <h6 class="fw-bold text-primary">Peresmian Fasilitas Baru</h6>
-                            <p class="small text-muted mb-2">25 Mei 2024</p>
-                            <p class="card-text">Pasar Modern kini memiliki area parkir baru dan fasilitas ramah difabel.</p>
-                            <a href="#" class="btn btn-outline-primary btn-sm">Baca Selengkapnya</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card border-0 shadow-sm h-100">
-                        <img src="https://source.unsplash.com/400x250/?market,activity" class="card-img-top" alt="Berita 2">
-                        <div class="card-body">
-                            <h6 class="fw-bold text-primary">Kegiatan Sosial Pasar</h6>
-                            <p class="small text-muted mb-2">10 Mei 2024</p>
-                            <p class="card-text">Santunan anak yatim dan bakti sosial di lingkungan pasar modern Tangerang.</p>
-                            <a href="#" class="btn btn-outline-primary btn-sm">Baca Selengkapnya</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card border-0 shadow-sm h-100">
-                        <img src="https://source.unsplash.com/400x250/?market,food" class="card-img-top" alt="Berita 3">
-                        <div class="card-body">
-                            <h6 class="fw-bold text-primary">Pemantauan Harga</h6>
-                            <p class="small text-muted mb-2">7 Maret 2024</p>
-                            <p class="card-text">Pemantauan harga dan pasokan bahan pangan di pasar modern Tangerang.</p>
-                            <a href="#" class="btn btn-outline-primary btn-sm">Baca Selengkapnya</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="row g-4" id="beritaList"></div>
             <div class="text-center mt-4">
                 <a href="#" class="btn btn-primary">Lihat Semua Berita</a>
             </div>
@@ -231,327 +197,7 @@
             </div>
 
             <!-- Grid Komoditas -->
-            <div class="row g-4" id="komoditasGrid">
-                <!-- Beras IR I -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 komoditas-item" data-kategori="beras" data-perubahan="turun">
-                    <div class="komoditas-card card border-0 shadow-sm h-100">
-                        <div class="card-body p-4 text-center position-relative">
-                            <!-- Badge Perubahan -->
-                            <div class="change-badge change-down">
-                                <i class="bi bi-arrow-down"></i>
-                                <span>Rp 200</span>
-                            </div>
-                            
-                            <!-- Gambar Produk -->
-                            <div class="product-image-container mb-3">
-                                <img src="/assets/fotopangan/beras.png" alt="Beras IR I" class="product-image">
-                                <div class="image-overlay">
-                                    <i class="bi bi-eye"></i>
-                                </div>
-                            </div>
-                            
-                            <!-- Informasi Produk -->
-                            <h5 class="product-name mb-2">Beras IR I</h5>
-                            <div class="price-container mb-3">
-                                <div class="current-price">Rp 14,000</div>
-                                <div class="price-unit text-muted">per kg</div>
-                            </div>
-                            
-                            <!-- Detail Tambahan -->
-                            <div class="product-details">
-                                <div class="detail-item">
-                                    <i class="bi bi-calendar3 text-muted"></i>
-                                    <span class="text-muted">Update: 2 jam lalu</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="bi bi-graph-down text-success"></i>
-                                    <span class="text-success">-1.4% dari kemarin</span>
-                                </div>
-                            </div>
-                            
-                            <!-- Tombol Aksi -->
-                            <div class="action-buttons mt-3">
-                                <button class="btn btn-outline-primary btn-sm me-2" onclick="showDetail('beras-ir-1')">
-                                    <i class="bi bi-info-circle"></i> Detail
-                                </button>
-                                <button class="btn btn-primary btn-sm" onclick="sharePrice('Beras IR I', 'Rp 14,000')">
-                                    <i class="bi bi-share"></i> Share
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Beras IR II -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 komoditas-item" data-kategori="beras" data-perubahan="naik">
-                    <div class="komoditas-card card border-0 shadow-sm h-100">
-                        <div class="card-body p-4 text-center position-relative">
-                            <div class="change-badge change-up">
-                                <i class="bi bi-arrow-up"></i>
-                                <span>Rp 100</span>
-                            </div>
-                            
-                            <div class="product-image-container mb-3">
-                                <img src="/assets/fotopangan/beras.png" alt="Beras IR II" class="product-image">
-                                <div class="image-overlay">
-                                    <i class="bi bi-eye"></i>
-                                </div>
-                            </div>
-                            
-                            <h5 class="product-name mb-2">Beras IR II</h5>
-                            <div class="price-container mb-3">
-                                <div class="current-price">Rp 13,000</div>
-                                <div class="price-unit text-muted">per kg</div>
-                            </div>
-                            
-                            <div class="product-details">
-                                <div class="detail-item">
-                                    <i class="bi bi-calendar3 text-muted"></i>
-                                    <span class="text-muted">Update: 2 jam lalu</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="bi bi-graph-up text-danger"></i>
-                                    <span class="text-danger">+0.8% dari kemarin</span>
-                                </div>
-                            </div>
-                            
-                            <div class="action-buttons mt-3">
-                                <button class="btn btn-outline-primary btn-sm me-2" onclick="showDetail('beras-ir-2')">
-                                    <i class="bi bi-info-circle"></i> Detail
-                                </button>
-                                <button class="btn btn-primary btn-sm" onclick="sharePrice('Beras IR II', 'Rp 13,000')">
-                                    <i class="bi bi-share"></i> Share
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Gula Pasir Lokal -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 komoditas-item" data-kategori="gula" data-perubahan="turun">
-                    <div class="komoditas-card card border-0 shadow-sm h-100">
-                        <div class="card-body p-4 text-center position-relative">
-                            <div class="change-badge change-down">
-                                <i class="bi bi-arrow-down"></i>
-                                <span>Rp 150</span>
-                            </div>
-                            
-                            <div class="product-image-container mb-3">
-                                <img src="/assets/fotopangan/gula1.png" alt="Gula Pasir Lokal" class="product-image">
-                                <div class="image-overlay">
-                                    <i class="bi bi-eye"></i>
-                                </div>
-                            </div>
-                            
-                            <h5 class="product-name mb-2">Gula Pasir Lokal</h5>
-                            <div class="price-container mb-3">
-                                <div class="current-price">Rp 19,000</div>
-                                <div class="price-unit text-muted">per kg</div>
-                            </div>
-                            
-                            <div class="product-details">
-                                <div class="detail-item">
-                                    <i class="bi bi-calendar3 text-muted"></i>
-                                    <span class="text-muted">Update: 2 jam lalu</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="bi bi-graph-down text-success"></i>
-                                    <span class="text-success">-0.8% dari kemarin</span>
-                                </div>
-                            </div>
-                            
-                            <div class="action-buttons mt-3">
-                                <button class="btn btn-outline-primary btn-sm me-2" onclick="showDetail('gula-pasir')">
-                                    <i class="bi bi-info-circle"></i> Detail
-                                </button>
-                                <button class="btn btn-primary btn-sm" onclick="sharePrice('Gula Pasir Lokal', 'Rp 19,000')">
-                                    <i class="bi bi-share"></i> Share
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Daging Sapi -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 komoditas-item" data-kategori="daging" data-perubahan="naik">
-                    <div class="komoditas-card card border-0 shadow-sm h-100">
-                        <div class="card-body p-4 text-center position-relative">
-                            <div class="change-badge change-up">
-                                <i class="bi bi-arrow-up"></i>
-                                <span>Rp 500</span>
-                            </div>
-                            
-                            <div class="product-image-container mb-3">
-                                <img src="/assets/fotopangan/dagingsapi.png" alt="Daging Sapi" class="product-image">
-                                <div class="image-overlay">
-                                    <i class="bi bi-eye"></i>
-                                </div>
-                            </div>
-                            
-                            <h5 class="product-name mb-2">Daging Sapi</h5>
-                            <div class="price-container mb-3">
-                                <div class="current-price">Rp 140,000</div>
-                                <div class="price-unit text-muted">per kg</div>
-                            </div>
-                            
-                            <div class="product-details">
-                                <div class="detail-item">
-                                    <i class="bi bi-calendar3 text-muted"></i>
-                                    <span class="text-muted">Update: 2 jam lalu</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="bi bi-graph-up text-danger"></i>
-                                    <span class="text-danger">+0.4% dari kemarin</span>
-                                </div>
-                            </div>
-                            
-                            <div class="action-buttons mt-3">
-                                <button class="btn btn-outline-primary btn-sm me-2" onclick="showDetail('daging-sapi')">
-                                    <i class="bi bi-info-circle"></i> Detail
-                                </button>
-                                <button class="btn btn-primary btn-sm" onclick="sharePrice('Daging Sapi', 'Rp 140,000')">
-                                    <i class="bi bi-share"></i> Share
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Daging Ayam Broiler -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 komoditas-item" data-kategori="daging" data-perubahan="turun">
-                    <div class="komoditas-card card border-0 shadow-sm h-100">
-                        <div class="card-body p-4 text-center position-relative">
-                            <div class="change-badge change-down">
-                                <i class="bi bi-arrow-down"></i>
-                                <span>Rp 250</span>
-                            </div>
-                            
-                            <div class="product-image-container mb-3">
-                                <img src="/assets/fotopangan/dagingayam.png" alt="Daging Ayam Broiler" class="product-image">
-                                <div class="image-overlay">
-                                    <i class="bi bi-eye"></i>
-                                </div>
-                            </div>
-                            
-                            <h5 class="product-name mb-2">Daging Ayam Broiler</h5>
-                            <div class="price-container mb-3">
-                                <div class="current-price">Rp 40,000</div>
-                                <div class="price-unit text-muted">per kg</div>
-                            </div>
-                            
-                            <div class="product-details">
-                                <div class="detail-item">
-                                    <i class="bi bi-calendar3 text-muted"></i>
-                                    <span class="text-muted">Update: 2 jam lalu</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="bi bi-graph-down text-success"></i>
-                                    <span class="text-success">-0.6% dari kemarin</span>
-                                </div>
-                            </div>
-                            
-                            <div class="action-buttons mt-3">
-                                <button class="btn btn-outline-primary btn-sm me-2" onclick="showDetail('daging-ayam')">
-                                    <i class="bi bi-info-circle"></i> Detail
-                                </button>
-                                <button class="btn btn-primary btn-sm" onclick="sharePrice('Daging Ayam Broiler', 'Rp 40,000')">
-                                    <i class="bi bi-share"></i> Share
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Telur Ayam -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 komoditas-item" data-kategori="telur" data-perubahan="naik">
-                    <div class="komoditas-card card border-0 shadow-sm h-100">
-                        <div class="card-body p-4 text-center position-relative">
-                            <div class="change-badge change-up">
-                                <i class="bi bi-arrow-up"></i>
-                                <span>Rp 50</span>
-                            </div>
-                            
-                            <div class="product-image-container mb-3">
-                                <img src="/assets/fotopangan/telurayam.png" alt="Telur Ayam" class="product-image">
-                                <div class="image-overlay">
-                                    <i class="bi bi-eye"></i>
-                                </div>
-                            </div>
-                            
-                            <h5 class="product-name mb-2">Telur Ayam</h5>
-                            <div class="price-container mb-3">
-                                <div class="current-price">Rp 3,000</div>
-                                <div class="price-unit text-muted">per butir</div>
-                            </div>
-                            
-                            <div class="product-details">
-                                <div class="detail-item">
-                                    <i class="bi bi-calendar3 text-muted"></i>
-                                    <span class="text-muted">Update: 2 jam lalu</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="bi bi-graph-up text-danger"></i>
-                                    <span class="text-danger">+1.7% dari kemarin</span>
-                                </div>
-                            </div>
-                            
-                            <div class="action-buttons mt-3">
-                                <button class="btn btn-outline-primary btn-sm me-2" onclick="showDetail('telur-ayam')">
-                                    <i class="bi bi-info-circle"></i> Detail
-                                </button>
-                                <button class="btn btn-primary btn-sm" onclick="sharePrice('Telur Ayam', 'Rp 3,000')">
-                                    <i class="bi bi-share"></i> Share
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Kacang Kedelai -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 komoditas-item" data-kategori="kacang" data-perubahan="turun">
-                    <div class="komoditas-card card border-0 shadow-sm h-100">
-                        <div class="card-body p-4 text-center position-relative">
-                            <div class="change-badge change-down">
-                                <i class="bi bi-arrow-down"></i>
-                                <span>Rp 40</span>
-                            </div>
-                            
-                            <div class="product-image-container mb-3">
-                                <img src="/assets/fotopangan/kacangkedelai.png" alt="Kacang Kedelai" class="product-image">
-                                <div class="image-overlay">
-                                    <i class="bi bi-eye"></i>
-                                </div>
-                            </div>
-                            
-                            <h5 class="product-name mb-2">Kacang Kedelai</h5>
-                            <div class="price-container mb-3">
-                                <div class="current-price">Rp 16,000</div>
-                                <div class="price-unit text-muted">per kg</div>
-                            </div>
-                            
-                            <div class="product-details">
-                                <div class="detail-item">
-                                    <i class="bi bi-calendar3 text-muted"></i>
-                                    <span class="text-muted">Update: 2 jam lalu</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="bi bi-graph-down text-success"></i>
-                                    <span class="text-success">-0.2% dari kemarin</span>
-                                </div>
-                            </div>
-                            
-                            <div class="action-buttons mt-3">
-                                <button class="btn btn-outline-primary btn-sm me-2" onclick="showDetail('kacang-kedelai')">
-                                    <i class="bi bi-info-circle"></i> Detail
-                                </button>
-                                <button class="btn btn-primary btn-sm" onclick="sharePrice('Kacang Kedelai', 'Rp 16,000')">
-                                    <i class="bi bi-share"></i> Share
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="row g-4" id="komoditasGrid"></div>
 
             <!-- Tombol Lihat Semua -->
             <div class="text-center mt-5">
@@ -848,7 +494,7 @@
                         <div class="mb-3">
                             <label for="pesan" class="form-label">Pesan / Saran</label>
                             <textarea class="form-control" id="pesan" name="pesan" rows="4" required></textarea>
-                    </div>
+                        </div>
                         <div class="mb-3">
                             <label class="form-label">Rating</label>
                             <div id="ratingStars" class="mb-2">
@@ -857,9 +503,9 @@
                                 <i class="bi bi-star" data-value="3"></i>
                                 <i class="bi bi-star" data-value="4"></i>
                                 <i class="bi bi-star" data-value="5"></i>
-                </div>
+                            </div>
                             <input type="hidden" name="rating" id="rating" value="0">
-                    </div>
+                        </div>
                         <button type="submit" class="btn btn-primary w-100">Kirim Feedback</button>
                         <div id="feedbackMsg" class="mt-3"></div>
                     </form>
@@ -889,7 +535,7 @@
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-body">
                             <h5 class="card-title text-primary"><i class="bi bi-map-fill me-2"></i>Lokasi</h5>
-                    <div class="ratio ratio-16x9">
+                            <div class="ratio ratio-16x9">
                                 <iframe src="https://www.google.com/maps?q=pasar+modern+tangerang&output=embed" allowfullscreen></iframe>
                             </div>
                         </div>
@@ -935,9 +581,9 @@
                 </div>
                 <div class="col-md-6">
                     <div class="social-links">
-                <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
-                <a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a>
-                <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
                         <a href="#" class="text-white"><i class="bi bi-youtube"></i></a>
                     </div>
                 </div>
