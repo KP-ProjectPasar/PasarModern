@@ -46,10 +46,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 animation: zoomIn 0.3s ease;
             }
             .lightbox-image {
-                max-width: 100%;
-                max-height: 100%;
+                width: 400px;
+                height: 300px;
+                max-width: 90vw;
+                max-height: 70vh;
+                object-fit: cover;
                 border-radius: 8px;
                 box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                display: block;
+                margin: 0 auto;
             }
             .lightbox-close {
                 position: absolute;
