@@ -1,2 +1,4 @@
-<h2>Berita</h2>
-<p>Ini adalah halaman Berita Informasi. Silakan isi konten di sini.</p> 
+<div class="container py-5">
+    <h2 class="section-title text-center">Berita & Info Terkini</h2>
+    <div class="row g-4" id="beritaListFull"></div>
+</div> 

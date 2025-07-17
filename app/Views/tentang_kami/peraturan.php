@@ -1,2 +1,4 @@
-<h2>Peraturan</h2>
-<p>Ini adalah halaman Peraturan Tentang Kami. Silakan isi konten di sini.</p> 
+<div class="container py-5">
+    <h2 class="section-title text-center">Peraturan dan Kebijakan</h2>
+    <!-- Konten peraturan dari landing_page.php -->
+</div> 

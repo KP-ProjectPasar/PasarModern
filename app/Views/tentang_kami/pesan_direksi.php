@@ -1,2 +1,4 @@
-<h2>Pesan Direksi</h2>
-<p>Ini adalah halaman Pesan Direksi Tentang Kami. Silakan isi konten di sini.</p> 
+<div class="container py-5">
+    <h2 class="section-title text-center">Pesan Direksi</h2>
+    <!-- Konten pesan direksi dari landing_page.php -->
+</div> 

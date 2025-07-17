@@ -22,16 +22,16 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="#beranda">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/">Beranda</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Tentang Kami <i class="bi bi-chevron-down"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#ringkasan">Ringkasan</a></li>
-                            <li><a class="dropdown-item" href="#visi-misi">Visi & Misi</a></li>
-                            <li><a class="dropdown-item" href="#peraturan">Peraturan</a></li>
-                            <li><a class="dropdown-item" href="#pesan-direksi">Pesan Direksi</a></li>
+                            <li><a class="dropdown-item" href="/tentang-kami/ringkasan">Ringkasan</a></li>
+                            <li><a class="dropdown-item" href="/tentang-kami/visi-misi">Visi & Misi</a></li>
+                            <li><a class="dropdown-item" href="/tentang-kami/peraturan">Peraturan</a></li>
+                            <li><a class="dropdown-item" href="/tentang-kami/pesan-direksi">Pesan Direksi</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -39,9 +39,9 @@
                             Informasi <i class="bi bi-chevron-down"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#berita">Berita</a></li>
-                            <li><a class="dropdown-item" href="#harga">Harga</a></li>
-                            <li><a class="dropdown-item" href="#informasi-pasar">Informasi Pasar</a></li>
+                            <li><a class="dropdown-item" href="/informasi/berita">Berita</a></li>
+                            <li><a class="dropdown-item" href="/informasi/harga">Harga</a></li>
+                            <li><a class="dropdown-item" href="/informasi/informasi-pasar">Informasi Pasar</a></li>
                         </ul>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="#galeri">Galeri</a></li>
@@ -60,8 +60,8 @@
                 <div class="col-lg-6 text-center text-lg-start mb-4 mb-lg-0">
                     <h1 class="display-4 fw-bold mb-3">Belanja Mudah, Aman, dan Modern di <span class="text-primary">E-Pasar Tangerang</span></h1>
                     <p class="lead mb-4">Temukan kebutuhan harian, cek harga komoditas, dan nikmati layanan digital pasar modern Tangerang. Semua dalam satu klik!</p>
-                    <a href="#layanan" class="btn btn-primary btn-lg me-2">Jelajahi Layanan</a>
-                    <a href="#feedback" class="btn btn-outline-primary btn-lg">Kirim Feedback</a>
+                    <a href="#layanan" class="btn btn-primary btn-lg me-2" aria-label="Jelajahi Layanan"><i class="bi bi-grid-1x2 me-2"></i>Jelajahi Layanan</a>
+                    <a href="#feedback" class="btn btn-feedback btn-lg" aria-label="Kirim Feedback"><i class="bi bi-chat-dots me-2"></i>Kirim Feedback</a>
                 </div>
                 <div class="col-lg-6 text-center">
                     <img src="/assets/img/bannerpasar.jpeg" alt="Banner E-Pasar" class="img-fluid rounded-4 shadow-lg hero-img">
@@ -107,103 +107,29 @@
         </div>
     </section>
 
-    <!-- Berita Section -->
+    <!-- Berita Section (Ringkasan) -->
     <section id="berita" class="py-5">
         <div class="container">
             <h2 class="section-title text-center">Berita & Info Terkini</h2>
             <div class="row g-4" id="beritaList"></div>
             <div class="text-center mt-4">
-                <a href="#" class="btn btn-primary">Lihat Semua Berita</a>
+                <a href="/informasi/berita" class="btn btn-primary">Lihat Semua Berita</a>
             </div>
         </div>
     </section>
 
-    <!-- Harga Komoditas Section -->
+    <!-- Harga Komoditas Section (Ringkasan) -->
     <section id="harga" class="py-5 bg-gradient-light">
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="section-title">Harga Komoditas Hari Ini</h2>
                 <p class="text-muted mb-4">Update terakhir: <span class="fw-semibold text-primary"><?= date('d F Y, H:i') ?> WIB</span></p>
-                
-                <!-- Filter dan Pencarian -->
-                <div class="row justify-content-center mb-4">
-                    <div class="col-md-6 col-lg-4 mb-3">
-                        <div class="input-group">
-                            <span class="input-group-text bg-white border-end-0">
-                                <i class="bi bi-search text-muted"></i>
-                            </span>
-                            <input type="text" class="form-control border-start-0" id="searchKomoditas" placeholder="Cari komoditas...">
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 mb-3">
-                        <select class="form-select" id="filterKategori">
-                            <option value="">Semua Kategori</option>
-                            <option value="beras">Beras</option>
-                            <option value="daging">Daging</option>
-                            <option value="gula">Gula</option>
-                            <option value="telur">Telur</option>
-                            <option value="kacang">Kacang</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 col-lg-4 mb-3">
-                        <select class="form-select" id="filterPerubahan">
-                            <option value="">Semua Perubahan</option>
-                            <option value="naik">Harga Naik</option>
-                            <option value="turun">Harga Turun</option>
-                            <option value="stabil">Harga Stabil</option>
-                        </select>
-                    </div>
-                </div>
             </div>
-
-            <!-- Statistik Ringkas -->
-            <div class="row mb-5">
-                <div class="col-md-3 mb-3">
-                    <div class="stat-card bg-primary text-white text-center p-3 rounded-3">
-                        <div class="stat-icon mb-2">
-                            <i class="bi bi-arrow-up-circle fs-1"></i>
-                        </div>
-                        <h4 class="mb-1">3</h4>
-                        <small>Komoditas Naik</small>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="stat-card bg-success text-white text-center p-3 rounded-3">
-                        <div class="stat-icon mb-2">
-                            <i class="bi bi-arrow-down-circle fs-1"></i>
-                        </div>
-                        <h4 class="mb-1">4</h4>
-                        <small>Komoditas Turun</small>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="stat-card bg-info text-white text-center p-3 rounded-3">
-                        <div class="stat-icon mb-2">
-                            <i class="bi bi-currency-exchange fs-1"></i>
-                        </div>
-                        <h4 class="mb-1">7</h4>
-                        <small>Total Komoditas</small>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="stat-card bg-warning text-white text-center p-3 rounded-3">
-                        <div class="stat-icon mb-2">
-                            <i class="bi bi-clock-history fs-1"></i>
-                        </div>
-                        <h4 class="mb-1">2x</h4>
-                        <small>Update/Hari</small>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Grid Komoditas -->
-            <div class="row g-4" id="komoditasGrid"></div>
-
-            <!-- Tombol Lihat Semua -->
+            <div class="row g-4 justify-content-center" id="komoditasGrid"></div>
             <div class="text-center mt-5">
-                <button class="btn btn-outline-primary btn-lg" onclick="showAllCommodities()">
+                <a href="/informasi/harga" class="btn btn-outline-primary btn-lg">
                     <i class="bi bi-list-ul me-2"></i>Lihat Semua Komoditas
-                </button>
+                </a>
             </div>
         </div>
     </section>
@@ -236,184 +162,6 @@
                 </div>
                 <div class="col-6 col-md-3">
                     <img src="/assets/img/pasar8.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 8">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Tentang Kami Section -->
-    <section id="tentang-kami" class="py-5 bg-light">
-        <div class="container">
-            <h2 class="section-title text-center">Tentang Kami</h2>
-            
-            <!-- Ringkasan -->
-            <div id="ringkasan" class="mb-5">
-                <div class="row align-items-center">
-                    <div class="col-lg-6 mb-4">
-                        <h3 class="text-primary mb-3">
-                            <i class="bi bi-building me-2"></i>Ringkasan Perusahaan
-                        </h3>
-                        <p class="lead mb-3">E-Pasar Tangerang adalah platform digital resmi yang dikelola oleh Perumda Pasar Modern Tangerang.</p>
-                        <p class="mb-3">Didirikan pada tahun 2020, kami berkomitmen untuk memberikan layanan terbaik kepada masyarakat Tangerang dalam hal informasi pasar, harga komoditas, dan layanan publik lainnya.</p>
-                        <div class="row text-center">
-                            <div class="col-4">
-                                <div class="border-end">
-                                    <h4 class="text-primary mb-1">3+</h4>
-                                    <small class="text-muted">Tahun Pengalaman</small>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="border-end">
-                                    <h4 class="text-primary mb-1">50K+</h4>
-                                    <small class="text-muted">Pengguna Aktif</small>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <h4 class="text-primary mb-1">100%</h4>
-                                <small class="text-muted">Pelayanan Publik</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <img src="https://source.unsplash.com/600x400/?office,building" alt="Gedung Perumda" class="img-fluid rounded-3 shadow">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Visi & Misi -->
-            <div id="visi-misi" class="mb-5">
-                <div class="row">
-                    <div class="col-lg-6 mb-4">
-                        <div class="card border-0 shadow-sm h-100">
-                            <div class="card-body p-4">
-                                <div class="text-center mb-3">
-                                    <i class="bi bi-eye text-primary" style="font-size: 3rem;"></i>
-                                </div>
-                                <h4 class="text-center text-primary mb-3">Visi</h4>
-                                <p class="text-center mb-0">Menjadi platform digital terdepan dalam pengelolaan informasi pasar modern yang terpercaya, transparan, dan bermanfaat bagi masyarakat Tangerang.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 mb-4">
-                        <div class="card border-0 shadow-sm h-100">
-                            <div class="card-body p-4">
-                                <div class="text-center mb-3">
-                                    <i class="bi bi-target text-success" style="font-size: 3rem;"></i>
-                                </div>
-                                <h4 class="text-center text-success mb-3">Misi</h4>
-                                <ul class="list-unstyled mb-0">
-                                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Menyediakan informasi harga komoditas yang akurat dan real-time</li>
-                                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Mengembangkan layanan digital yang user-friendly</li>
-                                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Meningkatkan transparansi pengelolaan pasar modern</li>
-                                    <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Mendorong partisipasi masyarakat dalam pengawasan pasar</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Peraturan -->
-            <div id="peraturan" class="mb-5">
-                <div class="row">
-                    <div class="col-lg-8 mx-auto">
-                        <div class="card border-0 shadow-sm">
-                            <div class="card-header bg-primary text-white">
-                                <h4 class="mb-0">
-                                    <i class="bi bi-file-earmark-text me-2"></i>Peraturan dan Kebijakan
-                                </h4>
-                            </div>
-                            <div class="card-body p-4">
-                                <div class="accordion" id="peraturanAccordion">
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#peraturan1">
-                                                Peraturan Pengelolaan Pasar Modern
-                                            </button>
-                                        </h2>
-                                        <div id="peraturan1" class="accordion-collapse collapse show" data-bs-parent="#peraturanAccordion">
-                                            <div class="accordion-body">
-                                                <p>Peraturan ini mengatur tentang tata cara pengelolaan pasar modern yang meliputi:</p>
-                                                <ul>
-                                                    <li>Standar kebersihan dan sanitasi</li>
-                                                    <li>Pengaturan jam operasional</li>
-                                                    <li>Standar keamanan dan keselamatan</li>
-                                                    <li>Pengelolaan sampah dan limbah</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#peraturan2">
-                                                Kebijakan Harga Komoditas
-                                            </button>
-                                        </h2>
-                                        <div id="peraturan2" class="accordion-collapse collapse" data-bs-parent="#peraturanAccordion">
-                                            <div class="accordion-body">
-                                                <p>Kebijakan yang mengatur tentang:</p>
-                                                <ul>
-                                                    <li>Penetapan harga maksimal komoditas</li>
-                                                    <li>Monitoring harga harian</li>
-                                                    <li>Intervensi pasar jika diperlukan</li>
-                                                    <li>Koordinasi dengan pedagang</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#peraturan3">
-                                                Standar Pelayanan Publik
-                                            </button>
-                                        </h2>
-                                        <div id="peraturan3" class="accordion-collapse collapse" data-bs-parent="#peraturanAccordion">
-                                            <div class="accordion-body">
-                                                <p>Standar pelayanan yang wajib dipenuhi:</p>
-                                                <ul>
-                                                    <li>Ketersediaan informasi 24/7</li>
-                                                    <li>Respon cepat terhadap keluhan</li>
-                                                    <li>Transparansi pengelolaan</li>
-                                                    <li>Akuntabilitas pelayanan</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pesan Direksi -->
-            <div id="pesan-direksi">
-                <div class="row">
-                    <div class="col-lg-8 mx-auto">
-                        <div class="card border-0 shadow-sm">
-                            <div class="card-body p-5 text-center">
-                                <div class="mb-4">
-                                    <img src="https://source.unsplash.com/200x200/?businessman" alt="Direktur" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
-                                    <h4 class="text-primary mb-1">Ahmad Suharto, S.E., M.M.</h4>
-                                    <p class="text-muted">Direktur Utama Perumda Pasar Modern Tangerang</p>
-                                </div>
-                                <blockquote class="blockquote">
-                                    <p class="mb-3 fs-5 fst-italic">
-                                        "Kami berkomitmen untuk terus mengembangkan E-Pasar Tangerang menjadi platform digital yang terpercaya dan bermanfaat bagi masyarakat. Melalui teknologi modern, kami ingin memastikan bahwa informasi pasar dapat diakses dengan mudah, cepat, dan akurat oleh semua kalangan."
-                                    </p>
-                                    <footer class="blockquote-footer">
-                                        <cite title="Source Title">Direktur Utama Perumda Pasar Modern Tangerang</cite>
-                                    </footer>
-                                </blockquote>
-                                <div class="mt-4">
-                                    <p class="text-muted mb-0">
-                                        <i class="bi bi-envelope me-2"></i>Email: direktur@epasar-tangerang.go.id<br>
-                                        <i class="bi bi-telephone me-2"></i>Telepon: (021) 12345678
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -506,7 +254,7 @@
                             </div>
                             <input type="hidden" name="rating" id="rating" value="0">
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Kirim Feedback</button>
+                        <button type="submit" class="btn btn-primary w-100" aria-label="Kirim Feedback"><i class="bi bi-send me-2"></i>Kirim Feedback</button>
                         <div id="feedbackMsg" class="mt-3"></div>
                     </form>
                 </div>

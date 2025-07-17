@@ -886,10 +886,27 @@ function fetchKomoditas() {
                 grid.innerHTML = '<div class="text-center w-100 py-5">Tidak ada data komoditas.</div>';
                 return;
             }
-            grid.innerHTML = data.map(item => `
+            // Mapping nama komoditas ke gambar
+            const imageMap = {
+                'Beras IR I': 'beras.png',
+                'Beras IR II': 'beras.png',
+                'Gula Pasir Lokal': 'gula1.png',
+                'Daging Sapi': 'dagingsapi.png',
+                'Daging Ayam Broiler': 'dagingayam.png',
+                'Telur Ayam': 'telurayam.png',
+                'Kacang Kedelai': 'kacangkedelai.png',
+            };
+            // Batasi hanya 3 data untuk landing page
+            const limited = data.slice(0, 3);
+            grid.innerHTML = limited.map(item => {
+                const imgFile = imageMap[item.nama] || 'beras.png'; // fallback gambar default
+                return `
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 komoditas-item" data-kategori="${item.kategori}" data-perubahan="${item.perubahan}">
                     <div class="komoditas-card card border-0 shadow-sm h-100">
                         <div class="card-body p-4 text-center position-relative">
+                            <div class="product-image-container mb-3">
+                                <img src="/assets/komoditas/${imgFile}" alt="${item.nama}" class="product-image" loading="lazy" />
+                            </div>
                             <h5 class="product-name mb-2">${item.nama}</h5>
                             <div class="price-container mb-3">
                                 <div class="current-price">Rp ${item.harga.toLocaleString()}</div>
@@ -908,7 +925,8 @@ function fetchKomoditas() {
                         </div>
                     </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
         })
         .catch(() => {
             grid.innerHTML = '<div class="text-center w-100 py-5 text-danger">Gagal memuat data komoditas.</div>';
