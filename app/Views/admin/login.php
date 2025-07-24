@@ -5,33 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Admin - E-Pasar Tangerang</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
-<body class="bg-light d-flex align-items-center" style="min-height:100vh;">
+<body class="login-admin-bg d-flex align-items-center">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-4">
-                <div class="card shadow-sm mt-5">
-                    <div class="card-body">
-                        <h4 class="mb-4 text-center">Login Admin</h4>
+            <div class="col-md-5 col-lg-4">
+                <div class="login-admin-card shadow-sm border-0">
+                    <div class="d-flex justify-content-end pt-3 pe-3">
+                        <button class="btn btn-sm btn-light login-dark-toggle" id="darkModeToggle" onclick="toggleDarkMode()" title="Dark Mode"><i class="bi bi-moon"></i></button>
+                    </div>
+                    <div class="card-body p-4 pt-2">
+                        <div class="text-center mb-3">
+                            <div class="login-admin-logo-wrapper mb-2">
+                                <img src="/assets/img/Logorbg.png" alt="Logo E-Pasar" class="login-admin-logo">
+                            </div>
+                            <h5 class="fw-bold mb-1 text-primary">Admin E-Pasar</h5>
+                            <div class="text-muted mb-3 small">Masuk ke Panel Admin</div>
+                        </div>
                         <?php if (!empty($error)) : ?>
-    <div class="alert alert-danger"><?= esc($error) ?></div>
-<?php endif; ?>
-                        <form method="post" action="">
+                            <div class="alert alert-danger text-center small py-2 mb-3 animate__animated animate__shakeX"><?= esc($error) ?></div>
+                        <?php endif; ?>
+                        <form method="post" action="" autocomplete="off" id="loginForm">
                             <?= csrf_field() ?>
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" required autofocus value="<?= set_value('username') ?>">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                    <input type="text" class="form-control form-control-lg" id="username" name="username" required autofocus value="<?= set_value('username') ?>">
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                    <input type="password" class="form-control form-control-lg" id="password" name="password" required>
+                                    <span class="input-group-text show-password-toggle" onclick="togglePassword()" style="cursor:pointer;"><i class="bi bi-eye-slash" id="toggleIcon"></i></span>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100">Login</button>
+                            <button type="submit" class="btn login-admin-btn w-100 py-2 mt-2" id="loginBtn">
+                                <span id="loginBtnText">Login</span>
+                                <span class="spinner-border spinner-border-sm d-none" id="loginSpinner" role="status" aria-hidden="true"></span>
+                            </button>
                         </form>
                     </div>
+                </div>
+                <div class="text-center mt-4 text-muted small copyright">
+                    &copy; <?= date('Y') ?> E-Pasar Tangerang
                 </div>
             </div>
         </div>
     </div>
+    <script>
+    function togglePassword() {
+        const pwd = document.getElementById('password');
+        const icon = document.getElementById('toggleIcon');
+        if (pwd.type === 'password') {
+            pwd.type = 'text';
+            icon.classList.remove('bi-eye-slash');
+            icon.classList.add('bi-eye');
+        } else {
+            pwd.type = 'password';
+            icon.classList.remove('bi-eye');
+            icon.classList.add('bi-eye-slash');
+        }
+    }
+    function toggleDarkMode() {
+        document.body.classList.toggle('login-dark');
+        document.getElementById('darkModeToggle').classList.toggle('active');
+    }
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        var btn = document.getElementById('loginBtn');
+        var text = document.getElementById('loginBtnText');
+        var spinner = document.getElementById('loginSpinner');
+        btn.disabled = true;
+        text.classList.add('d-none');
+        spinner.classList.remove('d-none');
+    });
+    </script>
 </body>
 </html>
