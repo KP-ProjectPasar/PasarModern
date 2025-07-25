@@ -1,13 +1,10 @@
-<?php /* Minimal error view for CLI */ ?>
+<?php
+// app/Views/errors/cli/error_exception.php
+?>
+<pre>
+<?= esc($exception->getMessage()) ?>
 
-An uncaught Exception was encountered:
+<?= esc($exception->getFile()) ?>:<?= esc($exception->getLine()) ?>
 
-Type: <?= esc($type) ?>
-Message: <?= esc($message) ?>
-Filename: <?= esc($file) ?>
-Line Number: <?= esc($line) ?>
-
-Backtrace:
-<?php foreach ($trace as $index => $row): ?>
-#<?= $index ?> <?= esc($row['file'] ?? '') ?> (<?= esc($row['line'] ?? '') ?>): <?= esc($row['function'] ?? '') ?>()
-<?php endforeach; ?> 
+<?= esc($exception->getTraceAsString()) ?>
+</pre> 

@@ -10,6 +10,7 @@ class AdminSeeder extends Seeder
             'username' => 'admin',
             'password' => password_hash('admin123', PASSWORD_DEFAULT),
             'nama'     => 'Administrator',
+            'level'    => 'superadmin',
         ];
         $this->db->table('admin')->insert($data);
     }

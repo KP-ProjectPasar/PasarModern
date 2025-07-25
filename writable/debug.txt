@@ -28,3 +28,23 @@ Bukan POST, method: GET
 Bukan POST, method: GET
 Bukan POST, method: GET
 Bukan POST, method: GET
+Bukan POST, method: GET
+POST diterima: {"csrf_test_name":"7a8ca684fcd0e05bdd91df58ec4f17a6","username":"admin","password":"admin123"}
+POST diterima: {"csrf_test_name":"7a8ca684fcd0e05bdd91df58ec4f17a6","username":"admin","password":"admin123"} | Login sukses, redirect ke dashboard
+Bukan POST, method: GET
+Bukan POST, method: GET
+Bukan POST, method: GET
+Bukan POST, method: GET
+Bukan POST, method: GET
+Bukan POST, method: GET
+Bukan POST, method: GET
+Bukan POST, method: GET
+Bukan POST, method: GET
+Bukan POST, method: GET
+Bukan POST, method: GET
+Bukan POST, method: GET
+POST diterima: {"csrf_test_name":"7a8ca684fcd0e05bdd91df58ec4f17a6","username":"admin","password":"admin123"}
+POST diterima: {"csrf_test_name":"7a8ca684fcd0e05bdd91df58ec4f17a6","username":"admin","password":"admin123"} | Login sukses, redirect ke dashboard
+Bukan POST, method: GET
+POST diterima: {"csrf_test_name":"0a04210380258283828327177b3ee7c3","username":"admin","password":"admin123"}
+POST diterima: {"csrf_test_name":"0a04210380258283828327177b3ee7c3","username":"admin","password":"admin123"} | Login sukses, redirect ke dashboard

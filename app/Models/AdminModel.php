@@ -6,5 +6,5 @@ class AdminModel extends Model
 {
     protected $table = 'admin';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['username', 'password', 'nama'];
+    protected $allowedFields = ['username', 'password', 'nama', 'level'];
 } 

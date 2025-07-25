@@ -6,5 +6,5 @@ class BeritaModel extends Model
 {
     protected $table = 'berita';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['judul', 'isi', 'tanggal'];
+    protected $allowedFields = ['judul', 'isi', 'gambar', 'created_at', 'updated_at'];
 } 

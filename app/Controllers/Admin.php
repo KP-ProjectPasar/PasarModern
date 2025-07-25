@@ -28,6 +28,7 @@ class Admin extends BaseController
                 if ($admin && password_verify($password, $admin['password'])) {
                     session()->set('is_admin', true);
                     session()->set('admin_nama', $admin['nama']);
+                    session()->set('admin_level', $admin['level']);
                     if (session()->get('is_admin')) {
                         $debug .= ' | Login sukses, redirect ke dashboard';
                         file_put_contents(WRITEPATH . 'debug.txt', $debug . PHP_EOL, FILE_APPEND);
@@ -54,7 +55,10 @@ class Admin extends BaseController
         if (!session()->get('is_admin')) {
             return redirect()->to('/admin/login');
         }
-        return view('admin/dashboard', ['admin_nama' => session()->get('admin_nama')]);
+        return view('admin/dashboard', [
+            'admin_nama' => session()->get('admin_nama'),
+            'admin_level' => session()->get('admin_level'),
+        ]);
     }
 
     public function logout()

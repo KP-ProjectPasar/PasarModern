@@ -21,3 +21,59 @@ $routes->get('admin/login', 'Admin::login');
 $routes->post('admin/login', 'Admin::login');
 $routes->get('admin/dashboard', 'Admin::dashboard');
 $routes->get('admin/logout', 'Admin::logout');
+
+// CRUD User Admin
+$routes->get('admin/user', 'AdminUser::index');
+$routes->get('admin/user/create', 'AdminUser::create');
+$routes->post('admin/user/store', 'AdminUser::store');
+$routes->get('admin/user/edit/(:num)', 'AdminUser::edit/$1');
+$routes->post('admin/user/update/(:num)', 'AdminUser::update/$1');
+$routes->get('admin/user/delete/(:num)', 'AdminUser::delete/$1');
+
+// CRUD Level/Grup
+$routes->get('admin/level', 'AdminLevel::index');
+$routes->get('admin/level/create', 'AdminLevel::create');
+$routes->post('admin/level/store', 'AdminLevel::store');
+$routes->get('admin/level/edit/(:num)', 'AdminLevel::edit/$1');
+$routes->post('admin/level/update/(:num)', 'AdminLevel::update/$1');
+$routes->get('admin/level/delete/(:num)', 'AdminLevel::delete/$1');
+
+// CRUD Berita
+$routes->get('admin/berita', 'AdminBerita::index');
+$routes->get('admin/berita/create', 'AdminBerita::create');
+$routes->post('admin/berita/store', 'AdminBerita::store');
+$routes->get('admin/berita/edit/(:num)', 'AdminBerita::edit/$1');
+$routes->post('admin/berita/update/(:num)', 'AdminBerita::update/$1');
+$routes->get('admin/berita/delete/(:num)', 'AdminBerita::delete/$1');
+
+// CRUD Harga
+$routes->get('admin/harga', 'AdminHarga::index');
+$routes->get('admin/harga/create', 'AdminHarga::create');
+$routes->post('admin/harga/store', 'AdminHarga::store');
+$routes->get('admin/harga/edit/(:num)', 'AdminHarga::edit/$1');
+$routes->post('admin/harga/update/(:num)', 'AdminHarga::update/$1');
+$routes->get('admin/harga/delete/(:num)', 'AdminHarga::delete/$1');
+
+// CRUD Galeri
+$routes->get('admin/galeri', 'AdminGaleri::index');
+$routes->get('admin/galeri/create', 'AdminGaleri::create');
+$routes->post('admin/galeri/store', 'AdminGaleri::store');
+$routes->get('admin/galeri/edit/(:num)', 'AdminGaleri::edit/$1');
+$routes->post('admin/galeri/update/(:num)', 'AdminGaleri::update/$1');
+$routes->get('admin/galeri/delete/(:num)', 'AdminGaleri::delete/$1');
+
+// CRUD Video
+$routes->get('admin/video', 'AdminVideo::index');
+$routes->get('admin/video/create', 'AdminVideo::create');
+$routes->post('admin/video/store', 'AdminVideo::store');
+$routes->get('admin/video/edit/(:num)', 'AdminVideo::edit/$1');
+$routes->post('admin/video/update/(:num)', 'AdminVideo::update/$1');
+$routes->get('admin/video/delete/(:num)', 'AdminVideo::delete/$1');
+
+// CRUD Komoditas
+$routes->get('admin/komoditas', 'AdminKomoditas::index');
+$routes->get('admin/komoditas/create', 'AdminKomoditas::create');
+$routes->post('admin/komoditas/store', 'AdminKomoditas::store');
+$routes->get('admin/komoditas/edit/(:num)', 'AdminKomoditas::edit/$1');
+$routes->post('admin/komoditas/update/(:num)', 'AdminKomoditas::update/$1');
+$routes->get('admin/komoditas/delete/(:num)', 'AdminKomoditas::delete/$1');

@@ -1479,7 +1479,7 @@ section[id] {
         padding: 1.2rem !important;
     }
 }
-/* =================== END SIMPLE MODERN ADMIN LOGIN =================== */ 
+/* =================== END ADMIN LOGIN =================== */ 
 
 /* ======= DARK MODE IMPROVEMENT FOR ADMIN LOGIN ======= */
 .login-dark {
@@ -1609,6 +1609,13 @@ section[id] {
 /* ===== END LOGO & INPUT GROUP FIX ===== */ 
 
 /* ===== FIX INPUT-GROUP ROUNDED CORNERS ===== */
+.input-group {
+    border-radius: 0.8rem !important;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(99,102,241,0.07);
+    background: #f8fafd;
+    border: 1px solid #e0e6ed;
+}
 .input-group .input-group-text:first-child {
     border-radius: 0.8rem 0 0 0.8rem !important;
     border-right: none !important;
@@ -1620,8 +1627,11 @@ section[id] {
     justify-content: center;
 }
 .input-group .form-control {
-    border-radius: 0 0.8rem 0.8rem 0 !important;
+    border-radius: 0 !important;
     border-left: none !important;
+    border-right: none !important;
+    background: transparent;
+    box-shadow: none;
 }
 .input-group .show-password-toggle {
     border-radius: 0 0.8rem 0.8rem 0 !important;
@@ -1636,6 +1646,10 @@ section[id] {
 .input-group .input-group-text:last-child {
     border-radius: 0 0.8rem 0.8rem 0 !important;
     border-left: none !important;
+}
+.login-dark .input-group {
+    background: #23234a;
+    border: 1px solid #373783;
 }
 .login-dark .input-group .input-group-text,
 .login-dark .input-group .show-password-toggle {
