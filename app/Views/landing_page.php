@@ -14,7 +14,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#beranda">
-                <img src="/assets/img/Logorbg.png" alt="Logo" class="logo me-2">
+                <img src="/assets/img/logo/Logorbg.png" alt="Logo Pasar Modern" class="img-fluid">
                 <span class="fw-bold text-primary">E-Pasar Tangerang</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -64,7 +64,7 @@
                     <a href="#feedback" class="btn btn-feedback btn-lg" aria-label="Kirim Feedback"><i class="bi bi-chat-dots me-2"></i>Kirim Feedback</a>
                 </div>
                 <div class="col-lg-6 text-center">
-                    <img src="/assets/img/bannerpasar.jpeg" alt="Banner E-Pasar" class="img-fluid rounded-4 shadow-lg hero-img">
+                    <img src="/assets/img/banner/bannerpasar.jpeg" alt="Banner Pasar Modern" class="img-fluid rounded-4 shadow-lg hero-img">
                 </div>
             </div>
         </div>

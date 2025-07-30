@@ -1,24 +1,50 @@
 <?php
 namespace App\Controllers;
 use App\Models\AdminModel;
+use App\Models\LevelModel;
 use CodeIgniter\Controller;
 
 class AdminUser extends BaseController
 {
     public function index()
     {
+        // Check if user is logged in
+        if (!session()->get('is_admin')) {
+            return redirect()->to('/admin/login');
+        }
+
         $adminModel = new AdminModel();
         $users = $adminModel->findAll();
-        return view('admin/user_list', ['users' => $users]);
+        return view('admin/user_list', [
+            'users' => $users,
+            'admin_nama' => session()->get('admin_nama'),
+            'admin_level' => session()->get('admin_level'),
+        ]);
     }
 
     public function create()
     {
-        return view('admin/user_form');
+        // Check if user is logged in
+        if (!session()->get('is_admin')) {
+            return redirect()->to('/admin/login');
+        }
+
+        $levelModel = new LevelModel();
+        $levels = $levelModel->findAll();
+        return view('admin/user_form', [
+            'levels' => $levels,
+            'admin_nama' => session()->get('admin_nama'),
+            'admin_level' => session()->get('admin_level'),
+        ]);
     }
 
     public function store()
     {
+        // Check if user is logged in
+        if (!session()->get('is_admin')) {
+            return redirect()->to('/admin/login');
+        }
+
         $adminModel = new AdminModel();
         $data = [
             'username' => $this->request->getPost('username'),
@@ -32,13 +58,30 @@ class AdminUser extends BaseController
 
     public function edit($id)
     {
+        // Check if user is logged in
+        if (!session()->get('is_admin')) {
+            return redirect()->to('/admin/login');
+        }
+
         $adminModel = new AdminModel();
+        $levelModel = new LevelModel();
         $user = $adminModel->find($id);
-        return view('admin/user_form', ['user' => $user]);
+        $levels = $levelModel->findAll();
+        return view('admin/user_form', [
+            'user' => $user,
+            'levels' => $levels,
+            'admin_nama' => session()->get('admin_nama'),
+            'admin_level' => session()->get('admin_level'),
+        ]);
     }
 
     public function update($id)
     {
+        // Check if user is logged in
+        if (!session()->get('is_admin')) {
+            return redirect()->to('/admin/login');
+        }
+
         $adminModel = new AdminModel();
         $data = [
             'username' => $this->request->getPost('username'),
@@ -54,6 +97,11 @@ class AdminUser extends BaseController
 
     public function delete($id)
     {
+        // Check if user is logged in
+        if (!session()->get('is_admin')) {
+            return redirect()->to('/admin/login');
+        }
+
         $adminModel = new AdminModel();
         $adminModel->delete($id);
         return redirect()->to('/admin/user');

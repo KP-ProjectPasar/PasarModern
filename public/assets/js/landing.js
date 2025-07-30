@@ -661,153 +661,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Fungsi untuk menampilkan detail komoditas
 function showDetail(commodityId) {
-    // Data detail komoditas (bisa diambil dari database)
-    const commodityDetails = {
-        'beras-ir-1': {
-            name: 'Beras IR I',
-            price: 'Rp 14,000',
-            unit: 'per kg',
-            change: '-Rp 200',
-            changePercent: '-1.4%',
-            description: 'Beras putih premium dengan kualitas terbaik',
-            supplier: 'PT Beras Sejahtera',
-            location: 'Pasar Modern Tangerang',
-            lastUpdate: '2 jam lalu'
-        },
-        'beras-ir-2': {
-            name: 'Beras IR II',
-            price: 'Rp 13,000',
-            unit: 'per kg',
-            change: '+Rp 100',
-            changePercent: '+0.8%',
-            description: 'Beras putih berkualitas baik',
-            supplier: 'PT Beras Sejahtera',
-            location: 'Pasar Modern Tangerang',
-            lastUpdate: '2 jam lalu'
-        },
-        'gula-pasir': {
-            name: 'Gula Pasir Lokal',
-            price: 'Rp 19,000',
-            unit: 'per kg',
-            change: '-Rp 150',
-            changePercent: '-0.8%',
-            description: 'Gula pasir putih berkualitas tinggi',
-            supplier: 'PT Gula Nusantara',
-            location: 'Pasar Modern Tangerang',
-            lastUpdate: '2 jam lalu'
-        },
-        'daging-sapi': {
-            name: 'Daging Sapi',
-            price: 'Rp 140,000',
-            unit: 'per kg',
-            change: '+Rp 500',
-            changePercent: '+0.4%',
-            description: 'Daging sapi segar berkualitas premium',
-            supplier: 'PT Daging Segar',
-            location: 'Pasar Modern Tangerang',
-            lastUpdate: '2 jam lalu'
-        },
-        'daging-ayam': {
-            name: 'Daging Ayam Broiler',
-            price: 'Rp 40,000',
-            unit: 'per kg',
-            change: '-Rp 250',
-            changePercent: '-0.6%',
-            description: 'Daging ayam broiler segar',
-            supplier: 'PT Unggas Sejahtera',
-            location: 'Pasar Modern Tangerang',
-            lastUpdate: '2 jam lalu'
-        },
-        'telur-ayam': {
-            name: 'Telur Ayam',
-            price: 'Rp 3,000',
-            unit: 'per butir',
-            change: '+Rp 50',
-            changePercent: '+1.7%',
-            description: 'Telur ayam segar berkualitas tinggi',
-            supplier: 'PT Unggas Sejahtera',
-            location: 'Pasar Modern Tangerang',
-            lastUpdate: '2 jam lalu'
-        },
-        'kacang-kedelai': {
-            name: 'Kacang Kedelai',
-            price: 'Rp 16,000',
-            unit: 'per kg',
-            change: '-Rp 40',
-            changePercent: '-0.2%',
-            description: 'Kacang kedelai berkualitas tinggi',
-            supplier: 'PT Kacang Nusantara',
-            location: 'Pasar Modern Tangerang',
-            lastUpdate: '2 jam lalu'
-        }
-    };
-
-    const detail = commodityDetails[commodityId];
-    if (!detail) return;
-
-    // Buat modal detail
-    const modalHtml = `
-        <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="detailModalLabel">Detail ${detail.name}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h6 class="text-primary">Informasi Harga</h6>
-                                <div class="mb-3">
-                                    <strong>Harga Saat Ini:</strong> ${detail.price} ${detail.unit}
-                                </div>
-                                <div class="mb-3">
-                                    <strong>Perubahan:</strong> 
-                                    <span class="badge ${detail.change.startsWith('+') ? 'bg-danger' : 'bg-success'}">
-                                        ${detail.change} (${detail.changePercent})
-                                    </span>
-                                </div>
-                                <div class="mb-3">
-                                    <strong>Update Terakhir:</strong> ${detail.lastUpdate}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <h6 class="text-primary">Informasi Produk</h6>
-                                <div class="mb-3">
-                                    <strong>Deskripsi:</strong> ${detail.description}
-                                </div>
-                                <div class="mb-3">
-                                    <strong>Supplier:</strong> ${detail.supplier}
-                                </div>
-                                <div class="mb-3">
-                                    <strong>Lokasi:</strong> ${detail.location}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <button type="button" class="btn btn-primary" onclick="sharePrice('${detail.name}', '${detail.price}')">
-                            <i class="bi bi-share"></i> Bagikan
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-
-    // Hapus modal lama jika ada
-    const existingModal = document.getElementById('detailModal');
-    if (existingModal) {
-        existingModal.remove();
-    }
-
-    // Tambahkan modal baru
-    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    // TODO: Ambil data detail dari API berdasarkan commodityId
+    // fetch(`/api/komoditas/${commodityId}`)
+    //     .then(res => res.json())
+    //     .then(detail => {
+    //         // Tampilkan modal dengan data dari database
+    //     });
     
-    // Tampilkan modal
-    const modal = new bootstrap.Modal(document.getElementById('detailModal'));
-    modal.show();
+    // Untuk sementara, tampilkan pesan
+    showNotification('Fitur detail komoditas akan segera tersedia', 'info');
 }
 
 // Fungsi untuk berbagi harga
@@ -879,58 +741,22 @@ function fetchKomoditas() {
     const grid = document.getElementById('komoditasGrid');
     if (!grid) return;
     grid.innerHTML = '<div class="text-center w-100 py-5">Loading data komoditas...</div>';
-    fetch('/api/komoditas')
-        .then(res => res.json())
-        .then(data => {
-            if (!data.length) {
-                grid.innerHTML = '<div class="text-center w-100 py-5">Tidak ada data komoditas.</div>';
-                return;
-            }
-            // Mapping nama komoditas ke gambar
-            const imageMap = {
-                'Beras IR I': 'beras.png',
-                'Beras IR II': 'beras.png',
-                'Gula Pasir Lokal': 'gula1.png',
-                'Daging Sapi': 'dagingsapi.png',
-                'Daging Ayam Broiler': 'dagingayam.png',
-                'Telur Ayam': 'telurayam.png',
-                'Kacang Kedelai': 'kacangkedelai.png',
-            };
-            // Batasi hanya 3 data untuk landing page
-            const limited = data.slice(0, 3);
-            grid.innerHTML = limited.map(item => {
-                const imgFile = imageMap[item.nama] || 'beras.png'; // fallback gambar default
-                return `
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 komoditas-item" data-kategori="${item.kategori}" data-perubahan="${item.perubahan}">
-                    <div class="komoditas-card card border-0 shadow-sm h-100">
-                        <div class="card-body p-4 text-center position-relative">
-                            <div class="product-image-container mb-3">
-                                <img src="/assets/komoditas/${imgFile}" alt="${item.nama}" class="product-image" loading="lazy" />
-                            </div>
-                            <h5 class="product-name mb-2">${item.nama}</h5>
-                            <div class="price-container mb-3">
-                                <div class="current-price">Rp ${item.harga.toLocaleString()}</div>
-                                <div class="price-unit text-muted">per ${item.satuan}</div>
-                            </div>
-                            <div class="product-details">
-                                <div class="detail-item">
-                                    <i class="bi bi-calendar3 text-muted"></i>
-                                    <span class="text-muted">Update: ${item.last_update}</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="bi bi-graph-${item.perubahan === 'naik' ? 'up text-danger' : 'down text-success'}"></i>
-                                    <span class="${item.perubahan === 'naik' ? 'text-danger' : 'text-success'}">${item.perubahan}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                `;
-            }).join('');
-        })
-        .catch(() => {
-            grid.innerHTML = '<div class="text-center w-100 py-5 text-danger">Gagal memuat data komoditas.</div>';
-        });
+    
+    // TODO: Implementasi API call yang sebenarnya
+    // fetch('/api/komoditas')
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         if (!data.length) {
+    //             grid.innerHTML = '<div class="text-center w-100 py-5">Tidak ada data komoditas.</div>';
+    //             return;
+    //         }
+    //         // Render data dari database
+    //     });
+    
+    // Untuk sementara, tampilkan pesan
+    setTimeout(() => {
+        grid.innerHTML = '<div class="text-center w-100 py-5">Data komoditas akan tersedia setelah implementasi database.</div>';
+    }, 1000);
 }
 
 // --- AJAX Berita ---
@@ -938,28 +764,22 @@ function fetchBerita() {
     const list = document.getElementById('beritaList');
     if (!list) return;
     list.innerHTML = '<div class="text-center w-100 py-5">Loading berita...</div>';
-    fetch('/api/berita')
-        .then(res => res.json())
-        .then(data => {
-            if (!data.length) {
-                list.innerHTML = '<div class="text-center w-100 py-5">Tidak ada berita.</div>';
-                return;
-            }
-            list.innerHTML = data.map(item => `
-                <div class="col-md-4 mb-4">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body">
-                            <h6 class="fw-bold text-primary">${item.judul}</h6>
-                            <p class="small text-muted mb-2">${item.tanggal}</p>
-                            <p class="card-text">${item.isi.substring(0, 80)}...</p>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        })
-        .catch(() => {
-            list.innerHTML = '<div class="text-center w-100 py-5 text-danger">Gagal memuat berita.</div>';
-        });
+    
+    // TODO: Implementasi API call yang sebenarnya
+    // fetch('/api/berita')
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         if (!data.length) {
+    //             list.innerHTML = '<div class="text-center w-100 py-5">Tidak ada berita.</div>';
+    //             return;
+    //         }
+    //         // Render data dari database
+    //     });
+    
+    // Untuk sementara, tampilkan pesan
+    setTimeout(() => {
+        list.innerHTML = '<div class="text-center w-100 py-5">Data berita akan tersedia setelah implementasi database.</div>';
+    }, 1000);
 }
 
 // Panggil saat halaman siap

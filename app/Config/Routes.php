@@ -77,3 +77,19 @@ $routes->post('admin/komoditas/store', 'AdminKomoditas::store');
 $routes->get('admin/komoditas/edit/(:num)', 'AdminKomoditas::edit/$1');
 $routes->post('admin/komoditas/update/(:num)', 'AdminKomoditas::update/$1');
 $routes->get('admin/komoditas/delete/(:num)', 'AdminKomoditas::delete/$1');
+
+// CRUD Data Pasar
+$routes->get('admin/pasar', 'AdminPasar::index');
+$routes->get('admin/pasar/create', 'AdminPasar::create');
+$routes->post('admin/pasar/store', 'AdminPasar::store');
+$routes->get('admin/pasar/edit/(:num)', 'AdminPasar::edit/$1');
+$routes->post('admin/pasar/update/(:num)', 'AdminPasar::update/$1');
+$routes->get('admin/pasar/delete/(:num)', 'AdminPasar::delete/$1');
+
+// CRUD Kelola Grup
+$routes->get('admin/grup', 'AdminGrup::index');
+$routes->get('admin/grup/create', 'AdminGrup::create');
+$routes->post('admin/grup/store', 'AdminGrup::store');
+$routes->get('admin/grup/edit/(:num)', 'AdminGrup::edit/$1');
+$routes->post('admin/grup/update/(:num)', 'AdminGrup::update/$1');
+$routes->get('admin/grup/delete/(:num)', 'AdminGrup::delete/$1');

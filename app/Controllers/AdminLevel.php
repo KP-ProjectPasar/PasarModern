@@ -6,18 +6,40 @@ class AdminLevel extends BaseController
 {
     public function index()
     {
+        // Check if user is logged in
+        if (!session()->get('is_admin')) {
+            return redirect()->to('/admin/login');
+        }
+
         $levelModel = new LevelModel();
         $levels = $levelModel->findAll();
-        return view('admin/level_list', ['levels' => $levels]);
+        return view('admin/level_list', [
+            'levels' => $levels,
+            'admin_nama' => session()->get('admin_nama'),
+            'admin_level' => session()->get('admin_level'),
+        ]);
     }
 
     public function create()
     {
-        return view('admin/level_form');
+        // Check if user is logged in
+        if (!session()->get('is_admin')) {
+            return redirect()->to('/admin/login');
+        }
+
+        return view('admin/level_form', [
+            'admin_nama' => session()->get('admin_nama'),
+            'admin_level' => session()->get('admin_level'),
+        ]);
     }
 
     public function store()
     {
+        // Check if user is logged in
+        if (!session()->get('is_admin')) {
+            return redirect()->to('/admin/login');
+        }
+
         $levelModel = new LevelModel();
         $data = [
             'nama' => $this->request->getPost('nama'),
@@ -29,13 +51,27 @@ class AdminLevel extends BaseController
 
     public function edit($id)
     {
+        // Check if user is logged in
+        if (!session()->get('is_admin')) {
+            return redirect()->to('/admin/login');
+        }
+
         $levelModel = new LevelModel();
         $level = $levelModel->find($id);
-        return view('admin/level_form', ['level' => $level]);
+        return view('admin/level_form', [
+            'level' => $level,
+            'admin_nama' => session()->get('admin_nama'),
+            'admin_level' => session()->get('admin_level'),
+        ]);
     }
 
     public function update($id)
     {
+        // Check if user is logged in
+        if (!session()->get('is_admin')) {
+            return redirect()->to('/admin/login');
+        }
+
         $levelModel = new LevelModel();
         $data = [
             'nama' => $this->request->getPost('nama'),
@@ -47,6 +83,11 @@ class AdminLevel extends BaseController
 
     public function delete($id)
     {
+        // Check if user is logged in
+        if (!session()->get('is_admin')) {
+            return redirect()->to('/admin/login');
+        }
+
         $levelModel = new LevelModel();
         $levelModel->delete($id);
         return redirect()->to('/admin/level');
