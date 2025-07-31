@@ -12,6 +12,11 @@ class CreateAdminTable extends Migration
             'password' => ['type' => 'VARCHAR', 'constraint' => 255],
             'nama'     => ['type' => 'VARCHAR', 'constraint' => 100],
             'level'    => ['type' => 'VARCHAR', 'constraint' => 20, 'default' => 'admin'],
+            'email'    => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true],
+            'last_login' => ['type' => 'DATETIME', 'null' => true],
+            'last_activity' => ['type' => 'DATETIME', 'null' => true],
+            'created_at' => ['type' => 'DATETIME', 'null' => true],
+            'updated_at' => ['type' => 'DATETIME', 'null' => true],
         ]);
         $this->forge->addKey('id', true);
         $this->forge->createTable('admin');

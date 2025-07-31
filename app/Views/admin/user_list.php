@@ -6,10 +6,9 @@
     <div class="row align-items-center">
         <div class="col-md-8">
             <h2 class="page-title">
-                <i class="bi bi-people text-primary me-2"></i>
                 Daftar User Admin
             </h2>
-            <p class="text-muted mb-0">Kelola semua user admin dalam sistem</p>
+            <p class="page-subtitle mb-0">Kelola semua user admin dalam sistem</p>
         </div>
         <div class="col-md-4 text-end">
             <a href="/admin/user/create" class="btn btn-primary btn-lg">
@@ -110,6 +109,16 @@
                     <div class="user-card-status <?= $user['level'] === 'superadmin' ? 'superadmin' : ($user['level'] === 'admin' ? 'admin' : 'specialist') ?>">
                         <?= esc($user['level']) ?>
                     </div>
+                    <div class="user-card-online-status">
+                        <?php
+                        $isOnline = is_admin_online($user['last_activity'] ?? null);
+                        $statusText = get_admin_status_text($user['last_activity'] ?? null);
+                        ?>
+                        <span class="status-indicator <?= $isOnline ? 'online' : 'offline' ?>">
+                            <i class="bi bi-circle-fill"></i>
+                            <?= $isOnline ? 'Online' : 'Offline' ?>
+                        </span>
+                    </div>
                 </div>
                 
                 <div class="user-card-body">
@@ -120,6 +129,10 @@
                         <div class="info-item">
                             <i class="bi bi-envelope"></i>
                             <span><?= esc($user['email'] ?? 'email@example.com') ?></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="bi bi-clock"></i>
+                            <span><?= $statusText ?></span>
                         </div>
                         <div class="info-item">
                             <i class="bi bi-calendar3"></i>
@@ -159,9 +172,9 @@
                         <a href="/admin/user/edit/<?= $user['id'] ?>" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit User">
                             <i class="bi bi-pencil"></i>
                         </a>
-                        <a href="/admin/user/delete/<?= $user['id'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirmDelete('<?= esc($user['nama']) ?>')" data-bs-toggle="tooltip" title="Hapus User">
+                        <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete(<?= $user['id'] ?>, '<?= esc($user['nama']) ?>')" data-bs-toggle="tooltip" title="Hapus User">
                             <i class="bi bi-trash"></i>
-                        </a>
+                        </button>
                         <button class="btn btn-sm btn-outline-info" onclick="showUserDetails('<?= esc($user['nama']) ?>', '<?= esc($user['level']) ?>')" data-bs-toggle="tooltip" title="Lihat Detail">
                             <i class="bi bi-eye"></i>
                         </button>
@@ -253,8 +266,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-function confirmDelete(nama) {
-    return confirm(`Yakin ingin menghapus user "${nama}"? Tindakan ini tidak dapat dibatalkan.`);
+function confirmDelete(id, nama) {
+    if (confirm(`Yakin ingin menghapus user "${nama}"? Tindakan ini tidak dapat dibatalkan.`)) {
+        window.location.href = `/admin/user/delete/${id}`;
+    }
 }
 
 function showUserDetails(nama, level) {
@@ -266,8 +281,20 @@ function showUserDetails(nama, level) {
         'galeri': 'Specialist Galeri hanya memiliki akses ke manajemen galeri dan video.'
     };
     
-    showNotification(`Detail User: ${nama} (${level}) - ${details[level] || 'Tidak ada detail tersedia'}`, 'info');
+    alert(`Detail User: ${nama} (${level})\n\n${details[level] || 'Tidak ada detail tersedia'}`);
 }
+
+// Auto-hide alerts after 5 seconds
+document.addEventListener('DOMContentLoaded', function() {
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            if (alert.parentNode) {
+                alert.remove();
+            }
+        }, 5000);
+    });
+});
 </script>
 
 <?= $this->endSection() ?> 

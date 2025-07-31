@@ -7,7 +7,7 @@
     <div class="row align-items-center">
         <div class="col">
             <h1 class="page-title">Kelola Level</h1>
-            <p class="text-muted mb-0">Kelola level dan hierarki akses admin</p>
+            <p class="page-subtitle mb-0">Kelola level dan hierarki akses admin</p>
         </div>
         <div class="col-auto">
             <a href="/admin/level/create" class="btn btn-primary">

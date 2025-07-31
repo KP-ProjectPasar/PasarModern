@@ -24,7 +24,7 @@
     <!-- Sidebar -->
     <div class="border-end" id="sidebar-wrapper">
         <div class="sidebar-heading text-white py-4 px-3 d-flex align-items-center">
-            <img src="/assets/img/Logorbg.png" width="32" class="me-2"> E-Pasar Tangerang
+            <img src="/assets/img/logo/Logorbg.png" width="32" class="me-2" alt="Logo"> Pasar Modern Tangerang
         </div>
         <div class="list-group list-group-flush">
             <!-- Dashboard -->
@@ -141,6 +141,36 @@
         </nav>
 
         <div class="container-fluid mt-4">
+            <!-- Flash Messages -->
+            <?php if (session()->getFlashdata('success')): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-2"></i>
+                    <?= session()->getFlashdata('success') ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <?php endif; ?>
+            
+            <?php if (session()->getFlashdata('error')): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <?= session()->getFlashdata('error') ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <?php endif; ?>
+            
+            <?php if (session()->getFlashdata('errors')): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <strong>Validasi gagal:</strong>
+                    <ul class="mb-0 mt-2">
+                        <?php foreach (session()->getFlashdata('errors') as $error): ?>
+                            <li><?= $error ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <?php endif; ?>
+            
             <?= $this->renderSection('content') ?>
         </div>
     </div>

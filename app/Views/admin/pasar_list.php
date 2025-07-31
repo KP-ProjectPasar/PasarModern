@@ -7,7 +7,7 @@
     <div class="row align-items-center">
         <div class="col">
             <h1 class="page-title">Data Pasar</h1>
-            <p class="text-muted mb-0">Kelola informasi dan data pasar yang tersedia</p>
+            <p class="page-subtitle mb-0">Kelola informasi dan data pasar yang tersedia</p>
         </div>
         <div class="col-auto">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahPasarModal">
@@ -68,7 +68,7 @@
 <!-- Search and Filter Section -->
 <div class="search-filter-section mb-4">
     <div class="row align-items-center">
-        <div class="col-md-6 mb-3 mb-md-0">
+        <div class="col-md-12">
             <div class="search-box">
                 <div class="input-group">
                     <span class="input-group-text">
@@ -78,21 +78,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-outline-secondary active" data-filter="all">Semua</button>
-                <button type="button" class="btn btn-outline-secondary" data-filter="aktif">Aktif</button>
-                <button type="button" class="btn btn-outline-secondary" data-filter="perbaikan">Perbaikan</button>
-                <button type="button" class="btn btn-outline-secondary" data-filter="nonaktif">Nonaktif</button>
-            </div>
-        </div>
     </div>
 </div>
 
 <!-- Data Pasar Cards -->
 <div class="row" id="pasarContainer">
     <!-- Pasar Card 1 -->
-    <div class="col-lg-4 col-md-6 mb-4" data-category="aktif">
+    <div class="col-lg-4 col-md-6 mb-4">
         <div class="pasar-card">
             <div class="pasar-card-image">
                 <img src="/assets/img/pasar1.jpeg" alt="Pasar Modern Tangerang">
@@ -109,7 +101,6 @@
                         </button>
                     </div>
                 </div>
-                <div class="pasar-card-status aktif">Aktif</div>
             </div>
             <div class="pasar-card-body">
                 <h5 class="pasar-card-title">Pasar Modern Tangerang</h5>
@@ -132,7 +123,7 @@
     </div>
 
     <!-- Pasar Card 2 -->
-    <div class="col-lg-4 col-md-6 mb-4" data-category="aktif">
+    <div class="col-lg-4 col-md-6 mb-4">
         <div class="pasar-card">
             <div class="pasar-card-image">
                 <img src="/assets/img/pasar2.jpeg" alt="Pasar Tradisional Serpong">
@@ -149,7 +140,6 @@
                         </button>
                     </div>
                 </div>
-                <div class="pasar-card-status aktif">Aktif</div>
             </div>
             <div class="pasar-card-body">
                 <h5 class="pasar-card-title">Pasar Tradisional Serpong</h5>
@@ -172,7 +162,7 @@
     </div>
 
     <!-- Pasar Card 3 -->
-    <div class="col-lg-4 col-md-6 mb-4" data-category="perbaikan">
+    <div class="col-lg-4 col-md-6 mb-4">
         <div class="pasar-card">
             <div class="pasar-card-image">
                 <img src="/assets/img/pasar3.jpeg" alt="Pasar Ciputat">
@@ -189,7 +179,6 @@
                         </button>
                     </div>
                 </div>
-                <div class="pasar-card-status perbaikan">Perbaikan</div>
             </div>
             <div class="pasar-card-body">
                 <h5 class="pasar-card-title">Pasar Ciputat</h5>
@@ -198,13 +187,13 @@
                     <span><i class="bi bi-telephone me-1"></i>021-5551234</span>
                 </div>
                 <p class="pasar-card-description">
-                    Pasar sedang dalam proses perbaikan infrastruktur untuk meningkatkan kenyamanan pedagang dan pembeli.
+                    Pasar yang sedang dalam proses renovasi untuk meningkatkan kualitas layanan dan fasilitas.
                 </p>
                 <div class="pasar-card-footer">
                     <div class="pasar-card-stats">
-                        <span><i class="bi bi-people me-1"></i>80 Pedagang</span>
+                        <span><i class="bi bi-people me-1"></i>120 Pedagang</span>
                         <span><i class="bi bi-clock me-1"></i>07:00 - 16:00</span>
-                        <span><i class="bi bi-star me-1"></i>3.8/5</span>
+                        <span><i class="bi bi-star me-1"></i>4.0/5</span>
                     </div>
                 </div>
             </div>
@@ -313,39 +302,6 @@ document.getElementById('searchPasar').addEventListener('input', function() {
     } else {
         emptyState.style.display = 'none';
     }
-});
-
-// Filter functionality
-document.querySelectorAll('[data-filter]').forEach(button => {
-    button.addEventListener('click', function() {
-        const filter = this.getAttribute('data-filter');
-        
-        // Update active button
-        document.querySelectorAll('[data-filter]').forEach(btn => btn.classList.remove('active'));
-        this.classList.add('active');
-        
-        // Filter cards
-        const cards = document.querySelectorAll('#pasarContainer .col-lg-4');
-        let visibleCount = 0;
-        
-        cards.forEach(card => {
-            const category = card.getAttribute('data-category');
-            if (filter === 'all' || category === filter) {
-                card.style.display = 'block';
-                visibleCount++;
-            } else {
-                card.style.display = 'none';
-            }
-        });
-        
-        // Show/hide empty state
-        const emptyState = document.getElementById('emptyState');
-        if (visibleCount === 0) {
-            emptyState.style.display = 'block';
-        } else {
-            emptyState.style.display = 'none';
-        }
-    });
 });
 
 // Pasar functions

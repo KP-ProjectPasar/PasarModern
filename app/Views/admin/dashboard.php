@@ -1,28 +1,18 @@
 <?= $this->extend('admin/layout') ?>
 <?= $this->section('content') ?>
 
-<!-- Welcome Notification -->
-<div class="welcome-notification" id="welcomeNotification">
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="bi bi-check-circle-fill me-2"></i>
-        <strong>Selamat datang!</strong> Dashboard telah diperbarui dengan tampilan yang lebih modern dan informatif.
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-</div>
-
 <!-- Header Section -->
 <div class="dashboard-header mb-4">
     <div class="row align-items-center">
         <div class="col-md-8">
             <h2 class="dashboard-title mb-2">
-                <i class="bi bi-speedometer2 text-primary me-2"></i>
                 Dashboard Admin
             </h2>
-            <p class="text-muted mb-0">Selamat datang kembali, <?= esc($admin_nama ?? 'Admin') ?>! Berikut adalah ringkasan aktivitas sistem hari ini.</p>
+            <p class="page-subtitle mb-0">Selamat datang kembali, <?= esc($admin_nama ?? 'Admin') ?>! Berikut adalah ringkasan aktivitas sistem hari ini.</p>
         </div>
         <div class="col-md-4 text-end">
             <div class="current-time">
-                <i class="bi bi-clock text-primary me-2"></i>
+                <i class="bi bi-clock me-2"></i>
                 <span id="current-time"></span>
             </div>
         </div>
@@ -55,9 +45,9 @@
             <div class="stat-card-content">
                 <h3 class="stat-card-number"><?= $total_komoditas ?? 0 ?></h3>
                 <p class="stat-card-label">Komoditas</p>
-                <div class="stat-card-trend positive">
-                    <i class="bi bi-arrow-up"></i>
-                    <span>+8%</span>
+                <div class="stat-card-trend negative">
+                    <i class="bi bi-arrow-down"></i>
+                    <span>-3%</span>
                 </div>
             </div>
         </div>
@@ -87,9 +77,9 @@
             <div class="stat-card-content">
                 <h3 class="stat-card-number"><?= $total_galeri ?? 0 ?></h3>
                 <p class="stat-card-label">Galeri</p>
-                <div class="stat-card-trend positive">
-                    <i class="bi bi-arrow-up"></i>
-                    <span>+5%</span>
+                <div class="stat-card-trend negative">
+                    <i class="bi bi-arrow-down"></i>
+                    <span>-2%</span>
                 </div>
             </div>
         </div>
@@ -220,7 +210,7 @@
             </div>
             <div class="dashboard-card-body">
                 <div class="quick-actions">
-                    <a href="/admin/user/create" class="quick-action-item" onclick="showNotification('Membuka halaman tambah user...', 'info')" data-bs-toggle="tooltip" title="Buat user baru untuk sistem">
+                    <a href="/admin/user/create" class="quick-action-item" data-bs-toggle="tooltip" title="Buat user baru untuk sistem">
                         <div class="quick-action-icon bg-primary">
                             <i class="bi bi-person-plus"></i>
                         </div>
@@ -230,7 +220,7 @@
                         </div>
                     </a>
                     
-                    <a href="/admin/berita/create" class="quick-action-item" onclick="showNotification('Membuka halaman tulis berita...', 'info')" data-bs-toggle="tooltip" title="Tulis dan publikasikan berita baru">
+                    <a href="/admin/berita/create" class="quick-action-item" data-bs-toggle="tooltip" title="Tulis dan publikasikan berita baru">
                         <div class="quick-action-icon bg-success">
                             <i class="bi bi-newspaper"></i>
                         </div>
@@ -240,7 +230,7 @@
                         </div>
                     </a>
                     
-                    <a href="/admin/harga/create" class="quick-action-item" onclick="showNotification('Membuka halaman update harga...', 'info')" data-bs-toggle="tooltip" title="Update harga komoditas terbaru">
+                    <a href="/admin/harga/create" class="quick-action-item" data-bs-toggle="tooltip" title="Update harga komoditas terbaru">
                         <div class="quick-action-icon bg-warning">
                             <i class="bi bi-cash-coin"></i>
                         </div>
@@ -250,13 +240,33 @@
                         </div>
                     </a>
                     
-                    <a href="/admin/galeri/create" class="quick-action-item" onclick="showNotification('Membuka halaman upload foto...', 'info')" data-bs-toggle="tooltip" title="Upload foto ke galeri">
+                    <a href="/admin/galeri/create" class="quick-action-item" data-bs-toggle="tooltip" title="Upload foto ke galeri">
                         <div class="quick-action-icon bg-info">
                             <i class="bi bi-images"></i>
                         </div>
                         <div class="quick-action-content">
                             <h6>Upload Foto</h6>
                             <p class="text-muted">Tambah foto ke galeri</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/admin/video/create" class="quick-action-item" data-bs-toggle="tooltip" title="Tambah video baru">
+                        <div class="quick-action-icon bg-danger">
+                            <i class="bi bi-camera-video"></i>
+                        </div>
+                        <div class="quick-action-content">
+                            <h6>Tambah Video</h6>
+                            <p class="text-muted">Upload video baru</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/admin/pasar/create" class="quick-action-item" data-bs-toggle="tooltip" title="Tambah data pasar baru">
+                        <div class="quick-action-icon bg-secondary">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <div class="quick-action-content">
+                            <h6>Data Pasar</h6>
+                            <p class="text-muted">Tambah data pasar</p>
                         </div>
                     </a>
                 </div>
@@ -293,14 +303,6 @@ function updateTime() {
 
 setInterval(updateTime, 1000);
 updateTime();
-
-// Hide welcome notification after 5 seconds
-setTimeout(() => {
-    const welcomeNotification = document.getElementById('welcomeNotification');
-    if (welcomeNotification) {
-        welcomeNotification.style.display = 'none';
-    }
-}, 5000);
 
 // Chart variables
 let activityChart, contentChart;

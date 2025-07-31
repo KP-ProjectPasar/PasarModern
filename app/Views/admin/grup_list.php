@@ -7,7 +7,7 @@
     <div class="row align-items-center">
         <div class="col">
             <h1 class="page-title">Kelola Grup</h1>
-            <p class="text-muted mb-0">Kelola grup dan kategori untuk organisasi data</p>
+            <p class="page-subtitle mb-0">Kelola grup dan kategori untuk organisasi data</p>
         </div>
         <div class="col-auto">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahGrupModal">

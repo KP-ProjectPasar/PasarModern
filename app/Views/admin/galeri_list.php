@@ -6,10 +6,9 @@
     <div class="row align-items-center">
         <div class="col-md-8">
             <h2 class="page-title">
-                <i class="bi bi-images text-primary me-2"></i>
                 Galeri Foto
             </h2>
-            <p class="text-muted mb-0">Kelola koleksi foto dan gambar dalam galeri</p>
+            <p class="page-subtitle mb-0">Kelola koleksi foto dan gambar dalam galeri</p>
         </div>
         <div class="col-md-4 text-end">
             <a href="/admin/galeri/create" class="btn btn-primary btn-lg">

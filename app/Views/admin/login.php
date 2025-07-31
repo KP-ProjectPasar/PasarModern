@@ -13,13 +13,10 @@
         <div class="row justify-content-center">
             <div class="col-md-5 col-lg-4">
                 <div class="login-admin-card shadow-sm border-0">
-                    <div class="d-flex justify-content-end pt-3 pe-3">
-                        <button class="btn btn-sm btn-light login-dark-toggle" id="darkModeToggle" onclick="toggleDarkMode()" title="Dark Mode"><i class="bi bi-moon"></i></button>
-                    </div>
-                    <div class="card-body p-4 pt-2">
+                    <div class="card-body p-4">
                         <div class="text-center mb-3">
                             <div class="login-admin-logo-wrapper mb-2">
-                                <img src="/assets/img/Logorbg.png" alt="Logo E-Pasar" class="login-admin-logo">
+                                <img src="/assets/img/logo/Logorbg.png" alt="Logo E-Pasar" class="login-admin-logo">
                             </div>
                             <h5 class="fw-bold mb-1 text-primary">Admin E-Pasar</h5>
                             <div class="text-muted mb-3 small">Masuk ke Panel Admin</div>
@@ -70,10 +67,6 @@
             icon.classList.remove('bi-eye');
             icon.classList.add('bi-eye-slash');
         }
-    }
-    function toggleDarkMode() {
-        document.body.classList.toggle('login-dark');
-        document.getElementById('darkModeToggle').classList.toggle('active');
     }
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         var btn = document.getElementById('loginBtn');

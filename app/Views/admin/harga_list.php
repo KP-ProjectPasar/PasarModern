@@ -7,7 +7,7 @@
     <div class="row align-items-center">
         <div class="col">
             <h1 class="page-title">Harga Komoditas</h1>
-            <p class="text-muted mb-0">Kelola informasi harga komoditas pasar</p>
+            <p class="page-subtitle mb-0">Kelola informasi harga komoditas pasar</p>
         </div>
         <div class="col-auto">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahHargaModal">

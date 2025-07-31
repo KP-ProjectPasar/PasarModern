@@ -6,10 +6,9 @@
     <div class="row align-items-center">
         <div class="col-md-8">
             <h2 class="page-title">
-                <i class="bi bi-camera-video text-primary me-2"></i>
                 Galeri Video
             </h2>
-            <p class="text-muted mb-0">Kelola koleksi video dan konten multimedia</p>
+            <p class="page-subtitle mb-0">Kelola koleksi video dan konten multimedia</p>
         </div>
         <div class="col-md-4 text-end">
             <a href="/admin/video/create" class="btn btn-primary btn-lg">

@@ -33,9 +33,9 @@ abstract class BaseController extends Controller
      * class instantiation. These helpers will be available
      * to all other controllers that extend BaseController.
      *
-     * @var list<string>
+     * @var array
      */
-    protected $helpers = [];
+    protected $helpers = ['form', 'url', 'admin'];
 
     /**
      * Be sure to declare properties for any property fetch you initialized.
@@ -44,15 +44,26 @@ abstract class BaseController extends Controller
     // protected $session;
 
     /**
-     * @return void
+     * Constructor.
      */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 
-        // Preload any models, libraries, etc, here.
+        // Preload any libraries, etc, here.
 
-        // E.g.: $this->session = service('session');
+        // E.g.:
+        // $this->session = \Config\Services::session();
+        
+        // Track admin activity if logged in
+        try {
+            if (session()->get('is_admin') && session()->get('admin_id')) {
+                update_admin_activity(session()->get('admin_id'));
+            }
+        } catch (\Exception $e) {
+            // Log error but don't break the application
+            log_message('error', 'Failed to update admin activity in BaseController: ' . $e->getMessage());
+        }
     }
 }

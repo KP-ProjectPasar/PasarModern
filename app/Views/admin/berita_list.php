@@ -6,10 +6,9 @@
     <div class="row align-items-center">
         <div class="col-md-8">
             <h2 class="page-title">
-                <i class="bi bi-newspaper text-primary me-2"></i>
                 Daftar Berita
             </h2>
-            <p class="text-muted mb-0">Kelola semua berita yang telah dipublikasikan</p>
+            <p class="page-subtitle mb-0">Kelola semua berita yang telah dipublikasikan</p>
         </div>
         <div class="col-md-4 text-end">
             <a href="/admin/berita/create" class="btn btn-primary btn-lg">

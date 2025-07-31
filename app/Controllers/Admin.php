@@ -29,6 +29,17 @@ class Admin extends BaseController
                     session()->set('is_admin', true);
                     session()->set('admin_nama', $admin['nama']);
                     session()->set('admin_level', $admin['level']);
+                    session()->set('admin_id', $admin['id']);
+                    
+                    // Update last_login timestamp
+                    try {
+                        $adminModel->update($admin['id'], [
+                            'last_login' => date('Y-m-d H:i:s')
+                        ]);
+                    } catch (\Exception $e) {
+                        log_message('error', 'Failed to update last_login: ' . $e->getMessage());
+                    }
+                    
                     if (session()->get('is_admin')) {
                         $debug .= ' | Login sukses, redirect ke dashboard';
                         file_put_contents(WRITEPATH . 'debug.txt', $debug . PHP_EOL, FILE_APPEND);
@@ -55,9 +66,26 @@ class Admin extends BaseController
         if (!session()->get('is_admin')) {
             return redirect()->to('/admin/login');
         }
+        
+        // Get real data from database
+        $adminModel = new \App\Models\AdminModel();
+        $beritaModel = new \App\Models\BeritaModel();
+        $galeriModel = new \App\Models\GaleriModel();
+        $hargaModel = new \App\Models\HargaModel();
+        
+        // Count data
+        $total_users = $adminModel->countAllResults();
+        $total_berita = $beritaModel->countAllResults();
+        $total_galeri = $galeriModel->countAllResults();
+        $total_komoditas = $hargaModel->countAllResults();
+        
         return view('admin/dashboard', [
             'admin_nama' => session()->get('admin_nama'),
             'admin_level' => session()->get('admin_level'),
+            'total_users' => $total_users,
+            'total_berita' => $total_berita,
+            'total_galeri' => $total_galeri,
+            'total_komoditas' => $total_komoditas,
         ]);
     }
 

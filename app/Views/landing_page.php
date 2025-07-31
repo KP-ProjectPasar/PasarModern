@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Pasar Tangerang - Pasar Modern Tangerang</title>
+    <title>Pasar Modern Tangerang - Pasar Modern Tangerang</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -15,7 +15,7 @@
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#beranda">
                 <img src="/assets/img/logo/Logorbg.png" alt="Logo Pasar Modern" class="img-fluid">
-                <span class="fw-bold text-primary">E-Pasar Tangerang</span>
+                <span class="fw-bold text-primary">Pasar Modern Tangerang</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -25,7 +25,7 @@
                     <li class="nav-item"><a class="nav-link active" href="/">Beranda</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Tentang Kami <i class="bi bi-chevron-down"></i>
+                            Tentang Kami
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/tentang-kami/ringkasan">Ringkasan</a></li>
@@ -36,7 +36,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Informasi <i class="bi bi-chevron-down"></i>
+                            Informasi
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/informasi/berita">Berita</a></li>
@@ -55,13 +55,14 @@
 
     <!-- Hero Section -->
     <section id="beranda" class="hero d-flex align-items-center" style="min-height: 80vh;">
+        <div class="hero-background"></div>
         <div class="container position-relative z-2">
             <div class="row align-items-center">
                 <div class="col-lg-6 text-center text-lg-start mb-4 mb-lg-0">
-                    <h1 class="display-4 fw-bold mb-3">Belanja Mudah, Aman, dan Modern di <span class="text-primary">E-Pasar Tangerang</span></h1>
+                    <h1 class="display-4 fw-bold mb-3">Belanja Mudah, Aman, dan Modern di <span class="text-primary">Pasar Modern Tangerang</span></h1>
                     <p class="lead mb-4">Temukan kebutuhan harian, cek harga komoditas, dan nikmati layanan digital pasar modern Tangerang. Semua dalam satu klik!</p>
                     <a href="#layanan" class="btn btn-primary btn-lg me-2" aria-label="Jelajahi Layanan"><i class="bi bi-grid-1x2 me-2"></i>Jelajahi Layanan</a>
-                    <a href="#feedback" class="btn btn-feedback btn-lg" aria-label="Kirim Feedback"><i class="bi bi-chat-dots me-2"></i>Kirim Feedback</a>
+                    <a href="#feedback" class="btn btn-primary btn-lg" aria-label="Kirim Feedback"><i class="bi bi-chat-dots me-2"></i>Kirim Feedback</a>
                 </div>
                 <div class="col-lg-6 text-center">
                     <img src="/assets/img/banner/bannerpasar.jpeg" alt="Banner Pasar Modern" class="img-fluid rounded-4 shadow-lg hero-img">
@@ -73,7 +74,7 @@
     <!-- Layanan Publik Section -->
     <section id="layanan" class="py-5 bg-light">
         <div class="container">
-            <h2 class="section-title text-center">Layanan E-Pasar</h2>
+            <h2 class="section-title text-center">Layanan Pasar Modern</h2>
             <div class="row g-4 justify-content-center">
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100 text-center p-3 border-0 shadow-sm layanan-card">
@@ -137,7 +138,7 @@
     <!-- Galeri Section -->
     <section id="galeri" class="py-5">
         <div class="container">
-            <h2 class="section-title text-center">Galeri E-Pasar</h2>
+            <h2 class="section-title text-center">Galeri Pasar Modern</h2>
             <div class="row g-3" id="galeri-list">
                 <div class="col-6 col-md-3">
                     <img src="/assets/img/pasar1.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 1">
@@ -175,12 +176,12 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="faq1">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
-                            Apa itu E-Pasar Tangerang?
+                            Apa itu Pasar Modern Tangerang?
                         </button>
                     </h2>
                     <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="faq1" data-bs-parent="#faqAccordion">
                         <div class="accordion-body">
-                            E-Pasar Tangerang adalah platform digital resmi untuk pasar modern di Tangerang, menyediakan informasi harga, berita, galeri, dan layanan publik secara online.
+                            Pasar Modern Tangerang adalah platform digital resmi untuk pasar modern di Tangerang, menyediakan informasi harga, berita, galeri, dan layanan publik secara online.
                         </div>
                     </div>
                 </div>
@@ -211,12 +212,12 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="faq4">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-                            Apakah E-Pasar bisa diakses di mobile?
+                            Apakah Pasar Modern Tangerang bisa diakses di mobile?
                         </button>
                     </h2>
                     <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="faq4" data-bs-parent="#faqAccordion">
                         <div class="accordion-body">
-                            Ya, E-Pasar Tangerang didesain responsif dan dapat diakses dengan baik di perangkat mobile maupun desktop.
+                            Ya, Pasar Modern Tangerang didesain responsif dan dapat diakses dengan baik di perangkat mobile maupun desktop.
                         </div>
                     </div>
                 </div>
@@ -298,7 +299,7 @@
         <div class="container py-4">
             <div class="row">
                 <div class="col-md-4 mb-3">
-                    <h6>E-Pasar Tangerang</h6>
+                    <h6>Pasar Modern Tangerang</h6>
                     <p class="small">Platform digital pasar modern Tangerang untuk layanan publik, informasi harga, dan berita pasar.</p>
                 </div>
                 <div class="col-md-4 mb-3">
@@ -325,7 +326,7 @@
             <hr class="my-3">
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <p class="small mb-0">&copy; 2024 E-Pasar Tangerang. All Rights Reserved.</p>
+                    <p class="small mb-0">&copy; 2024 Pasar Modern Tangerang. All Rights Reserved.</p>
                 </div>
                 <div class="col-md-6">
                     <div class="social-links">

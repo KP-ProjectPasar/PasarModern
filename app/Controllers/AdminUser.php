@@ -45,15 +45,36 @@ class AdminUser extends BaseController
             return redirect()->to('/admin/login');
         }
 
+        // Validate input
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'username' => 'required|min_length[3]|is_unique[admin.username]',
+            'password' => 'required|min_length[6]',
+            'nama'     => 'required|min_length[3]',
+            'level'    => 'required|in_list[admin,superadmin,berita,harga,galeri]',
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            // Return to form with errors
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
         $adminModel = new AdminModel();
         $data = [
             'username' => $this->request->getPost('username'),
             'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
             'nama'     => $this->request->getPost('nama'),
             'level'    => $this->request->getPost('level'),
+            'email'    => $this->request->getPost('email'),
+            'created_at' => date('Y-m-d H:i:s'),
         ];
-        $adminModel->insert($data);
-        return redirect()->to('/admin/user');
+        
+        try {
+            $adminModel->insert($data);
+            return redirect()->to('/admin/user')->with('success', 'User berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Gagal menambahkan user: ' . $e->getMessage());
+        }
     }
 
     public function edit($id)
@@ -82,17 +103,39 @@ class AdminUser extends BaseController
             return redirect()->to('/admin/login');
         }
 
+        // Validate input
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'username' => 'required|min_length[3]|is_unique[admin.username,id,' . $id . ']',
+            'nama'     => 'required|min_length[3]',
+            'level'    => 'required|in_list[admin,superadmin,berita,harga,galeri]',
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            // Return to form with errors
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
         $adminModel = new AdminModel();
         $data = [
             'username' => $this->request->getPost('username'),
             'nama'     => $this->request->getPost('nama'),
             'level'    => $this->request->getPost('level'),
+            'email'    => $this->request->getPost('email'),
+            'updated_at' => date('Y-m-d H:i:s'),
         ];
+        
+        // Only update password if provided
         if ($this->request->getPost('password')) {
             $data['password'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
         }
-        $adminModel->update($id, $data);
-        return redirect()->to('/admin/user');
+        
+        try {
+            $adminModel->update($id, $data);
+            return redirect()->to('/admin/user')->with('success', 'User berhasil diperbarui!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Gagal memperbarui user: ' . $e->getMessage());
+        }
     }
 
     public function delete($id)
