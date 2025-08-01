@@ -140,14 +140,14 @@ document.getElementById('fotoInput').addEventListener('change', function(e) {
     if (file) {
         // Check file size (max 2MB)
         if (file.size > 2 * 1024 * 1024) {
-            alert('Ukuran file terlalu besar. Maksimal 2MB.');
+            // TODO: Implement proper file size validation feedback
             this.value = '';
             return;
         }
         
         // Check file type
         if (!file.type.startsWith('image/')) {
-            alert('File harus berupa gambar.');
+            // TODO: Implement proper file type validation feedback
             this.value = '';
             return;
         }
@@ -172,25 +172,25 @@ document.getElementById('hargaForm').addEventListener('submit', function(e) {
     
     if (!komoditas) {
         e.preventDefault();
-        alert('Nama komoditas harus diisi!');
+        // TODO: Implement proper validation feedback
         return;
     }
     
     if (!harga || harga <= 0) {
         e.preventDefault();
-        alert('Harga harus diisi dan lebih dari 0!');
+        // TODO: Implement proper validation feedback
         return;
     }
     
     if (!tanggal) {
         e.preventDefault();
-        alert('Tanggal harus diisi!');
+        // TODO: Implement proper validation feedback
         return;
     }
     
     if (!kategori) {
         e.preventDefault();
-        alert('Kategori harus dipilih!');
+        // TODO: Implement proper validation feedback
         return;
     }
 });

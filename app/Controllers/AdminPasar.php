@@ -20,7 +20,7 @@ class AdminPasar extends Controller
         $data = [
             'title' => 'Data Pasar',
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
             'pasars' => [] // Empty array for now, will be populated from database
         ];
 
@@ -37,7 +37,7 @@ class AdminPasar extends Controller
         $data = [
             'title' => 'Tambah Data Pasar',
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level')
+            'admin_role' => session()->get('admin_role')
         ];
 
         return view('admin/pasar_form', $data);
@@ -92,7 +92,7 @@ class AdminPasar extends Controller
         $data = [
             'title' => 'Edit Data Pasar',
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
             'pasar' => null // Will be populated from database
         ];
 

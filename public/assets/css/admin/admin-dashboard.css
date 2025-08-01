@@ -258,15 +258,6 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Notification badge */
-.navbar .position-relative .badge {
-    font-size: 0.7rem;
-    padding: 0.25rem 0.4rem;
-    border-radius: 10px;
-    font-weight: 600;
-    z-index: 1032;
-}
-
 /* User Profile */
 .user-avatar {
     width: 42px;
@@ -786,6 +777,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 
 .user-card-avatar {
@@ -799,30 +791,6 @@ body {
     color: white;
     font-size: 1.5rem;
     box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
-}
-
-.user-card-status {
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.user-card-status.superadmin {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    color: white;
-}
-
-.user-card-status.admin {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-    color: white;
-}
-
-.user-card-status.specialist {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: white;
 }
 
 .user-card-body {
@@ -1649,40 +1617,6 @@ body {
     vertical-align: middle;
 }
 
-/* Alerts */
-.alert {
-    border-radius: 15px;
-    border: none;
-    padding: 1rem 1.5rem;
-    font-weight: 500;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1.5rem;
-}
-
-.alert-success {
-    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-    color: #065f46;
-    border-left: 4px solid #10b981;
-}
-
-.alert-info {
-    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-    color: #1e40af;
-    border-left: 4px solid #3b82f6;
-}
-
-.alert-warning {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    color: #92400e;
-    border-left: 4px solid #f59e0b;
-}
-
-.alert-danger {
-    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-    color: #991b1b;
-    border-left: 4px solid #ef4444;
-}
-
 /* Dropdowns */
 .dropdown-menu {
     border-radius: 15px;
@@ -1930,79 +1864,6 @@ body {
     z-index: 1060 !important;
 } 
 
-.stat-card-trend {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-    margin-top: 0.5rem;
-}
-
-.stat-card-trend.positive {
-    color: #10b981;
-}
-
-.stat-card-trend.negative {
-    color: #ef4444;
-}
-
-.stat-card-trend i {
-    font-size: 0.75rem;
-}
-
-.stat-card-trend.positive i {
-    color: #10b981;
-}
-
-.stat-card-trend.negative i {
-    color: #ef4444;
-}
-
-.stat-card-trend.negative .bi-arrow-down {
-    color: #ef4444;
-    transform: none;
-}
-
-.stat-card-trend.negative .bi-arrow-up {
-    color: #ef4444;
-    transform: rotate(180deg);
-} 
-
-/* Flash Messages */
-.alert {
-    border-radius: 15px;
-    border: none;
-    padding: 1rem 1.5rem;
-    font-weight: 500;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1.5rem;
-}
-
-.alert-success {
-    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-    color: #065f46;
-    border-left: 4px solid #10b981;
-}
-
-.alert-danger {
-    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-    color: #991b1b;
-    border-left: 4px solid #ef4444;
-}
-
-.alert-info {
-    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-    color: #1e40af;
-    border-left: 4px solid #3b82f6;
-}
-
-.alert-warning {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    color: #92400e;
-    border-left: 4px solid #f59e0b;
-}
-
 /* Form Styling */
 .form-control:focus, .form-select:focus {
     border-color: #3b82f6;
@@ -2064,30 +1925,80 @@ body {
     top: 1rem;
     right: 1rem;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-end;
 }
 
 .status-indicator {
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    padding: 0.25rem 0.5rem;
+    padding: 0.375rem 0.75rem;
     border-radius: 12px;
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    white-space: nowrap;
+    min-width: fit-content;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.status-indicator:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .status-indicator.online {
-    background: rgba(16, 185, 129, 0.1);
+    background: rgba(16, 185, 129, 0.15);
     color: #10b981;
-    border: 1px solid rgba(16, 185, 129, 0.2);
+    border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
 .status-indicator.offline {
-    background: rgba(107, 114, 128, 0.1);
+    background: rgba(107, 114, 128, 0.15);
     color: #6b7280;
-    border: 1px solid rgba(107, 114, 128, 0.2);
+    border: 1px solid rgba(107, 114, 128, 0.3);
+}
+
+.status-indicator.superadmin {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.status-indicator.admin {
+    background: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.status-indicator.specialist {
+    background: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.status-indicator.berita {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-indicator.harga {
+    background: rgba(139, 92, 246, 0.15);
+    color: #8b5cf6;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.status-indicator.galeri {
+    background: rgba(6, 182, 212, 0.15);
+    color: #06b6d4;
+    border: 1px solid rgba(6, 182, 212, 0.3);
 }
 
 .status-indicator i {
@@ -2104,6 +2015,16 @@ body {
     animation: none;
 }
 
+.status-indicator.superadmin i,
+.status-indicator.admin i,
+.status-indicator.specialist i,
+.status-indicator.berita i,
+.status-indicator.harga i,
+.status-indicator.galeri i {
+    animation: none;
+    font-size: 0.6rem;
+}
+
 @keyframes pulse {
     0% {
         opacity: 1;
@@ -2113,5 +2034,23 @@ body {
     }
     100% {
         opacity: 1;
+    }
+} 
+
+/* Responsive design for status indicators */
+@media (max-width: 768px) {
+    .user-card-online-status {
+        gap: 0.5rem;
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+    
+    .status-indicator {
+        font-size: 0.65rem;
+        padding: 0.25rem 0.5rem;
+    }
+    
+    .status-indicator i {
+        font-size: 0.4rem;
     }
 } 

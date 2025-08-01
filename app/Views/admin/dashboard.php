@@ -21,23 +21,7 @@
 
 <!-- Statistics Cards -->
 <div class="row mb-4">
-    <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card stat-card-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Total pengguna terdaftar dalam sistem">
-            <div class="stat-card-icon">
-                <i class="bi bi-people-fill"></i>
-            </div>
-            <div class="stat-card-content">
-                <h3 class="stat-card-number"><?= $total_users ?? 0 ?></h3>
-                <p class="stat-card-label">Total Users</p>
-                <div class="stat-card-trend positive">
-                    <i class="bi bi-arrow-up"></i>
-                    <span>+12%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-xl-3 col-md-6 mb-3">
+    <div class="col-xl-4 col-md-6 mb-3">
         <div class="stat-card stat-card-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah komoditas yang tersedia">
             <div class="stat-card-icon">
                 <i class="bi bi-box-seam"></i>
@@ -45,15 +29,11 @@
             <div class="stat-card-content">
                 <h3 class="stat-card-number"><?= $total_komoditas ?? 0 ?></h3>
                 <p class="stat-card-label">Komoditas</p>
-                <div class="stat-card-trend negative">
-                    <i class="bi bi-arrow-down"></i>
-                    <span>-3%</span>
-                </div>
             </div>
         </div>
     </div>
     
-    <div class="col-xl-3 col-md-6 mb-3">
+    <div class="col-xl-4 col-md-6 mb-3">
         <div class="stat-card stat-card-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Berita yang telah dipublikasikan">
             <div class="stat-card-icon">
                 <i class="bi bi-newspaper"></i>
@@ -61,15 +41,11 @@
             <div class="stat-card-content">
                 <h3 class="stat-card-number"><?= $total_berita ?? 0 ?></h3>
                 <p class="stat-card-label">Berita</p>
-                <div class="stat-card-trend positive">
-                    <i class="bi bi-arrow-up"></i>
-                    <span>+15%</span>
-                </div>
             </div>
         </div>
     </div>
     
-    <div class="col-xl-3 col-md-6 mb-3">
+    <div class="col-xl-4 col-md-6 mb-3">
         <div class="stat-card stat-card-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Foto dalam galeri">
             <div class="stat-card-icon">
                 <i class="bi bi-images"></i>
@@ -77,10 +53,6 @@
             <div class="stat-card-content">
                 <h3 class="stat-card-number"><?= $total_galeri ?? 0 ?></h3>
                 <p class="stat-card-label">Galeri</p>
-                <div class="stat-card-trend negative">
-                    <i class="bi bi-arrow-down"></i>
-                    <span>-2%</span>
-                </div>
             </div>
         </div>
     </div>
@@ -93,7 +65,7 @@
             <div class="dashboard-card-header">
                 <h5 class="dashboard-card-title">
                     <i class="bi bi-graph-up text-primary me-2"></i>
-                    Aktivitas Sistem
+                    Grafik Harga Harian Komoditas
                 </h5>
                 <div class="dashboard-card-actions">
                     <button class="btn btn-sm btn-outline-primary" onclick="updateChartPeriod('7')" data-bs-toggle="tooltip" title="Tampilkan data 7 hari terakhir">
@@ -109,7 +81,7 @@
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
-                    <p class="mt-2">Memuat data grafik...</p>
+                    <p class="mt-2">Memuat data harga komoditas...</p>
                 </div>
                 <canvas id="activityChart" height="300" style="display: none;"></canvas>
             </div>
@@ -152,48 +124,11 @@
             </div>
             <div class="dashboard-card-body">
                 <div class="activity-list" id="activityList">
-                    <div class="activity-item" onclick="showActivityDetail('user')">
-                        <div class="activity-icon bg-primary">
-                            <i class="bi bi-person-plus"></i>
-                        </div>
-                        <div class="activity-content">
-                            <h6>User baru ditambahkan</h6>
-                            <p class="text-muted">Admin menambahkan user baru "John Doe"</p>
-                            <small class="text-muted">2 menit yang lalu</small>
-                        </div>
-                    </div>
-                    
-                    <div class="activity-item" onclick="showActivityDetail('komoditas')">
-                        <div class="activity-icon bg-success">
-                            <i class="bi bi-box-seam"></i>
-                        </div>
-                        <div class="activity-content">
-                            <h6>Komoditas diperbarui</h6>
-                            <p class="text-muted">Harga beras diperbarui menjadi Rp 12.500/kg</p>
-                            <small class="text-muted">15 menit yang lalu</small>
-                        </div>
-                    </div>
-                    
-                    <div class="activity-item" onclick="showActivityDetail('berita')">
-                        <div class="activity-icon bg-warning">
-                            <i class="bi bi-newspaper"></i>
-                        </div>
-                        <div class="activity-content">
-                            <h6>Berita dipublikasikan</h6>
-                            <p class="text-muted">Berita "Harga Komoditas Stabil" dipublikasikan</p>
-                            <small class="text-muted">1 jam yang lalu</small>
-                        </div>
-                    </div>
-                    
-                    <div class="activity-item" onclick="showActivityDetail('galeri')">
-                        <div class="activity-icon bg-info">
-                            <i class="bi bi-images"></i>
-                        </div>
-                        <div class="activity-content">
-                            <h6>Galeri diperbarui</h6>
-                            <p class="text-muted">5 foto baru ditambahkan ke galeri</p>
-                            <small class="text-muted">2 jam yang lalu</small>
-                        </div>
+                    <!-- Data aktivitas akan dimuat dari database -->
+                    <div class="text-center text-muted py-4" id="noActivityData">
+                        <i class="bi bi-clock-history" style="font-size: 2rem;"></i>
+                        <p class="mt-2 mb-0">Belum ada aktivitas terbaru</p>
+                        <small>Data aktivitas akan muncul setelah ada konten yang ditambahkan</small>
                     </div>
                 </div>
             </div>
@@ -210,6 +145,7 @@
             </div>
             <div class="dashboard-card-body">
                 <div class="quick-actions">
+                    <?php if (in_array(session()->get('admin_role'), ['superadmin', 'admin'])): ?>
                     <a href="/admin/user/create" class="quick-action-item" data-bs-toggle="tooltip" title="Buat user baru untuk sistem">
                         <div class="quick-action-icon bg-primary">
                             <i class="bi bi-person-plus"></i>
@@ -219,7 +155,9 @@
                             <p class="text-muted">Buat user baru</p>
                         </div>
                     </a>
+                    <?php endif; ?>
                     
+                    <?php if (in_array(session()->get('admin_role'), ['superadmin', 'admin', 'berita'])): ?>
                     <a href="/admin/berita/create" class="quick-action-item" data-bs-toggle="tooltip" title="Tulis dan publikasikan berita baru">
                         <div class="quick-action-icon bg-success">
                             <i class="bi bi-newspaper"></i>
@@ -229,7 +167,9 @@
                             <p class="text-muted">Publikasikan berita baru</p>
                         </div>
                     </a>
+                    <?php endif; ?>
                     
+                    <?php if (in_array(session()->get('admin_role'), ['superadmin', 'admin', 'harga'])): ?>
                     <a href="/admin/harga/create" class="quick-action-item" data-bs-toggle="tooltip" title="Update harga komoditas terbaru">
                         <div class="quick-action-icon bg-warning">
                             <i class="bi bi-cash-coin"></i>
@@ -239,7 +179,9 @@
                             <p class="text-muted">Perbarui harga komoditas</p>
                         </div>
                     </a>
+                    <?php endif; ?>
                     
+                    <?php if (in_array(session()->get('admin_role'), ['superadmin', 'admin', 'galeri'])): ?>
                     <a href="/admin/galeri/create" class="quick-action-item" data-bs-toggle="tooltip" title="Upload foto ke galeri">
                         <div class="quick-action-icon bg-info">
                             <i class="bi bi-images"></i>
@@ -249,7 +191,9 @@
                             <p class="text-muted">Tambah foto ke galeri</p>
                         </div>
                     </a>
+                    <?php endif; ?>
                     
+                    <?php if (in_array(session()->get('admin_role'), ['superadmin', 'admin'])): ?>
                     <a href="/admin/video/create" class="quick-action-item" data-bs-toggle="tooltip" title="Tambah video baru">
                         <div class="quick-action-icon bg-danger">
                             <i class="bi bi-camera-video"></i>
@@ -269,6 +213,7 @@
                             <p class="text-muted">Tambah data pasar</p>
                         </div>
                     </a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -305,14 +250,36 @@ setInterval(updateTime, 1000);
 updateTime();
 
 // Chart variables
-let activityChart, contentChart;
+let activityChart, contentChart; // activityChart sekarang untuk harga komoditas
 
 // Initialize charts after page load
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         initializeCharts();
+        // Auto refresh harga komoditas setiap 5 menit
+        setInterval(refreshCommodityPrices, 300000); // 5 menit
     }, 1000);
 });
+
+function refreshCommodityPrices() {
+    // TODO: Ambil data harga terbaru dari database
+    // fetch('/api/dashboard/latest-prices')
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         if (activityChart) {
+    //             // Update dengan data terbaru
+    //             activityChart.data.datasets[0].data = data.beras || [];
+    //             activityChart.data.datasets[1].data = data.jagung || [];
+    //             activityChart.data.datasets[2].data = data.kedelai || [];
+    //             activityChart.update();
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error('Error refreshing commodity prices:', error);
+    //     });
+    
+    console.log('Auto-refresh harga komoditas - akan diimplementasikan dengan database');
+}
 
 function initializeCharts() {
     // Hide loading and show charts
@@ -321,23 +288,29 @@ function initializeCharts() {
     document.getElementById('activityChart').style.display = 'block';
     document.getElementById('contentChart').style.display = 'block';
 
-    // Activity Chart
+    // Activity Chart - Changed to Commodity Price Chart
     const activityCtx = document.getElementById('activityChart').getContext('2d');
     activityChart = new Chart(activityCtx, {
         type: 'line',
         data: {
             labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
             datasets: [{
-                label: 'Users',
+                label: 'Beras',
                 data: [0, 0, 0, 0, 0, 0, 0], // Akan diisi dari database
-                borderColor: '#2563eb',
-                backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
                 tension: 0.4
             }, {
-                label: 'Berita',
+                label: 'Jagung',
                 data: [0, 0, 0, 0, 0, 0, 0], // Akan diisi dari database
                 borderColor: '#f59e0b',
                 backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                tension: 0.4
+            }, {
+                label: 'Kedelai',
+                data: [0, 0, 0, 0, 0, 0, 0], // Akan diisi dari database
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
                 tension: 0.4
             }]
         },
@@ -347,11 +320,25 @@ function initializeCharts() {
             plugins: {
                 legend: {
                     position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Harga Komoditas (Rp/kg)'
                 }
             },
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Harga (Rp/kg)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Hari'
+                    }
                 }
             }
         }
@@ -362,11 +349,10 @@ function initializeCharts() {
     contentChart = new Chart(contentCtx, {
         type: 'doughnut',
         data: {
-            labels: ['Users', 'Komoditas', 'Berita', 'Galeri'],
+            labels: ['Komoditas', 'Berita', 'Galeri'],
             datasets: [{
-                data: [<?= $total_users ?? 0 ?>, <?= $total_komoditas ?? 0 ?>, <?= $total_berita ?? 0 ?>, <?= $total_galeri ?? 0 ?>],
+                data: [<?= $total_komoditas ?? 0 ?>, <?= $total_berita ?? 0 ?>, <?= $total_galeri ?? 0 ?>],
                 backgroundColor: [
-                    '#2563eb',
                     '#10b981',
                     '#f59e0b',
                     '#06b6d4'
@@ -387,14 +373,22 @@ function initializeCharts() {
 }
 
 function updateChartPeriod(days) {
-    // TODO: Ambil data dari database berdasarkan periode
-    // fetch(`/api/dashboard/stats?period=${days}`)
+    // TODO: Ambil data harga komoditas dari database berdasarkan periode
+    // fetch(`/api/dashboard/commodity-prices?period=${days}`)
     //     .then(res => res.json())
     //     .then(data => {
-    //         // Update chart dengan data dari database
+    //         // Update chart dengan data harga dari database
+    //         if (activityChart) {
+    //             activityChart.data.labels = data.labels;
+    //             activityChart.data.datasets[0].data = data.beras || [];
+    //             activityChart.data.datasets[1].data = data.jagung || [];
+    //             activityChart.data.datasets[2].data = data.kedelai || [];
+    //             activityChart.update();
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error('Error fetching commodity prices:', error);
     //     });
-    
-    showNotification(`Memperbarui data untuk ${days} hari terakhir...`, 'info');
     
     // TODO: Update chart data dari database
     if (activityChart) {
@@ -402,7 +396,10 @@ function updateChartPeriod(days) {
             [0, 0, 0, 0, 0, 0, 0] : 
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         
-        activityChart.data.datasets[0].data = newData;
+        // Update semua dataset dengan data kosong untuk sementara
+        activityChart.data.datasets.forEach(dataset => {
+            dataset.data = newData;
+        });
         activityChart.update();
     }
 }
@@ -413,12 +410,56 @@ function refreshActivities() {
     //     .then(res => res.json())
     //     .then(data => {
     //         // Update aktivitas dengan data dari database
+    //         if (data.length > 0) {
+    //             displayActivities(data);
+    //         } else {
+    //             showNoActivityMessage();
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error('Error fetching activities:', error);
+    //         showNoActivityMessage();
     //     });
     
-    showNotification('Memperbarui aktivitas terbaru...', 'info');
-    setTimeout(() => {
-        showNotification('Aktivitas berhasil diperbarui!', 'success');
-    }, 1000);
+    // Untuk sementara, tampilkan pesan bahwa data belum tersedia
+    showNoActivityMessage();
+}
+
+function showNoActivityMessage() {
+    const activityList = document.getElementById('activityList');
+    activityList.innerHTML = `
+        <div class="text-center text-muted py-4">
+            <i class="bi bi-clock-history" style="font-size: 2rem;"></i>
+            <p class="mt-2 mb-0">Belum ada aktivitas terbaru</p>
+            <small>Data aktivitas akan muncul setelah ada konten yang ditambahkan</small>
+        </div>
+    `;
+}
+
+function displayActivities(activities) {
+    const activityList = document.getElementById('activityList');
+    if (activities.length === 0) {
+        showNoActivityMessage();
+        return;
+    }
+    
+    let html = '';
+    activities.forEach(activity => {
+        html += `
+            <div class="activity-item" onclick="showActivityDetail('${activity.type}')">
+                <div class="activity-icon bg-${activity.color}">
+                    <i class="bi bi-${activity.icon}"></i>
+                </div>
+                <div class="activity-content">
+                    <h6>${activity.title}</h6>
+                    <p class="text-muted">${activity.description}</p>
+                    <small class="text-muted">${activity.time}</small>
+                </div>
+            </div>
+        `;
+    });
+    
+    activityList.innerHTML = html;
 }
 
 function showActivityDetail(type) {
@@ -429,14 +470,8 @@ function showActivityDetail(type) {
     //         // Tampilkan detail aktivitas dari database
     //     });
     
-    const details = {
-        user: 'Detail aktivitas user akan tersedia setelah implementasi database',
-        komoditas: 'Detail aktivitas komoditas akan tersedia setelah implementasi database',
-        berita: 'Detail aktivitas berita akan tersedia setelah implementasi database',
-        galeri: 'Detail aktivitas galeri akan tersedia setelah implementasi database'
-    };
-    
-    showNotification(details[type] || 'Detail aktivitas tidak tersedia', 'info');
+    // Untuk sementara, tampilkan pesan bahwa fitur belum tersedia
+    alert('Detail aktivitas akan tersedia setelah implementasi database');
 }
 </script>
 

@@ -20,7 +20,7 @@ class AdminHarga extends Controller
         return view('admin/harga_list', [
             'hargas' => [], // Empty array for now, will be populated from database
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
         ]);
     }
 
@@ -38,7 +38,7 @@ class AdminHarga extends Controller
         return view('admin/harga_form', [
             'komoditas' => [], // Empty array for now, will be populated from database
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
         ]);
     }
 
@@ -93,7 +93,7 @@ class AdminHarga extends Controller
             'harga' => null, // Will be populated from database
             'komoditas' => [], // Will be populated from database
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
         ]);
     }
 

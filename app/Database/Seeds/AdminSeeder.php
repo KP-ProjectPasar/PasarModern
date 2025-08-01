@@ -12,29 +12,31 @@ class AdminSeeder extends Seeder
             [
                 'username' => 'admin',
                 'password' => password_hash('admin123', PASSWORD_DEFAULT),
-                'nama' => 'Administrator',
-                'level' => 'superadmin',
+                'role' => 'superadmin',
                 'email' => 'admin@pasar.com',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
             [
                 'username' => 'user',
                 'password' => password_hash('user123', PASSWORD_DEFAULT),
-                'nama' => 'User Admin',
-                'level' => 'admin',
+                'role' => 'admin',
                 'email' => 'user@pasar.com',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
             [
                 'username' => 'berita',
                 'password' => password_hash('berita123', PASSWORD_DEFAULT),
-                'nama' => 'Admin Berita',
-                'level' => 'berita',
+                'role' => 'berita',
                 'email' => 'berita@pasar.com',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
         ];
 
-        $this->db->table('admin')->insertBatch($data);
+        foreach ($data as $row) {
+            $existing = $this->db->table('admin')->where('username', $row['username'])->get()->getRow();
+            if (!$existing) {
+                $this->db->table('admin')->insert($row);
+            }
+        }
     }
 } 

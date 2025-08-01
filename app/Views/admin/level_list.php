@@ -207,7 +207,7 @@ document.querySelectorAll('[data-filter]').forEach(button => {
 
 // Level functions
 function viewLevel(id) {
-    showNotification('Melihat detail level dengan ID: ' + id, 'info');
+    // TODO: Implement view functionality
 }
 
 function deleteLevel(id) {

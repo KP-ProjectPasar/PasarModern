@@ -20,7 +20,7 @@ class AdminGrup extends Controller
         $data = [
             'title' => 'Kelola Grup',
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
             'grups' => [] // Empty array for now, will be populated from database
         ];
 
@@ -37,7 +37,7 @@ class AdminGrup extends Controller
         $data = [
             'title' => 'Tambah Grup',
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level')
+            'admin_role' => session()->get('admin_role')
         ];
 
         return view('admin/grup_form', $data);
@@ -79,7 +79,7 @@ class AdminGrup extends Controller
         $data = [
             'title' => 'Edit Grup',
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
             'grup' => null // Will be populated from database
         ];
 

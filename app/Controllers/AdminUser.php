@@ -1,7 +1,7 @@
 <?php
 namespace App\Controllers;
 use App\Models\AdminModel;
-use App\Models\LevelModel;
+use App\Models\RoleModel;
 use CodeIgniter\Controller;
 
 class AdminUser extends BaseController
@@ -18,7 +18,7 @@ class AdminUser extends BaseController
         return view('admin/user_list', [
             'users' => $users,
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
         ]);
     }
 
@@ -29,12 +29,18 @@ class AdminUser extends BaseController
             return redirect()->to('/admin/login');
         }
 
-        $levelModel = new LevelModel();
-        $levels = $levelModel->findAll();
+        // Check if user has permission to create users (only superadmin and admin)
+        $admin_role = session()->get('admin_role');
+        if (!in_array($admin_role, ['superadmin', 'admin'])) {
+            return redirect()->to('/admin/user')->with('error', 'Anda tidak memiliki akses untuk menambah user!');
+        }
+
+        $roleModel = new RoleModel();
+        $roles = $roleModel->findAll();
         return view('admin/user_form', [
-            'levels' => $levels,
+            'roles' => $roles,
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
         ]);
     }
 
@@ -45,13 +51,18 @@ class AdminUser extends BaseController
             return redirect()->to('/admin/login');
         }
 
+        // Check if user has permission to create users (only superadmin and admin)
+        $admin_role = session()->get('admin_role');
+        if (!in_array($admin_role, ['superadmin', 'admin'])) {
+            return redirect()->to('/admin/user')->with('error', 'Anda tidak memiliki akses untuk menambah user!');
+        }
+
         // Validate input
         $validation = \Config\Services::validation();
         $validation->setRules([
             'username' => 'required|min_length[3]|is_unique[admin.username]',
             'password' => 'required|min_length[6]',
-            'nama'     => 'required|min_length[3]',
-            'level'    => 'required|in_list[admin,superadmin,berita,harga,galeri]',
+            'role'     => 'required|in_list[admin,superadmin,berita,harga,galeri]',
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
@@ -63,8 +74,7 @@ class AdminUser extends BaseController
         $data = [
             'username' => $this->request->getPost('username'),
             'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-            'nama'     => $this->request->getPost('nama'),
-            'level'    => $this->request->getPost('level'),
+            'role'     => $this->request->getPost('role'),
             'email'    => $this->request->getPost('email'),
             'created_at' => date('Y-m-d H:i:s'),
         ];
@@ -84,15 +94,21 @@ class AdminUser extends BaseController
             return redirect()->to('/admin/login');
         }
 
+        // Check if user has permission to edit users (only superadmin and admin)
+        $admin_role = session()->get('admin_role');
+        if (!in_array($admin_role, ['superadmin', 'admin'])) {
+            return redirect()->to('/admin/user')->with('error', 'Anda tidak memiliki akses untuk mengedit user!');
+        }
+
         $adminModel = new AdminModel();
-        $levelModel = new LevelModel();
+        $roleModel = new RoleModel();
         $user = $adminModel->find($id);
-        $levels = $levelModel->findAll();
+        $roles = $roleModel->findAll();
         return view('admin/user_form', [
             'user' => $user,
-            'levels' => $levels,
+            'roles' => $roles,
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
         ]);
     }
 
@@ -103,12 +119,17 @@ class AdminUser extends BaseController
             return redirect()->to('/admin/login');
         }
 
+        // Check if user has permission to edit users (only superadmin and admin)
+        $admin_role = session()->get('admin_role');
+        if (!in_array($admin_role, ['superadmin', 'admin'])) {
+            return redirect()->to('/admin/user')->with('error', 'Anda tidak memiliki akses untuk mengedit user!');
+        }
+
         // Validate input
         $validation = \Config\Services::validation();
         $validation->setRules([
             'username' => 'required|min_length[3]|is_unique[admin.username,id,' . $id . ']',
-            'nama'     => 'required|min_length[3]',
-            'level'    => 'required|in_list[admin,superadmin,berita,harga,galeri]',
+            'role'     => 'required|in_list[admin,superadmin,berita,harga,galeri]',
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
@@ -119,8 +140,7 @@ class AdminUser extends BaseController
         $adminModel = new AdminModel();
         $data = [
             'username' => $this->request->getPost('username'),
-            'nama'     => $this->request->getPost('nama'),
-            'level'    => $this->request->getPost('level'),
+            'role'     => $this->request->getPost('role'),
             'email'    => $this->request->getPost('email'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
@@ -145,8 +165,14 @@ class AdminUser extends BaseController
             return redirect()->to('/admin/login');
         }
 
+        // Check if user has permission to delete users (only superadmin and admin)
+        $admin_role = session()->get('admin_role');
+        if (!in_array($admin_role, ['superadmin', 'admin'])) {
+            return redirect()->to('/admin/user')->with('error', 'Anda tidak memiliki akses untuk menghapus user!');
+        }
+
         $adminModel = new AdminModel();
         $adminModel->delete($id);
-        return redirect()->to('/admin/user');
+        return redirect()->to('/admin/user')->with('success', 'User berhasil dihapus!');
     }
 } 

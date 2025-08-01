@@ -40,12 +40,12 @@
                 </div>
                 <div class="collapse" id="pengaturanAkun">
                     <div class="dropdown-items">
-                        <?php if (isset($admin_level) && $admin_level === 'superadmin'): ?>
+                        <?php if (isset($admin_role) && $admin_role === 'superadmin'): ?>
                             <a href="/admin/user" class="dropdown-item<?= (strpos($_SERVER['REQUEST_URI'], '/admin/user') === 0 ? ' active' : '') ?>">
                                 <i class="bi bi-people"></i> Kelola Admin
                             </a>
-                            <a href="/admin/level" class="dropdown-item<?= (strpos($_SERVER['REQUEST_URI'], '/admin/level') === 0 ? ' active' : '') ?>">
-                                <i class="bi bi-shield-lock"></i> Kelola Level
+                            <a href="/admin/role" class="dropdown-item<?= (strpos($_SERVER['REQUEST_URI'], '/admin/role') === 0 ? ' active' : '') ?>">
+                                <i class="bi bi-shield-lock"></i> Kelola Role
                             </a>
                             <a href="/admin/grup" class="dropdown-item<?= (strpos($_SERVER['REQUEST_URI'], '/admin/grup') === 0 ? ' active' : '') ?>">
                                 <i class="bi bi-box"></i> Kelola Grup
@@ -98,24 +98,6 @@
             <div class="container-fluid">
                 <!-- Right side - User profile and actions -->
                 <div class="d-flex align-items-center ms-auto">
-                    <!-- Notifications -->
-                    <div class="dropdown me-3">
-                        <button class="btn btn-light position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-bell"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                3
-                            </span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><h6 class="dropdown-header">Notifikasi</h6></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-info-circle me-2"></i>Berita baru ditambahkan</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-image me-2"></i>Foto baru diupload</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-cash-coin me-2"></i>Harga komoditas diperbarui</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-center" href="#">Lihat semua notifikasi</a></li>
-                        </ul>
-                    </div>
-
                     <!-- User Profile -->
                     <div class="dropdown">
                         <button class="btn btn-light d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -124,7 +106,7 @@
                             </div>
                             <div class="user-info text-start">
                                 <div class="fw-semibold text-dark"><?= esc($admin_nama ?? 'Admin') ?></div>
-                                <small class="text-muted"><?= esc(ucfirst($admin_level ?? 'admin')) ?></small>
+                                <small class="text-muted"><?= esc(ucfirst($admin_role ?? 'admin')) ?></small>
                             </div>
                             <i class="bi bi-chevron-down ms-2"></i>
                         </button>
@@ -141,36 +123,6 @@
         </nav>
 
         <div class="container-fluid mt-4">
-            <!-- Flash Messages -->
-            <?php if (session()->getFlashdata('success')): ?>
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="bi bi-check-circle me-2"></i>
-                    <?= session()->getFlashdata('success') ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            <?php endif; ?>
-            
-            <?php if (session()->getFlashdata('error')): ?>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-triangle me-2"></i>
-                    <?= session()->getFlashdata('error') ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            <?php endif; ?>
-            
-            <?php if (session()->getFlashdata('errors')): ?>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-triangle me-2"></i>
-                    <strong>Validasi gagal:</strong>
-                    <ul class="mb-0 mt-2">
-                        <?php foreach (session()->getFlashdata('errors') as $error): ?>
-                            <li><?= $error ?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            <?php endif; ?>
-            
             <?= $this->renderSection('content') ?>
         </div>
     </div>
@@ -256,22 +208,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-// Add notification system
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
-    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-    notification.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    `;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.remove();
-    }, 5000);
-}
 </script>
 
 </body>

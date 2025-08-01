@@ -11,10 +11,16 @@
             <p class="page-subtitle mb-0">Kelola semua user admin dalam sistem</p>
         </div>
         <div class="col-md-4 text-end">
+            <?php if (in_array(session()->get('admin_role'), ['superadmin', 'admin'])): ?>
             <a href="/admin/user/create" class="btn btn-primary btn-lg">
                 <i class="bi bi-plus-circle me-2"></i>
                 Tambah User
             </a>
+            <?php else: ?>
+            <div class="text-muted">
+                <small><i class="bi bi-info-circle me-1"></i>Hanya Super Admin dan Admin yang dapat menambah user</small>
+            </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>
@@ -67,7 +73,7 @@
                 <i class="bi bi-shield-check"></i>
             </div>
             <div class="stat-card-mini-content">
-                <h4 class="stat-card-mini-number"><?= count(array_filter($users, function($u) { return $u['level'] === 'superadmin'; })) ?></h4>
+                <h4 class="stat-card-mini-number"><?= count(array_filter($users, function($u) { return $u['role'] === 'superadmin'; })) ?></h4>
                 <p class="stat-card-mini-label">Super Admin</p>
             </div>
         </div>
@@ -78,7 +84,7 @@
                 <i class="bi bi-person-gear"></i>
             </div>
             <div class="stat-card-mini-content">
-                <h4 class="stat-card-mini-number"><?= count(array_filter($users, function($u) { return $u['level'] === 'admin'; })) ?></h4>
+                <h4 class="stat-card-mini-number"><?= count(array_filter($users, function($u) { return $u['role'] === 'admin'; })) ?></h4>
                 <p class="stat-card-mini-label">Admin</p>
             </div>
         </div>
@@ -89,7 +95,7 @@
                 <i class="bi bi-clock"></i>
             </div>
             <div class="stat-card-mini-content">
-                <h4 class="stat-card-mini-number"><?= count(array_filter($users, function($u) { return $u['level'] === 'berita' || $u['level'] === 'harga' || $u['level'] === 'galeri'; })) ?></h4>
+                <h4 class="stat-card-mini-number"><?= count(array_filter($users, function($u) { return $u['role'] === 'berita' || $u['role'] === 'harga' || $u['role'] === 'galeri'; })) ?></h4>
                 <p class="stat-card-mini-label">Specialist</p>
             </div>
         </div>
@@ -100,14 +106,11 @@
 <div class="user-grid" id="userGrid">
     <div class="row">
         <?php foreach ($users as $user): ?>
-        <div class="col-lg-4 col-md-6 mb-4 user-item" data-level="<?= $user['level'] ?>">
+        <div class="col-lg-4 col-md-6 mb-4 user-item" data-role="<?= $user['role'] ?>">
             <div class="user-card">
                 <div class="user-card-header">
                     <div class="user-card-avatar">
                         <i class="bi bi-person-circle"></i>
-                    </div>
-                    <div class="user-card-status <?= $user['level'] === 'superadmin' ? 'superadmin' : ($user['level'] === 'admin' ? 'admin' : 'specialist') ?>">
-                        <?= esc($user['level']) ?>
                     </div>
                     <div class="user-card-online-status">
                         <?php
@@ -118,11 +121,37 @@
                             <i class="bi bi-circle-fill"></i>
                             <?= $isOnline ? 'Online' : 'Offline' ?>
                         </span>
+                        <span class="status-indicator <?= strtolower($user['role']) ?>">
+                            <?php
+                            $roleIcon = 'bi-shield-check';
+                            switch(strtolower($user['role'])) {
+                                case 'superadmin':
+                                    $roleIcon = 'bi-shield-fill-check';
+                                    break;
+                                case 'admin':
+                                    $roleIcon = 'bi-person-gear';
+                                    break;
+                                case 'berita':
+                                    $roleIcon = 'bi-newspaper';
+                                    break;
+                                case 'harga':
+                                    $roleIcon = 'bi-cash-coin';
+                                    break;
+                                case 'galeri':
+                                    $roleIcon = 'bi-images';
+                                    break;
+                                default:
+                                    $roleIcon = 'bi-shield-check';
+                            }
+                            ?>
+                            <i class="bi <?= $roleIcon ?>"></i>
+                            <?= strtoupper($user['role']) ?>
+                        </span>
                     </div>
                 </div>
                 
                 <div class="user-card-body">
-                    <h5 class="user-card-name"><?= esc($user['nama']) ?></h5>
+                    <h5 class="user-card-name"><?= esc($user['username']) ?></h5>
                     <p class="user-card-username">@<?= esc($user['username']) ?></p>
                     
                     <div class="user-card-info">
@@ -143,7 +172,7 @@
                     <div class="user-card-permissions">
                         <?php
                         $permissions = [];
-                        switch($user['level']) {
+                        switch($user['role']) {
                             case 'superadmin':
                                 $permissions = ['Semua Akses', 'User Management', 'System Settings'];
                                 break;
@@ -169,15 +198,16 @@
                 
                 <div class="user-card-footer">
                     <div class="user-card-actions">
+                        <?php if (in_array(session()->get('admin_role'), ['superadmin', 'admin'])): ?>
                         <a href="/admin/user/edit/<?= $user['id'] ?>" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit User">
                             <i class="bi bi-pencil"></i>
                         </a>
-                        <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete(<?= $user['id'] ?>, '<?= esc($user['nama']) ?>')" data-bs-toggle="tooltip" title="Hapus User">
+                        <?php endif; ?>
+                        <?php if (in_array(session()->get('admin_role'), ['superadmin'])): ?>
+                        <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete(<?= $user['id'] ?>, '<?= esc($user['username']) ?>')" data-bs-toggle="tooltip" title="Hapus User">
                             <i class="bi bi-trash"></i>
                         </button>
-                        <button class="btn btn-sm btn-outline-info" onclick="showUserDetails('<?= esc($user['nama']) ?>', '<?= esc($user['level']) ?>')" data-bs-toggle="tooltip" title="Lihat Detail">
-                            <i class="bi bi-eye"></i>
-                        </button>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -193,10 +223,12 @@
     </div>
     <h4>Tidak ada user ditemukan</h4>
     <p class="text-muted">Coba ubah filter atau kata kunci pencarian Anda</p>
+    <?php if (in_array(session()->get('admin_role'), ['superadmin', 'admin'])): ?>
     <a href="/admin/user/create" class="btn btn-primary">
         <i class="bi bi-plus-circle me-2"></i>
         Tambah User Pertama
     </a>
+    <?php endif; ?>
 </div>
 
 <script>
@@ -215,10 +247,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const searchTerm = this.value.toLowerCase();
         
         userItems.forEach(item => {
-            const name = item.querySelector('.user-card-name').textContent.toLowerCase();
-            const username = item.querySelector('.user-card-username').textContent.toLowerCase();
+            const username = item.querySelector('.user-card-name').textContent.toLowerCase();
             
-            if (name.includes(searchTerm) || username.includes(searchTerm)) {
+            if (username.includes(searchTerm)) {
                 item.style.display = 'block';
             } else {
                 item.style.display = 'none';
@@ -241,9 +272,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Filter items
             userItems.forEach(item => {
-                const level = item.getAttribute('data-level');
+                const role = item.getAttribute('data-role');
                 
-                if (filter === 'all' || level === filter) {
+                if (filter === 'all' || role === filter) {
                     item.style.display = 'block';
                 } else {
                     item.style.display = 'none';
@@ -266,35 +297,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-function confirmDelete(id, nama) {
-    if (confirm(`Yakin ingin menghapus user "${nama}"? Tindakan ini tidak dapat dibatalkan.`)) {
+function confirmDelete(id, username) {
+    if (confirm(`Yakin ingin menghapus user "${username}"? Tindakan ini tidak dapat dibatalkan.`)) {
         window.location.href = `/admin/user/delete/${id}`;
     }
 }
-
-function showUserDetails(nama, level) {
-    const details = {
-        'superadmin': 'Super Admin memiliki akses penuh ke semua fitur sistem termasuk manajemen user, pengaturan sistem, dan semua modul konten.',
-        'admin': 'Admin memiliki akses ke dashboard, manajemen konten, dan laporan sistem.',
-        'berita': 'Specialist Berita hanya memiliki akses ke manajemen berita dan publikasi konten.',
-        'harga': 'Specialist Harga hanya memiliki akses ke manajemen harga komoditas.',
-        'galeri': 'Specialist Galeri hanya memiliki akses ke manajemen galeri dan video.'
-    };
-    
-    alert(`Detail User: ${nama} (${level})\n\n${details[level] || 'Tidak ada detail tersedia'}`);
-}
-
-// Auto-hide alerts after 5 seconds
-document.addEventListener('DOMContentLoaded', function() {
-    const alerts = document.querySelectorAll('.alert');
-    alerts.forEach(alert => {
-        setTimeout(() => {
-            if (alert.parentNode) {
-                alert.remove();
-            }
-        }, 5000);
-    });
-});
 </script>
 
 <?= $this->endSection() ?> 

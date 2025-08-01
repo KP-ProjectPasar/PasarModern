@@ -39,10 +39,27 @@
                             <div class="form-text">Username unik untuk login ke sistem</div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="nama" class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="nama" name="nama" 
-                                   value="<?= isset($user) ? esc($user['nama']) : '' ?>" required>
-                            <div class="form-text">Nama lengkap user admin</div>
+                            <label for="role" class="form-label">Role <span class="text-danger">*</span></label>
+                            <select class="form-select" id="role" name="role" required>
+                                <option value="">Pilih Role</option>
+                                <?php if (isset($roles)): ?>
+                                    <?php foreach ($roles as $role): ?>
+                                        <?php if ($role['is_active']): ?>
+                                        <option value="<?= esc($role['nama']) ?>" 
+                                                <?= (isset($user) && $user['role'] === $role['nama']) ? 'selected' : '' ?>>
+                                            <?= esc(ucfirst($role['nama'])) ?> - <?= esc($role['deskripsi']) ?>
+                                        </option>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <option value="admin" <?= (isset($user) && $user['role'] === 'admin') ? 'selected' : '' ?>>Admin</option>
+                                    <option value="superadmin" <?= (isset($user) && $user['role'] === 'superadmin') ? 'selected' : '' ?>>Super Admin</option>
+                                    <option value="berita" <?= (isset($user) && $user['role'] === 'berita') ? 'selected' : '' ?>>Berita</option>
+                                    <option value="harga" <?= (isset($user) && $user['role'] === 'harga') ? 'selected' : '' ?>>Harga</option>
+                                    <option value="galeri" <?= (isset($user) && $user['role'] === 'galeri') ? 'selected' : '' ?>>Galeri</option>
+                                <?php endif; ?>
+                            </select>
+                            <div class="form-text">Role akses user dalam sistem</div>
                         </div>
                     </div>
                     
@@ -59,41 +76,10 @@
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="level" class="form-label">Level <span class="text-danger">*</span></label>
-                            <select class="form-select" id="level" name="level" required>
-                                <option value="">Pilih Level</option>
-                                <?php if (isset($levels)): ?>
-                                    <?php foreach ($levels as $level): ?>
-                                        <option value="<?= esc($level['nama']) ?>" 
-                                                <?= (isset($user) && $user['level'] === $level['nama']) ? 'selected' : '' ?>>
-                                            <?= esc($level['nama']) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <option value="admin" <?= (isset($user) && $user['level'] === 'admin') ? 'selected' : '' ?>>Admin</option>
-                                    <option value="superadmin" <?= (isset($user) && $user['level'] === 'superadmin') ? 'selected' : '' ?>>Super Admin</option>
-                                    <option value="berita" <?= (isset($user) && $user['level'] === 'berita') ? 'selected' : '' ?>>Berita</option>
-                                    <option value="harga" <?= (isset($user) && $user['level'] === 'harga') ? 'selected' : '' ?>>Harga</option>
-                                    <option value="galeri" <?= (isset($user) && $user['level'] === 'galeri') ? 'selected' : '' ?>>Galeri</option>
-                                <?php endif; ?>
-                            </select>
-                            <div class="form-text">Level akses user dalam sistem</div>
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email" 
                                    value="<?= isset($user) ? esc($user['email'] ?? '') : '' ?>">
                             <div class="form-text">Email untuk notifikasi sistem</div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="last_login" class="form-label">Terakhir Login</label>
-                            <input type="text" class="form-control" id="last_login" 
-                                   value="<?= isset($user) && isset($user['last_login']) ? date('d M Y H:i', strtotime($user['last_login'])) : 'Belum pernah login' ?>" 
-                                   readonly>
-                            <div class="form-text">Status online/offline berdasarkan aktivitas terakhir</div>
                         </div>
                     </div>
                     
@@ -121,8 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form');
     form.addEventListener('submit', function(e) {
         const username = document.getElementById('username').value.trim();
-        const nama = document.getElementById('nama').value.trim();
-        const level = document.getElementById('level').value;
+        const role = document.getElementById('role').value;
         const password = document.getElementById('password').value;
         
         let isValid = true;
@@ -133,13 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
             isValid = false;
         }
         
-        if (!nama) {
-            errorMessage += 'Nama lengkap wajib diisi\n';
-            isValid = false;
-        }
-        
-        if (!level) {
-            errorMessage += 'Level wajib dipilih\n';
+        if (!role) {
+            errorMessage += 'Role wajib dipilih\n';
             isValid = false;
         }
         
@@ -155,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (!isValid) {
             e.preventDefault();
-            alert('Validasi gagal:\n' + errorMessage);
+            // TODO: Implement proper validation feedback
         }
     });
     

@@ -27,27 +27,10 @@ class Admin extends BaseController
                 $admin = $adminModel->where('username', $username)->first();
                 if ($admin && password_verify($password, $admin['password'])) {
                     session()->set('is_admin', true);
-                    session()->set('admin_nama', $admin['nama']);
-                    session()->set('admin_level', $admin['level']);
                     session()->set('admin_id', $admin['id']);
-                    
-                    // Update last_login timestamp
-                    try {
-                        $adminModel->update($admin['id'], [
-                            'last_login' => date('Y-m-d H:i:s')
-                        ]);
-                    } catch (\Exception $e) {
-                        log_message('error', 'Failed to update last_login: ' . $e->getMessage());
-                    }
-                    
-                    if (session()->get('is_admin')) {
-                        $debug .= ' | Login sukses, redirect ke dashboard';
-                        file_put_contents(WRITEPATH . 'debug.txt', $debug . PHP_EOL, FILE_APPEND);
-                        return redirect()->to('/admin/dashboard');
-                    } else {
-                        $error = 'Session gagal disimpan. Cek permission folder writable.';
-                        $debug .= ' | Session gagal disimpan';
-                    }
+                    session()->set('admin_nama', $admin['username']);
+                    session()->set('admin_role', $admin['role']);
+                    return redirect()->to('/admin/dashboard');
                 } else {
                     $error = 'Username atau password salah';
                     $debug .= ' | Username/password salah';
@@ -74,15 +57,13 @@ class Admin extends BaseController
         $hargaModel = new \App\Models\HargaModel();
         
         // Count data
-        $total_users = $adminModel->countAllResults();
         $total_berita = $beritaModel->countAllResults();
         $total_galeri = $galeriModel->countAllResults();
         $total_komoditas = $hargaModel->countAllResults();
         
         return view('admin/dashboard', [
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
-            'total_users' => $total_users,
+            'admin_role' => session()->get('admin_role'),
             'total_berita' => $total_berita,
             'total_galeri' => $total_galeri,
             'total_komoditas' => $total_komoditas,

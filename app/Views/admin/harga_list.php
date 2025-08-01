@@ -269,21 +269,21 @@ document.querySelectorAll('[data-filter]').forEach(button => {
 
 // Harga functions
 function viewHarga(id) {
-    showNotification('Melihat detail harga dengan ID: ' + id, 'info');
+    // TODO: Implement view functionality
 }
 
 function editHarga(id) {
-    showNotification('Mengedit data harga dengan ID: ' + id, 'info');
+    // TODO: Implement edit functionality
 }
 
 function deleteHarga(id) {
     if (confirm('Apakah Anda yakin ingin menghapus data harga ini?')) {
-        showNotification('Data harga berhasil dihapus!', 'success');
+        // TODO: Implement delete functionality
     }
 }
 
 function saveHarga() {
-    showNotification('Data harga berhasil disimpan!', 'success');
+    // TODO: Implement save functionality
     document.getElementById('tambahHargaModal').querySelector('.btn-close').click();
 }
 </script>

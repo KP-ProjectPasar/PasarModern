@@ -16,7 +16,7 @@ class AdminBerita extends BaseController
         return view('admin/berita_list', [
             'beritas' => $beritas,
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
         ]);
     }
 
@@ -29,7 +29,7 @@ class AdminBerita extends BaseController
 
         return view('admin/berita_form', [
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
         ]);
     }
 
@@ -72,7 +72,7 @@ class AdminBerita extends BaseController
         return view('admin/berita_form', [
             'berita' => $berita,
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
         ]);
     }
 

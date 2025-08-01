@@ -16,7 +16,7 @@ class AdminLevel extends BaseController
         return view('admin/level_list', [
             'levels' => $levels,
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
         ]);
     }
 
@@ -29,7 +29,7 @@ class AdminLevel extends BaseController
 
         return view('admin/level_form', [
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
         ]);
     }
 
@@ -61,7 +61,7 @@ class AdminLevel extends BaseController
         return view('admin/level_form', [
             'level' => $level,
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
         ]);
     }
 

@@ -365,21 +365,21 @@ document.querySelectorAll('[data-filter]').forEach(button => {
 
 // Grup functions
 function viewGrup(id) {
-    showNotification('Melihat detail grup dengan ID: ' + id, 'info');
+    // TODO: Implement view functionality
 }
 
 function editGrup(id) {
-    showNotification('Mengedit data grup dengan ID: ' + id, 'info');
+    // TODO: Implement edit functionality
 }
 
 function deleteGrup(id) {
     if (confirm('Apakah Anda yakin ingin menghapus grup ini?')) {
-        showNotification('Grup berhasil dihapus!', 'success');
+        // TODO: Implement delete functionality
     }
 }
 
 function saveGrup() {
-    showNotification('Data grup berhasil disimpan!', 'success');
+    // TODO: Implement save functionality
     document.getElementById('tambahGrupModal').querySelector('.btn-close').click();
 }
 </script>

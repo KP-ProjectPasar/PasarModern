@@ -16,7 +16,7 @@ class AdminGaleri extends BaseController
         return view('admin/galeri_list', [
             'galeris' => $galeris,
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
         ]);
     }
 
@@ -29,7 +29,7 @@ class AdminGaleri extends BaseController
 
         return view('admin/galeri_form', [
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
         ]);
     }
 
@@ -71,7 +71,7 @@ class AdminGaleri extends BaseController
         return view('admin/galeri_form', [
             'galeri' => $galeri,
             'admin_nama' => session()->get('admin_nama'),
-            'admin_level' => session()->get('admin_level'),
+            'admin_role' => session()->get('admin_role'),
         ]);
     }
 

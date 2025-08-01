@@ -306,21 +306,21 @@ document.getElementById('searchPasar').addEventListener('input', function() {
 
 // Pasar functions
 function viewPasar(id) {
-    showNotification('Melihat detail pasar dengan ID: ' + id, 'info');
+    // TODO: Implement view functionality
 }
 
 function editPasar(id) {
-    showNotification('Mengedit data pasar dengan ID: ' + id, 'info');
+    // TODO: Implement edit functionality
 }
 
 function deletePasar(id) {
     if (confirm('Apakah Anda yakin ingin menghapus data pasar ini?')) {
-        showNotification('Data pasar berhasil dihapus!', 'success');
+        // TODO: Implement delete functionality
     }
 }
 
 function savePasar() {
-    showNotification('Data pasar berhasil disimpan!', 'success');
+    // TODO: Implement save functionality
     document.getElementById('tambahPasarModal').querySelector('.btn-close').click();
 }
 </script>
