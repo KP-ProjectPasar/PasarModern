@@ -38,6 +38,14 @@ $routes->get('admin/level/edit/(:num)', 'AdminLevel::edit/$1');
 $routes->post('admin/level/update/(:num)', 'AdminLevel::update/$1');
 $routes->get('admin/level/delete/(:num)', 'AdminLevel::delete/$1');
 
+// CRUD Kelola Role
+$routes->get('admin/role', 'AdminRole::index');
+$routes->get('admin/role/create', 'AdminRole::create');
+$routes->post('admin/role/store', 'AdminRole::store');
+$routes->get('admin/role/edit/(:num)', 'AdminRole::edit/$1');
+$routes->post('admin/role/update/(:num)', 'AdminRole::update/$1');
+$routes->get('admin/role/delete/(:num)', 'AdminRole::delete/$1');
+
 // CRUD Berita
 $routes->get('admin/berita', 'AdminBerita::index');
 $routes->get('admin/berita/create', 'AdminBerita::create');
@@ -86,10 +94,5 @@ $routes->get('admin/pasar/edit/(:num)', 'AdminPasar::edit/$1');
 $routes->post('admin/pasar/update/(:num)', 'AdminPasar::update/$1');
 $routes->get('admin/pasar/delete/(:num)', 'AdminPasar::delete/$1');
 
-// CRUD Kelola Grup
-$routes->get('admin/grup', 'AdminGrup::index');
-$routes->get('admin/grup/create', 'AdminGrup::create');
-$routes->post('admin/grup/store', 'AdminGrup::store');
-$routes->get('admin/grup/edit/(:num)', 'AdminGrup::edit/$1');
-$routes->post('admin/grup/update/(:num)', 'AdminGrup::update/$1');
-$routes->get('admin/grup/delete/(:num)', 'AdminGrup::delete/$1');
+// CRUD Feedback
+$routes->get('admin/feedback', 'AdminFeedback::index');

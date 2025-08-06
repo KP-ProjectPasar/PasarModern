@@ -31,6 +31,7 @@
             </div>
             <div class="card-body">
                 <form action="<?= isset($user) ? '/admin/user/update/' . $user['id'] : '/admin/user/store' ?>" method="POST">
+                    <?= csrf_field() ?>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="username" class="form-label">Username <span class="text-danger">*</span></label>

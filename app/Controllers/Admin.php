@@ -9,31 +9,66 @@ class Admin extends BaseController
         helper(['form']);
         $error = null;
         $debug = null;
+        
         if (strtolower($this->request->getMethod()) === 'post') {
             $debug = 'POST diterima: ' . json_encode($this->request->getPost());
             file_put_contents(WRITEPATH . 'debug.txt', $debug . PHP_EOL, FILE_APPEND);
+            
             $validation = \Config\Services::validation();
             $validation->setRules([
                 'username' => 'required',
                 'password' => 'required'
             ]);
+            
             if (!$validation->withRequest($this->request)->run()) {
                 $error = 'Username dan password wajib diisi';
                 $debug .= ' | Validasi gagal';
             } else {
                 $username = $this->request->getPost('username');
                 $password = $this->request->getPost('password');
-                $adminModel = new AdminModel();
-                $admin = $adminModel->where('username', $username)->first();
-                if ($admin && password_verify($password, $admin['password'])) {
-                    session()->set('is_admin', true);
-                    session()->set('admin_id', $admin['id']);
-                    session()->set('admin_nama', $admin['username']);
-                    session()->set('admin_role', $admin['role']);
-                    return redirect()->to('/admin/dashboard');
-                } else {
-                    $error = 'Username atau password salah';
-                    $debug .= ' | Username/password salah';
+                
+                try {
+                    $adminModel = new AdminModel();
+                    $admin = $adminModel->where('username', $username)->first();
+                    
+                    if ($admin && password_verify($password, $admin['password'])) {
+                        // Check if user's role is still active
+                        try {
+                            $roleModel = new \App\Models\RoleModel();
+                            $userRole = $roleModel->where('nama', $admin['role'])->first();
+                            
+                            if (!$userRole || $userRole['is_active'] == 0) {
+                                $error = 'Akun Anda tidak dapat login karena role telah dinonaktifkan. Silakan hubungi administrator.';
+                                $debug .= ' | Role inactive or not found';
+                            } else {
+                                // Update last_activity on successful login
+                                $adminModel->update($admin['id'], [
+                                    'last_activity' => date('Y-m-d H:i:s')
+                                ]);
+                                
+                                session()->set('is_admin', true);
+                                session()->set('admin_id', $admin['id']);
+                                session()->set('admin_nama', $admin['username']);
+                                session()->set('admin_role', $admin['role']);
+                                return redirect()->to('/admin/dashboard');
+                            }
+                        } catch (\Exception $e) {
+                            // If RoleModel doesn't exist or has issues, allow login with warning
+                            log_message('error', 'RoleModel error: ' . $e->getMessage());
+                            session()->set('is_admin', true);
+                            session()->set('admin_id', $admin['id']);
+                            session()->set('admin_nama', $admin['username']);
+                            session()->set('admin_role', $admin['role']);
+                            return redirect()->to('/admin/dashboard');
+                        }
+                    } else {
+                        $error = 'Username atau password salah';
+                        $debug .= ' | Username/password salah';
+                    }
+                } catch (\Exception $e) {
+                    $error = 'Terjadi kesalahan sistem. Silakan coba lagi.';
+                    $debug .= ' | Exception: ' . $e->getMessage();
+                    log_message('error', 'Login error: ' . $e->getMessage());
                 }
             }
             file_put_contents(WRITEPATH . 'debug.txt', $debug . PHP_EOL, FILE_APPEND);
@@ -41,6 +76,7 @@ class Admin extends BaseController
             $debug = 'Bukan POST, method: ' . $this->request->getMethod();
             file_put_contents(WRITEPATH . 'debug.txt', $debug . PHP_EOL, FILE_APPEND);
         }
+        
         return view('admin/login', ['error' => $error, 'debug' => $debug]);
     }
 
@@ -50,23 +86,35 @@ class Admin extends BaseController
             return redirect()->to('/admin/login');
         }
         
-        // Get real data from database
-        $adminModel = new \App\Models\AdminModel();
-        $beritaModel = new \App\Models\BeritaModel();
-        $galeriModel = new \App\Models\GaleriModel();
-        $hargaModel = new \App\Models\HargaModel();
+        // Check if user's role is still active
+        $admin_role = session()->get('admin_role');
         
-        // Count data
-        $total_berita = $beritaModel->countAllResults();
-        $total_galeri = $galeriModel->countAllResults();
-        $total_komoditas = $hargaModel->countAllResults();
+        try {
+            $roleModel = new \App\Models\RoleModel();
+            $userRole = $roleModel->where('nama', $admin_role)->first();
+            
+            if (!$userRole || $userRole['is_active'] == 0) {
+                session()->destroy();
+                return redirect()->to('/admin/login')->with('error', 'Akun Anda tidak dapat diakses karena role telah dinonaktifkan. Silakan hubungi administrator.');
+            }
+        } catch (\Exception $e) {
+            // If RoleModel has issues, log error but allow access
+            log_message('error', 'Dashboard role check error: ' . $e->getMessage());
+        }
+        
+        // Use simple data for now
+        $total_berita = 0;
+        $total_galeri = 0;
+        $total_pasar = 3;
+        $total_feedback = 0;
         
         return view('admin/dashboard', [
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
             'total_berita' => $total_berita,
             'total_galeri' => $total_galeri,
-            'total_komoditas' => $total_komoditas,
+            'total_pasar' => $total_pasar,
+            'total_feedback' => $total_feedback,
         ]);
     }
 

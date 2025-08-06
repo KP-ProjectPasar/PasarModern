@@ -59,7 +59,9 @@ abstract class BaseController extends Controller
         // Track admin activity if logged in
         try {
             if (session()->get('is_admin') && session()->get('admin_id')) {
-                update_admin_activity(session()->get('admin_id'));
+                if (function_exists('update_admin_activity')) {
+                    update_admin_activity(session()->get('admin_id'), 'page_access');
+                }
             }
         } catch (\Exception $e) {
             // Log error but don't break the application

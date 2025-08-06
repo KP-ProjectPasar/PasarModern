@@ -49,6 +49,9 @@
                 <button type="button" class="btn btn-outline-secondary" data-filter="admin">
                     <i class="bi bi-person-gear me-1"></i> Admin
                 </button>
+                <button type="button" class="btn btn-outline-secondary" data-filter="specialist">
+                    <i class="bi bi-person-badge me-1"></i> Specialist
+                </button>
             </div>
         </div>
     </div>
@@ -92,7 +95,7 @@
     <div class="col-md-3 mb-3">
         <div class="stat-card-mini stat-card-info">
             <div class="stat-card-mini-icon">
-                <i class="bi bi-clock"></i>
+                <i class="bi bi-person-badge"></i>
             </div>
             <div class="stat-card-mini-content">
                 <h4 class="stat-card-mini-number"><?= count(array_filter($users, function($u) { return $u['role'] === 'berita' || $u['role'] === 'harga' || $u['role'] === 'galeri'; })) ?></h4>
@@ -274,7 +277,16 @@ document.addEventListener('DOMContentLoaded', function() {
             userItems.forEach(item => {
                 const role = item.getAttribute('data-role');
                 
-                if (filter === 'all' || role === filter) {
+                if (filter === 'all') {
+                    item.style.display = 'block';
+                } else if (filter === 'specialist') {
+                    // Show specialist roles (berita, harga, galeri)
+                    if (role === 'berita' || role === 'harga' || role === 'galeri') {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                } else if (role === filter) {
                     item.style.display = 'block';
                 } else {
                     item.style.display = 'none';

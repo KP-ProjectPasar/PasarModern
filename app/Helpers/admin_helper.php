@@ -1,27 +1,24 @@
 <?php
 
 if (!function_exists('update_admin_activity')) {
-    /**
-     * Update admin activity timestamp
-     */
-    function update_admin_activity($admin_id) {
+    function update_admin_activity($admin_id, $activity = 'general')
+    {
         try {
             $adminModel = new \App\Models\AdminModel();
             $adminModel->update($admin_id, [
                 'last_activity' => date('Y-m-d H:i:s')
             ]);
+            return true;
         } catch (\Exception $e) {
-            // Log error but don't break the application
             log_message('error', 'Failed to update admin activity: ' . $e->getMessage());
+            return false;
         }
     }
 }
 
 if (!function_exists('is_admin_online')) {
-    /**
-     * Check if admin is online (active within last 5 minutes)
-     */
-    function is_admin_online($last_activity) {
+    function is_admin_online($last_activity)
+    {
         if (!$last_activity) {
             return false;
         }
@@ -39,10 +36,8 @@ if (!function_exists('is_admin_online')) {
 }
 
 if (!function_exists('get_admin_status_text')) {
-    /**
-     * Get admin status text based on last activity
-     */
-    function get_admin_status_text($last_activity) {
+    function get_admin_status_text($last_activity)
+    {
         if (!$last_activity) {
             return 'Belum pernah login';
         }
@@ -67,6 +62,48 @@ if (!function_exists('get_admin_status_text')) {
             }
         } catch (\Exception $e) {
             return 'Status tidak tersedia';
+        }
+    }
+}
+
+if (!function_exists('is_role_active')) {
+    function is_role_active($role_name)
+    {
+        try {
+            $roleModel = new \App\Models\RoleModel();
+            $role = $roleModel->where('nama', $role_name)->first();
+            
+            return $role && $role['is_active'] == 1;
+        } catch (\Exception $e) {
+            log_message('error', 'Failed to check role status: ' . $e->getMessage());
+            return false;
+        }
+    }
+}
+
+if (!function_exists('check_user_permissions')) {
+    function check_user_permissions($user_role, $required_permission)
+    {
+        try {
+            // Check if user role is active
+            if (!is_role_active($user_role)) {
+                return false;
+            }
+            
+            // Get role permissions
+            $roleModel = new \App\Models\RoleModel();
+            $role = $roleModel->where('nama', $user_role)->first();
+            
+            if (!$role) {
+                return false;
+            }
+            
+            $permissions = json_decode($role['permissions'] ?? '[]', true);
+            
+            return in_array($required_permission, $permissions);
+        } catch (\Exception $e) {
+            log_message('error', 'Failed to check user permissions: ' . $e->getMessage());
+            return false;
         }
     }
 } 

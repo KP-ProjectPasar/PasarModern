@@ -57,12 +57,17 @@ class AdminUser extends BaseController
             return redirect()->to('/admin/user')->with('error', 'Anda tidak memiliki akses untuk menambah user!');
         }
 
+        // Get available roles from database
+        $roleModel = new RoleModel();
+        $availableRoles = $roleModel->where('is_active', 1)->findAll();
+        $roleNames = array_column($availableRoles, 'nama');
+
         // Validate input
         $validation = \Config\Services::validation();
         $validation->setRules([
             'username' => 'required|min_length[3]|is_unique[admin.username]',
             'password' => 'required|min_length[6]',
-            'role'     => 'required|in_list[admin,superadmin,berita,harga,galeri]',
+            'role'     => 'required|in_list[' . implode(',', $roleNames) . ']',
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
@@ -125,14 +130,24 @@ class AdminUser extends BaseController
             return redirect()->to('/admin/user')->with('error', 'Anda tidak memiliki akses untuk mengedit user!');
         }
 
+        // Get available roles from database
+        $roleModel = new RoleModel();
+        $availableRoles = $roleModel->where('is_active', 1)->findAll();
+        $roleNames = array_column($availableRoles, 'nama');
+
+        // Debug: Check what data is being received
+        $postData = $this->request->getPost();
+        log_message('info', 'Update user data received: ' . json_encode($postData));
+
         // Validate input
         $validation = \Config\Services::validation();
         $validation->setRules([
             'username' => 'required|min_length[3]|is_unique[admin.username,id,' . $id . ']',
-            'role'     => 'required|in_list[admin,superadmin,berita,harga,galeri]',
+            'role'     => 'required|in_list[' . implode(',', $roleNames) . ']',
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
+            log_message('error', 'Validation failed: ' . json_encode($validation->getErrors()));
             // Return to form with errors
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
@@ -150,10 +165,19 @@ class AdminUser extends BaseController
             $data['password'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
         }
         
+        log_message('info', 'Data to update: ' . json_encode($data));
+        
         try {
-            $adminModel->update($id, $data);
-            return redirect()->to('/admin/user')->with('success', 'User berhasil diperbarui!');
+            $result = $adminModel->update($id, $data);
+            log_message('info', 'Update result: ' . ($result ? 'true' : 'false'));
+            
+            if ($result) {
+                return redirect()->to('/admin/user')->with('success', 'User berhasil diperbarui!');
+            } else {
+                return redirect()->back()->withInput()->with('error', 'Gagal memperbarui user. Tidak ada perubahan data.');
+            }
         } catch (\Exception $e) {
+            log_message('error', 'Update exception: ' . $e->getMessage());
             return redirect()->back()->withInput()->with('error', 'Gagal memperbarui user: ' . $e->getMessage());
         }
     }

@@ -20,7 +20,7 @@ class RoleSeeder extends Seeder
                     'video_management' => true,
                     'pasar_management' => true,
                     'role_management' => true,
-                    'system_settings' => true
+                    'feedback_management' => true
                 ]),
                 'is_active' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
@@ -36,7 +36,7 @@ class RoleSeeder extends Seeder
                     'video_management' => true,
                     'pasar_management' => true,
                     'role_management' => false,
-                    'system_settings' => false
+                    'feedback_management' => true
                 ]),
                 'is_active' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
@@ -52,7 +52,7 @@ class RoleSeeder extends Seeder
                     'video_management' => false,
                     'pasar_management' => false,
                     'role_management' => false,
-                    'system_settings' => false
+                    'feedback_management' => false
                 ]),
                 'is_active' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
@@ -68,7 +68,7 @@ class RoleSeeder extends Seeder
                     'video_management' => false,
                     'pasar_management' => false,
                     'role_management' => false,
-                    'system_settings' => false
+                    'feedback_management' => false
                 ]),
                 'is_active' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
@@ -84,7 +84,7 @@ class RoleSeeder extends Seeder
                     'video_management' => false,
                     'pasar_management' => false,
                     'role_management' => false,
-                    'system_settings' => false
+                    'feedback_management' => false
                 ]),
                 'is_active' => 1,
                 'created_at' => date('Y-m-d H:i:s'),

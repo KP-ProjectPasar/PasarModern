@@ -6,6 +6,7 @@
     <div class="row align-items-center">
         <div class="col-md-8">
             <h2 class="page-title">
+                <i class="bi bi-shield-check me-2"></i>
                 Daftar Role
             </h2>
             <p class="page-subtitle mb-0">Kelola semua role dalam sistem</p>
@@ -18,6 +19,37 @@
         </div>
     </div>
 </div>
+
+<!-- Flash Messages -->
+<?php if (session()->getFlashdata('success')): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-2"></i>
+        <?= session()->getFlashdata('success') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<?php endif; ?>
+
+<?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        <?= session()->getFlashdata('error') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<?php endif; ?>
+
+<?php if (session()->getFlashdata('role_deactivation_warning')): ?>
+    <?php $warning = session()->getFlashdata('role_deactivation_warning'); ?>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        <strong>Peringatan:</strong> Role "<?= $warning['role_name'] ?>" telah dinonaktifkan.
+        <br>
+        <small class="text-muted">
+            <?= $warning['affected_users'] ?> user terpengaruh: 
+            <?= implode(', ', $warning['user_list']) ?>
+        </small>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<?php endif; ?>
 
 <!-- Search and Filter Section -->
 <div class="search-filter-section mb-4">
@@ -122,21 +154,64 @@
                         </div>
                         <div class="info-item">
                             <i class="bi bi-gear"></i>
-                            <span><?= count(json_decode($role['permissions'] ?? '[]', true)) ?> Permissions</span>
+                            <span><?php 
+                                $permissions = json_decode($role['permissions'] ?? '[]', true);
+                                $activePermissions = 0;
+                                if (is_array($permissions)):
+                                    foreach ($permissions as $permission => $enabled):
+                                        if ($enabled === true):
+                                            $activePermissions++;
+                                        endif;
+                                    endforeach;
+                                endif;
+                                echo $activePermissions . ' Permissions';
+                            ?></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="bi bi-people"></i>
+                            <span><?php 
+                                $adminModel = new \App\Models\AdminModel();
+                                $userCount = $adminModel->where('role', $role['nama'])->countAllResults();
+                                echo $userCount . ' User';
+                            ?></span>
                         </div>
                     </div>
                     
                     <div class="user-card-permissions">
                         <?php 
                         $permissions = json_decode($role['permissions'] ?? '[]', true);
-                        foreach ($permissions as $permission => $enabled):
-                            if ($enabled):
+                        if (is_array($permissions) && !empty($permissions)):
+                            $activePermissions = [];
+                            foreach ($permissions as $permission => $enabled):
+                                if ($enabled === true):
+                                    $activePermissions[] = $permission;
+                                endif;
+                            endforeach;
+                            
+                            if (!empty($activePermissions)):
+                                $displayedPermissions = 0;
+                                foreach ($activePermissions as $permission):
+                                    if ($displayedPermissions < 3): // Hanya tampilkan 3 permission pertama
                         ?>
                         <span class="permission-badge"><?= ucfirst(str_replace('_', ' ', $permission)) ?></span>
                         <?php 
-                            endif;
-                        endforeach; 
+                                        $displayedPermissions++;
+                                    endif;
+                                endforeach;
+                                if (count($activePermissions) > 3):
                         ?>
+                        <span class="permission-badge text-muted">+<?= count($activePermissions) - 3 ?> more</span>
+                        <?php 
+                                endif;
+                            else:
+                        ?>
+                        <span class="text-muted small">Tidak ada permission aktif</span>
+                        <?php 
+                            endif;
+                        else:
+                        ?>
+                        <span class="text-muted small">Tidak ada permission</span>
+                        <?php endif; ?>
                     </div>
                 </div>
                 

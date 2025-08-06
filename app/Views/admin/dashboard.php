@@ -22,13 +22,13 @@
 <!-- Statistics Cards -->
 <div class="row mb-4">
     <div class="col-xl-4 col-md-6 mb-3">
-        <div class="stat-card stat-card-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah komoditas yang tersedia">
+        <div class="stat-card stat-card-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah pasar yang tersedia">
             <div class="stat-card-icon">
-                <i class="bi bi-box-seam"></i>
+                <i class="bi bi-building"></i>
             </div>
             <div class="stat-card-content">
-                <h3 class="stat-card-number"><?= $total_komoditas ?? 0 ?></h3>
-                <p class="stat-card-label">Komoditas</p>
+                <h3 class="stat-card-number"><?= $total_pasar ?? 0 ?></h3>
+                <p class="stat-card-label">Jumlah Pasar</p>
             </div>
         </div>
     </div>
@@ -46,13 +46,13 @@
     </div>
     
     <div class="col-xl-4 col-md-6 mb-3">
-        <div class="stat-card stat-card-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Foto dalam galeri">
+        <div class="stat-card stat-card-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Feedback dari pengguna">
             <div class="stat-card-icon">
-                <i class="bi bi-images"></i>
+                <i class="bi bi-chat-dots"></i>
             </div>
             <div class="stat-card-content">
-                <h3 class="stat-card-number"><?= $total_galeri ?? 0 ?></h3>
-                <p class="stat-card-label">Galeri</p>
+                <h3 class="stat-card-number"><?= $total_feedback ?? 0 ?></h3>
+                <p class="stat-card-label">Feedback</p>
             </div>
         </div>
     </div>
@@ -211,6 +211,16 @@
                         <div class="quick-action-content">
                             <h6>Data Pasar</h6>
                             <p class="text-muted">Tambah data pasar</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/admin/feedback" class="quick-action-item" data-bs-toggle="tooltip" title="Kelola feedback pengguna">
+                        <div class="quick-action-icon bg-warning">
+                            <i class="bi bi-chat-dots"></i>
+                        </div>
+                        <div class="quick-action-content">
+                            <h6>Feedback</h6>
+                            <p class="text-muted">Kelola feedback</p>
                         </div>
                     </a>
                     <?php endif; ?>

@@ -1,44 +1,23 @@
 /* Admin Dashboard Modern Sidebar Layout - Institutional Blue Design */
-body { 
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+
+/* CSS Reset for Sidebar to Override Bootstrap */
+#sidebar-wrapper * {
+    box-sizing: border-box;
 }
 
-#wrapper { min-height: 100vh; }
-
-/* Sidebar Styles */
-#sidebar-wrapper {
-    min-width: 220px;
-    max-width: 220px;
-    background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
-    box-shadow: 4px 0 20px rgba(30, 58, 138, 0.15);
-    border-right: 1px solid rgba(59, 130, 246, 0.1);
+#sidebar-wrapper .list-group,
+#sidebar-wrapper .list-group.list-group-flush {
+    background: transparent !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-#sidebar-wrapper .sidebar-heading {
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
-    border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 1.5rem 1.25rem;
-    color: #f8fafc;
-}
-
-#sidebar-wrapper .sidebar-heading img {
-    border-radius: 10px;
-    background: #fff;
-    padding: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-#sidebar-wrapper .list-group-item {
-    border: none;
-    background: transparent;
-    color: #dbeafe;
+#sidebar-wrapper .list-group-item,
+#sidebar-wrapper .list-group-item.list-group-item-action {
+    border: none !important;
+    background: transparent !important;
+    color: #ffffff !important;
     font-weight: 500;
     font-size: 1rem;
     transition: all 0.3s ease;
@@ -49,6 +28,64 @@ body {
     gap: 12px;
     padding: 0.875rem 1.25rem;
     position: relative;
+    z-index: 2;
+}
+
+body { 
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+#wrapper { min-height: 100vh; }
+
+/* Sidebar Styles - Override any Bootstrap classes */
+#sidebar-wrapper,
+#sidebar-wrapper.border-end,
+#sidebar-wrapper.border {
+    min-width: 220px;
+    max-width: 220px;
+    background: #1e40af !important;
+    box-shadow: 2px 0 10px rgba(30, 58, 138, 0.2) !important;
+    border-right: 1px solid rgba(59, 130, 246, 0.2) !important;
+    border-left: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    position: relative;
+    overflow: hidden;
+}
+
+#sidebar-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.03);
+    pointer-events: none;
+}
+
+#sidebar-wrapper .sidebar-heading,
+#sidebar-wrapper .sidebar-heading.text-white {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background: #1e3a8a !important;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.3) !important;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 1.5rem 1.25rem;
+    color: #f8fafc !important;
+    position: relative;
+    z-index: 2;
+}
+
+#sidebar-wrapper .sidebar-heading img {
+    border-radius: 10px;
+    background: #fff;
+    padding: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 #sidebar-wrapper .list-group-item::before {
@@ -58,19 +95,21 @@ body {
     top: 0;
     bottom: 0;
     width: 4px;
-    background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+    background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%);
     border-radius: 0 2px 2px 0;
     transform: scaleY(0);
     transition: transform 0.3s ease;
 }
 
 #sidebar-wrapper .list-group-item.active, 
-#sidebar-wrapper .list-group-item:hover {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-    color: #ffffff;
+#sidebar-wrapper .list-group-item:hover,
+#sidebar-wrapper .list-group-item.list-group-item-action.active,
+#sidebar-wrapper .list-group-item.list-group-item-action:hover {
+    background: #3b82f6 !important;
+    color: #ffffff !important;
     font-weight: 600;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+    transform: translateX(3px);
 }
 
 #sidebar-wrapper .list-group-item.active::before,
@@ -78,40 +117,44 @@ body {
     transform: scaleY(1);
 }
 
-#sidebar-wrapper .list-group-item.text-danger {
-    color: #fecaca;
+#sidebar-wrapper .list-group-item.text-danger,
+#sidebar-wrapper .list-group-item.list-group-item-action.text-danger {
+    color: #fca5a5 !important;
 }
 
-#sidebar-wrapper .list-group-item.text-danger:hover {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    color: #ffffff;
+#sidebar-wrapper .list-group-item.text-danger:hover,
+#sidebar-wrapper .list-group-item.list-group-item-action.text-danger:hover {
+    background: #dc2626 !important;
+    color: #ffffff !important;
 }
 
 #sidebar-wrapper .list-group-item i {
     font-size: 1.25rem;
     transition: transform 0.3s ease;
     color: #ffffff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 #sidebar-wrapper .list-group-item:hover i {
-    transform: scale(1.1);
+    transform: scale(1.05);
     color: #ffffff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Sidebar Dropdown Styles */
 .sidebar-dropdown {
     margin-bottom: 2px;
+    position: relative;
+    z-index: 2;
 }
 
 .sidebar-dropdown .dropdown-header {
-    background: transparent;
-    color: #dbeafe;
+    background: transparent !important;
+    color: #ffffff !important;
     font-weight: 500;
     font-size: 1.05rem;
     padding: 0.75rem 1.5rem;
-    border: none;
+    border: none !important;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
@@ -119,21 +162,23 @@ body {
     gap: 8px;
     border-radius: 0 20px 20px 0;
     margin-bottom: 2px;
+    position: relative;
+    z-index: 2;
 }
 
 .sidebar-dropdown .dropdown-header:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
 }
 
 .sidebar-dropdown .dropdown-header[aria-expanded="true"] {
-    background: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12) !important;
+    color: #ffffff !important;
 }
 
 .sidebar-dropdown:has(.dropdown-item.active) .dropdown-header {
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
     font-weight: 600;
 }
 
@@ -141,7 +186,7 @@ body {
     font-size: 0.9rem;
     transition: transform 0.3s ease;
     color: #ffffff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-dropdown .dropdown-header[aria-expanded="true"] i {
@@ -149,18 +194,18 @@ body {
 }
 
 .sidebar-dropdown .dropdown-items {
-    background: rgba(59, 130, 246, 0.1);
+    background: rgba(59, 130, 246, 0.08);
     border-radius: 0 0 20px 0;
     overflow: hidden;
 }
 
 .sidebar-dropdown .dropdown-item {
-    background: transparent;
-    color: #dbeafe;
+    background: transparent !important;
+    color: #ffffff !important;
     font-weight: 500;
     font-size: 0.95rem;
     padding: 0.6rem 1.5rem 0.6rem 3rem;
-    border: none;
+    border: none !important;
     text-decoration: none;
     transition: all 0.3s ease;
     display: flex;
@@ -171,15 +216,15 @@ body {
 }
 
 .sidebar-dropdown .dropdown-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
     text-decoration: none;
-    transform: translateX(5px);
+    transform: translateX(3px);
 }
 
 .sidebar-dropdown .dropdown-item.active {
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
     font-weight: 600;
     position: relative;
 }
@@ -197,15 +242,15 @@ body {
 
 .sidebar-dropdown .dropdown-item i {
     font-size: 1rem;
-    width: 16px;
-    text-align: center;
+    transition: transform 0.3s ease;
     color: #ffffff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-dropdown .dropdown-item:hover i {
+    transform: scale(1.05);
     color: #ffffff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Page Content */
@@ -843,6 +888,13 @@ body {
     font-weight: 600;
     margin-right: 0.25rem;
     margin-bottom: 0.25rem;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    transition: all 0.3s ease;
+}
+
+.permission-badge:hover {
+    background: rgba(59, 130, 246, 0.2);
+    transform: translateY(-1px);
 }
 
 .user-card-footer {
@@ -1483,6 +1535,29 @@ body {
     color: white;
 }
 
+.btn-outline-secondary {
+    border: 2px solid rgba(148, 163, 184, 0.2);
+    color: #64748b;
+    background: transparent;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    padding: 0.75rem 1.5rem;
+}
+
+.btn-outline-secondary:hover {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+.btn-outline-secondary.active {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border-color: #3b82f6;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
 .btn-sm {
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
@@ -1725,18 +1800,25 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    #sidebar-wrapper { 
+    #sidebar-wrapper,
+    #sidebar-wrapper.border-end,
+    #sidebar-wrapper.border { 
         min-width: 100px; 
         max-width: 100px; 
+        background: #1e40af !important;
     }
     
-    #sidebar-wrapper .sidebar-heading { 
+    #sidebar-wrapper .sidebar-heading,
+    #sidebar-wrapper .sidebar-heading.text-white { 
         font-size: 0.9rem; 
+        background: #1e3a8a !important;
     }
     
-    #sidebar-wrapper .list-group-item { 
+    #sidebar-wrapper .list-group-item,
+    #sidebar-wrapper .list-group-item.list-group-item-action { 
         font-size: 0.95rem; 
         padding: 0.7rem 0.8rem; 
+        color: #ffffff !important;
     }
     
     .sidebar-dropdown .dropdown-header {
@@ -1862,7 +1944,7 @@ body {
 /* Ensure dropdowns appear above all other content */
 .dropdown-menu.show {
     z-index: 1060 !important;
-} 
+}
 
 /* Form Styling */
 .form-control:focus, .form-select:focus {
@@ -2054,3 +2136,959 @@ body {
         font-size: 0.4rem;
     }
 } 
+
+/* Permission Groups */
+.permission-group {
+    background: rgba(248, 250, 252, 0.8);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.permission-group h6 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.permission-group .form-check {
+    margin-bottom: 0.75rem;
+}
+
+.permission-group .form-check-input {
+    border-radius: 6px;
+    border: 2px solid rgba(148, 163, 184, 0.2);
+    transition: all 0.3s ease;
+}
+
+.permission-group .form-check-input:checked {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.permission-group .form-check-input:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.permission-group .form-check-label {
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.permission-group .form-check:hover .form-check-label {
+    color: #1f2937;
+}
+
+/* Permission Badges */
+.permission-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-right: 0.25rem;
+    margin-bottom: 0.25rem;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    transition: all 0.3s ease;
+}
+
+.permission-badge:hover {
+    background: rgba(59, 130, 246, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Role Status Badge */
+.user-card-status {
+    padding: 0.375rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.user-card-status.success {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.user-card-status.danger {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+} 
+
+/* Modal Form Fields - Ensure they are interactive */
+.modal .form-control,
+.modal .form-select,
+.modal .form-control:focus,
+.modal .form-select:focus {
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid rgba(148, 163, 184, 0.2) !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    user-select: auto !important;
+    -webkit-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+    cursor: text !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.modal .form-control:disabled,
+.modal .form-select:disabled {
+    background-color: #f8f9fa !important;
+    color: #6c757d !important;
+    opacity: 0.65 !important;
+}
+
+.modal .form-control:not(:disabled):hover,
+.modal .form-select:not(:disabled):hover {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
+}
+
+.modal .form-control:not(:disabled):focus,
+.modal .form-select:not(:disabled):focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+    background-color: #ffffff !important;
+}
+
+.modal .form-label {
+    color: #2c3e50 !important;
+    font-weight: 600 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.modal .btn {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.modal .btn:disabled {
+    opacity: 0.65 !important;
+    pointer-events: none !important;
+}
+
+/* Ensure modal backdrop doesn't interfere */
+.modal-backdrop {
+    z-index: 1055 !important;
+}
+
+.modal {
+    z-index: 1060 !important;
+}
+
+.modal-dialog {
+    z-index: 1061 !important;
+}
+
+.modal-content {
+    z-index: 1062 !important;
+    position: relative !important;
+}
+
+/* Force enable all form elements in modal */
+.modal * {
+    pointer-events: auto !important;
+}
+
+.modal input,
+.modal select,
+.modal textarea,
+.modal button {
+    pointer-events: auto !important;
+    user-select: auto !important;
+    -webkit-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+    position: relative !important;
+    z-index: 1063 !important;
+}
+
+/* Specific overrides for modal form elements */
+#tambahPasarModal input,
+#tambahPasarModal select,
+#tambahPasarModal textarea,
+#tambahPasarModal button {
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    color: #1e293b !important;
+    background-color: #ffffff !important;
+    cursor: text !important;
+    position: relative !important;
+    z-index: 1063 !important;
+}
+
+#tambahPasarModal button {
+    cursor: pointer !important;
+}
+
+#tambahPasarModal input[type="file"] {
+    cursor: pointer !important;
+}
+
+/* Remove any potential overlays that might block interaction */
+.modal .modal-content {
+    pointer-events: auto !important;
+    z-index: 1062 !important;
+}
+
+.modal .modal-body {
+    pointer-events: auto !important;
+    z-index: 1063 !important;
+}
+
+.modal .modal-footer {
+    pointer-events: auto !important;
+    z-index: 1063 !important;
+}
+
+.modal .modal-header {
+    pointer-events: auto !important;
+    z-index: 1063 !important;
+}
+
+/* Ensure form elements are above any potential overlays */
+.modal .form-control,
+.modal .form-select,
+.modal .btn {
+    position: relative !important;
+    z-index: 1063 !important;
+}
+
+/* Force remove any disabled states */
+.modal input:not([type="hidden"]),
+.modal select,
+.modal textarea {
+    -webkit-appearance: auto !important;
+    -moz-appearance: auto !important;
+    appearance: auto !important;
+}
+
+/* Fix modal backdrop issues */
+.modal-backdrop.show {
+    z-index: 1055 !important;
+}
+
+.modal.show {
+    z-index: 1060 !important;
+}
+
+/* Ensure modal is above everything */
+#tambahPasarModal {
+    z-index: 1060 !important;
+}
+
+#tambahPasarModal .modal-dialog {
+    z-index: 1061 !important;
+}
+
+#tambahPasarModal .modal-content {
+    z-index: 1062 !important;
+}
+
+#tambahPasarModal .modal-body,
+#tambahPasarModal .modal-header,
+#tambahPasarModal .modal-footer {
+    z-index: 1063 !important;
+}
+
+/* Force modal to be interactive */
+.modal.show {
+    display: block !important;
+    pointer-events: auto !important;
+}
+
+.modal.show .modal-dialog {
+    pointer-events: auto !important;
+}
+
+.modal.show .modal-content {
+    pointer-events: auto !important;
+}
+
+/* Simple Modal CSS - Ensure form fields are always interactive */
+.modal {
+    z-index: 1050 !important;
+}
+
+.modal-backdrop {
+    z-index: 1040 !important;
+}
+
+.modal-dialog {
+    z-index: 1051 !important;
+    pointer-events: auto !important;
+}
+
+.modal-content {
+    z-index: 1052 !important;
+    background: white !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 0.375rem !important;
+    pointer-events: auto !important;
+}
+
+.modal-header {
+    background: #f8f9fa !important;
+    border-bottom: 1px solid #dee2e6 !important;
+    padding: 1rem 1.5rem !important;
+    pointer-events: auto !important;
+}
+
+.modal-body {
+    padding: 1.5rem !important;
+    background: white !important;
+    pointer-events: auto !important;
+}
+
+.modal-footer {
+    background: #f8f9fa !important;
+    border-top: 1px solid #dee2e6 !important;
+    padding: 1rem 1.5rem !important;
+    pointer-events: auto !important;
+}
+
+/* Force enable form elements in modal */
+.modal .form-control,
+.modal .form-select {
+    background-color: white !important;
+    color: #212529 !important;
+    border: 1px solid #ced4da !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: text !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.modal .form-control:focus,
+.modal .form-select:focus {
+    border-color: #86b7fe !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+    background-color: white !important;
+}
+
+.modal .form-control:hover,
+.modal .form-select:hover {
+    border-color: #86b7fe !important;
+    background-color: white !important;
+}
+
+.modal .form-label {
+    color: #212529 !important;
+    font-weight: 500 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.modal .btn {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.modal .btn:disabled {
+    opacity: 0.65 !important;
+    pointer-events: none !important;
+}
+
+/* Ensure all elements in modal are interactive */
+.modal * {
+    pointer-events: auto !important;
+}
+
+.modal input,
+.modal select,
+.modal textarea,
+.modal button {
+    pointer-events: auto !important;
+    user-select: auto !important;
+    -webkit-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Remove any potential overlays */
+.modal .modal-content,
+.modal .modal-body,
+.modal .modal-footer,
+.modal .modal-header {
+    pointer-events: auto !important;
+    z-index: 1 !important;
+}
+
+/* Force remove any disabled states */
+.modal input:not([type="hidden"]),
+.modal select,
+.modal textarea {
+    -webkit-appearance: auto !important;
+    -moz-appearance: auto !important;
+    appearance: auto !important;
+    background-color: white !important;
+    color: #212529 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: text !important;
+}
+
+/* Specific modal overrides */
+#tambahPasarModal {
+    z-index: 1050 !important;
+}
+
+#tambahPasarModal .modal-dialog {
+    z-index: 1051 !important;
+}
+
+#tambahPasarModal .modal-content {
+    z-index: 1052 !important;
+    background: white !important;
+}
+
+#tambahPasarModal .modal-body {
+    background: white !important;
+    z-index: 1 !important;
+}
+
+#tambahPasarModal .modal-header {
+    background: #f8f9fa !important;
+    z-index: 1 !important;
+}
+
+#tambahPasarModal .modal-footer {
+    background: #f8f9fa !important;
+    z-index: 1 !important;
+}
+
+/* Force modal to be interactive */
+.modal.show {
+    display: block !important;
+    pointer-events: auto !important;
+}
+
+.modal.show .modal-dialog {
+    pointer-events: auto !important;
+}
+
+.modal.show .modal-content {
+    pointer-events: auto !important;
+}
+
+/* Ensure form elements are always enabled */
+.modal .form-control,
+.modal .form-select,
+.modal .btn {
+    position: relative !important;
+    z-index: 1 !important;
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    background-color: white !important;
+    color: #212529 !important;
+}
+
+.modal .btn {
+    cursor: pointer !important;
+}
+
+/* Override any potential CSS conflicts */
+.modal input[type="text"],
+.modal input[type="tel"],
+.modal input[type="number"],
+.modal input[type="file"],
+.modal select,
+.modal textarea {
+    background-color: white !important;
+    color: #212529 !important;
+    border: 1px solid #ced4da !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: text !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Force remove any disabled or readonly states */
+.modal input:not([disabled]),
+.modal select:not([disabled]),
+.modal textarea:not([disabled]) {
+    background-color: white !important;
+    color: #212529 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: text !important;
+}
+
+/* Ensure labels are clickable */
+.modal label {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    color: #212529 !important;
+    opacity: 1 !important;
+}
+
+/* Specific CSS for jam_operasional field and all modal form fields */
+#tambahPasarModal input[type="text"],
+#tambahPasarModal input[type="tel"],
+#tambahPasarModal input[type="number"],
+#tambahPasarModal input[type="file"],
+#tambahPasarModal select,
+#tambahPasarModal textarea {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    border: 1px solid #ced4da !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: text !important;
+    position: relative !important;
+    z-index: 9999 !important;
+    display: block !important;
+    visibility: visible !important;
+    -webkit-appearance: auto !important;
+    -moz-appearance: auto !important;
+    appearance: auto !important;
+    user-select: auto !important;
+    -webkit-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    padding: 0.375rem 0.75rem !important;
+    border-radius: 0.375rem !important;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+}
+
+#tambahPasarModal input[type="text"]:focus,
+#tambahPasarModal input[type="tel"]:focus,
+#tambahPasarModal input[type="number"]:focus,
+#tambahPasarModal select:focus,
+#tambahPasarModal textarea:focus {
+    border-color: #86b7fe !important;
+    outline: 0 !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+    background-color: #ffffff !important;
+}
+
+#tambahPasarModal input[type="text"]:hover,
+#tambahPasarModal input[type="tel"]:hover,
+#tambahPasarModal input[type="number"]:hover,
+#tambahPasarModal select:hover,
+#tambahPasarModal textarea:hover {
+    border-color: #86b7fe !important;
+    background-color: #ffffff !important;
+}
+
+#tambahPasarModal input[type="file"] {
+    cursor: pointer !important;
+}
+
+#tambahPasarModal input[type="file"]:hover {
+    background-color: #f8f9fa !important;
+}
+
+/* Specific styling for jam_operasional field */
+#tambahPasarModal #jam_operasional {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    border: 1px solid #ced4da !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: text !important;
+    position: relative !important;
+    z-index: 9999 !important;
+    display: block !important;
+    visibility: visible !important;
+    -webkit-appearance: auto !important;
+    -moz-appearance: auto !important;
+    appearance: auto !important;
+    user-select: auto !important;
+    -webkit-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    padding: 0.375rem 0.75rem !important;
+    border-radius: 0.375rem !important;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+}
+
+#tambahPasarModal #jam_operasional:focus {
+    border-color: #86b7fe !important;
+    outline: 0 !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+    background-color: #ffffff !important;
+}
+
+#tambahPasarModal #jam_operasional:hover {
+    border-color: #86b7fe !important;
+    background-color: #ffffff !important;
+}
+
+/* Force remove any disabled or readonly states */
+#tambahPasarModal input:not([disabled]),
+#tambahPasarModal select:not([disabled]),
+#tambahPasarModal textarea:not([disabled]) {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: text !important;
+}
+
+/* Ensure labels are clickable */
+#tambahPasarModal label {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    color: #212529 !important;
+    opacity: 1 !important;
+    font-weight: 500 !important;
+}
+
+/* Force modal to be interactive */
+#tambahPasarModal {
+    z-index: 1050 !important;
+    display: block !important;
+    pointer-events: auto !important;
+}
+
+#tambahPasarModal .modal-dialog {
+    z-index: 1051 !important;
+    pointer-events: auto !important;
+}
+
+#tambahPasarModal .modal-content {
+    z-index: 1052 !important;
+    background: white !important;
+    pointer-events: auto !important;
+}
+
+#tambahPasarModal .modal-body {
+    background: white !important;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+}
+
+#tambahPasarModal .modal-header {
+    background: #f8f9fa !important;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+}
+
+#tambahPasarModal .modal-footer {
+    background: #f8f9fa !important;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+}
+
+/* Ensure form elements are always enabled */
+#tambahPasarModal .form-control,
+#tambahPasarModal .form-select,
+#tambahPasarModal .btn {
+    position: relative !important;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    display: block !important;
+    visibility: visible !important;
+}
+
+#tambahPasarModal .btn {
+    cursor: pointer !important;
+}
+
+/* Override any potential CSS conflicts */
+#tambahPasarModal input[type="text"],
+#tambahPasarModal input[type="tel"],
+#tambahPasarModal input[type="number"],
+#tambahPasarModal input[type="file"],
+#tambahPasarModal select,
+#tambahPasarModal textarea {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    border: 1px solid #ced4da !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: text !important;
+    position: relative !important;
+    z-index: 9999 !important;
+    display: block !important;
+    visibility: visible !important;
+    -webkit-appearance: auto !important;
+    -moz-appearance: auto !important;
+    appearance: auto !important;
+    user-select: auto !important;
+    -webkit-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+}
+
+/* Force remove any disabled or readonly states */
+#tambahPasarModal input:not([disabled]),
+#tambahPasarModal select:not([disabled]),
+#tambahPasarModal textarea:not([disabled]) {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: text !important;
+}
+
+/* Ensure labels are clickable */
+#tambahPasarModal label {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    color: #212529 !important;
+    opacity: 1 !important;
+}
+
+/* Simple Modal CSS - Only target elements inside modal */
+#tambahPasarModal {
+    z-index: 1050 !important;
+}
+
+#tambahPasarModal .modal-backdrop {
+    z-index: 1040 !important;
+}
+
+#tambahPasarModal .modal-dialog {
+    z-index: 1051 !important;
+    pointer-events: auto !important;
+}
+
+#tambahPasarModal .modal-content {
+    z-index: 1052 !important;
+    background: white !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 0.375rem !important;
+    pointer-events: auto !important;
+}
+
+#tambahPasarModal .modal-header {
+    background: #f8f9fa !important;
+    border-bottom: 1px solid #dee2e6 !important;
+    padding: 1rem 1.5rem !important;
+    pointer-events: auto !important;
+}
+
+#tambahPasarModal .modal-body {
+    padding: 1.5rem !important;
+    background: white !important;
+    pointer-events: auto !important;
+}
+
+#tambahPasarModal .modal-footer {
+    background: #f8f9fa !important;
+    border-top: 1px solid #dee2e6 !important;
+    padding: 1rem 1.5rem !important;
+    pointer-events: auto !important;
+}
+
+/* Force enable form elements INSIDE modal only */
+#tambahPasarModal .form-control,
+#tambahPasarModal .form-select {
+    background-color: white !important;
+    color: #212529 !important;
+    border: 1px solid #ced4da !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: text !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+#tambahPasarModal .form-control:focus,
+#tambahPasarModal .form-select:focus {
+    border-color: #86b7fe !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+    background-color: white !important;
+}
+
+#tambahPasarModal .form-control:hover,
+#tambahPasarModal .form-select:hover {
+    border-color: #86b7fe !important;
+    background-color: white !important;
+}
+
+#tambahPasarModal .form-label {
+    color: #212529 !important;
+    font-weight: 500 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+#tambahPasarModal .btn {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+#tambahPasarModal .btn:disabled {
+    opacity: 0.65 !important;
+    pointer-events: none !important;
+}
+
+/* Ensure all elements INSIDE modal are interactive */
+#tambahPasarModal input,
+#tambahPasarModal select,
+#tambahPasarModal textarea,
+#tambahPasarModal button {
+    pointer-events: auto !important;
+    user-select: auto !important;
+    -webkit-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Remove any potential overlays INSIDE modal */
+#tambahPasarModal .modal-content,
+#tambahPasarModal .modal-body,
+#tambahPasarModal .modal-footer,
+#tambahPasarModal .modal-header {
+    pointer-events: auto !important;
+    z-index: 1 !important;
+}
+
+/* Force remove any disabled states INSIDE modal */
+#tambahPasarModal input:not([type="hidden"]),
+#tambahPasarModal select,
+#tambahPasarModal textarea {
+    -webkit-appearance: auto !important;
+    -moz-appearance: auto !important;
+    appearance: auto !important;
+    background-color: white !important;
+    color: #212529 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: text !important;
+}
+
+/* Specific styling for jam_operasional field */
+#tambahPasarModal #jam_operasional {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    border: 1px solid #ced4da !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: text !important;
+    position: relative !important;
+    z-index: 1 !important;
+    display: block !important;
+    visibility: visible !important;
+    -webkit-appearance: auto !important;
+    -moz-appearance: auto !important;
+    appearance: auto !important;
+    user-select: auto !important;
+    -webkit-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    padding: 0.375rem 0.75rem !important;
+    border-radius: 0.375rem !important;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+}
+
+#tambahPasarModal #jam_operasional:focus {
+    border-color: #86b7fe !important;
+    outline: 0 !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+    background-color: #ffffff !important;
+}
+
+#tambahPasarModal #jam_operasional:hover {
+    border-color: #86b7fe !important;
+    background-color: #ffffff !important;
+}
+
+/* Force modal to be interactive */
+#tambahPasarModal.show {
+    display: block !important;
+    pointer-events: auto !important;
+}
+
+#tambahPasarModal.show .modal-dialog {
+    pointer-events: auto !important;
+}
+
+#tambahPasarModal.show .modal-content {
+    pointer-events: auto !important;
+}
+
+/* Ensure form elements are always enabled INSIDE modal */
+#tambahPasarModal .form-control,
+#tambahPasarModal .form-select,
+#tambahPasarModal .btn {
+    position: relative !important;
+    z-index: 1 !important;
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+#tambahPasarModal .btn {
+    cursor: pointer !important;
+}
+
+/* Override any potential CSS conflicts INSIDE modal */
+#tambahPasarModal input[type="text"],
+#tambahPasarModal input[type="tel"],
+#tambahPasarModal input[type="number"],
+#tambahPasarModal input[type="file"],
+#tambahPasarModal select,
+#tambahPasarModal textarea {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    border: 1px solid #ced4da !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: text !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Force remove any disabled or readonly states INSIDE modal */
+#tambahPasarModal input:not([disabled]),
+#tambahPasarModal select:not([disabled]),
+#tambahPasarModal textarea:not([disabled]) {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: text !important;
+}
+
+/* Ensure labels are clickable INSIDE modal */
+#tambahPasarModal label {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    color: #212529 !important;
+    opacity: 1 !important;
+}

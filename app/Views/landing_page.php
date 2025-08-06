@@ -114,7 +114,7 @@
             <h2 class="section-title text-center">Berita & Info Terkini</h2>
             <div class="row g-4" id="beritaList"></div>
             <div class="text-center mt-4">
-                <a href="/informasi/berita" class="btn btn-primary">Lihat Semua Berita</a>
+                <a href="/informasi/berita" class="btn btn-primary btn-lg">Lihat Semua Berita</a>
             </div>
         </div>
     </section>
@@ -255,7 +255,7 @@
                             </div>
                             <input type="hidden" name="rating" id="rating" value="0">
                         </div>
-                        <button type="submit" class="btn btn-primary w-100" aria-label="Kirim Feedback"><i class="bi bi-send me-2"></i>Kirim Feedback</button>
+                        <button type="submit" class="btn btn-primary btn-lg w-100" aria-label="Kirim Feedback"><i class="bi bi-send me-2"></i>Kirim Feedback</button>
                         <div id="feedbackMsg" class="mt-3"></div>
                     </form>
                 </div>

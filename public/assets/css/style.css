@@ -232,7 +232,7 @@ section[id] {
 
 /* Stat Cards */
 .stat-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #2563eb;
     border-radius: 1rem;
     padding: 2rem;
     color: white;
@@ -242,7 +242,7 @@ section[id] {
 
 .stat-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2);
 }
 
 .stat-icon {
@@ -313,7 +313,7 @@ section[id] {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+    background: rgba(37, 99, 235, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -407,8 +407,8 @@ section[id] {
 }
 
 .form-control:focus, .form-select:focus {
-    border-color: #ffc107;
-    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+    border-color: #2563eb;
+    box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
 }
 
 /* Card Styling */
@@ -450,7 +450,7 @@ section[id] {
 }
 
 .table thead th {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #2563eb;
     color: white;
     border: none;
     font-weight: 600;
@@ -519,31 +519,49 @@ section[id] {
 
 /* Button Styling */
 .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #2563eb;
     border: none;
     border-radius: 0.5rem;
     font-weight: 600;
     transition: all 0.3s ease;
+    color: white;
+    padding: 0.75rem 1.5rem;
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+    background: #1d4ed8;
+    color: white;
 }
 
 .btn-outline-primary {
-    border: 2px solid #667eea;
-    color: #667eea;
+    border: 2px solid #2563eb;
+    color: #2563eb;
     background: transparent;
     border-radius: 0.5rem;
     font-weight: 600;
     transition: all 0.3s ease;
+    padding: 0.75rem 1.5rem;
 }
 
 .btn-outline-primary:hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-color: transparent;
+    background: #2563eb;
+    border-color: #2563eb;
     transform: translateY(-2px);
+    color: white;
+}
+
+/* Button size consistency */
+.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 0.6rem;
+}
+
+.btn-lg:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.5);
 }
 
 /* Feedback Button */
@@ -698,24 +716,24 @@ section[id] {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #2563eb;
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    background: #1d4ed8;
 }
 
 /* Stats Counter */
 .stats-counter {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #667eea;
+    color: #2563eb;
     transition: color 0.3s ease;
 }
 
 .stats-counter:hover {
-    color: #764ba2;
+    color: #1d4ed8;
 }
 
 /* About Section Cards */
@@ -740,7 +758,7 @@ section[id] {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    background: #2563eb;
     transform: scaleX(0);
     transition: transform 0.3s ease;
 }
@@ -758,25 +776,25 @@ section[id] {
 }
 
 #tentang-kami .accordion-button:not(.collapsed) {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #2563eb;
     color: white;
 }
 
 #tentang-kami .accordion-button:focus {
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
 }
 
 #tentang-kami .accordion-button:hover {
-    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    background: #1d4ed8;
 }
 
 #tentang-kami .accordion-button:not(.collapsed):hover {
-    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    background: #1d4ed8;
 }
 
 /* Blockquote Styling */
 #tentang-kami .blockquote {
-    border-left: 4px solid #667eea;
+    border-left: 4px solid #2563eb;
     padding-left: 1.5rem;
     font-style: italic;
     color: #6c757d;
@@ -785,7 +803,7 @@ section[id] {
 #tentang-kami .blockquote::before {
     content: '"';
     font-size: 4rem;
-    color: #667eea;
+    color: #2563eb;
     position: absolute;
     left: -1rem;
     top: -1rem;
@@ -794,20 +812,20 @@ section[id] {
 }
 
 #tentang-kami .blockquote-footer {
-    color: #667eea;
+    color: #2563eb;
     font-weight: 600;
     margin-top: 1rem;
 }
 
 /* Circle Images */
 #tentang-kami .rounded-circle {
-    border: 4px solid #667eea;
+    border: 4px solid #2563eb;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 #tentang-kami .rounded-circle:hover {
     transform: scale(1.1);
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
 }
 
 /* Mobile Responsive */
@@ -867,7 +885,7 @@ section[id] {
 }
 .login-admin-card:hover {
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.13);
-    border: 1.5px solid #6366f1;
+    border: 1.5px solid #2563eb;
 }
 .login-admin-logo-wrapper {
     display: flex;
@@ -878,7 +896,7 @@ section[id] {
     width: 64px;
     height: 64px;
     margin: 0 auto 0.5rem auto;
-    box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
 }
 .login-admin-logo {
     width: 44px;
@@ -902,24 +920,24 @@ section[id] {
     box-shadow: none;
 }
 .login-admin-card .form-control:focus {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 2px #6366f133;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
     background: #fff;
 }
 .login-admin-btn {
-    background: linear-gradient(90deg, #6366f1 0%, #2563eb 100%);
+    background: #2563eb;
     border: none;
     border-radius: 0.8rem;
     font-weight: 600;
     font-size: 1.05rem;
     letter-spacing: 0.3px;
-    box-shadow: 0 2px 8px 0 rgba(99,102,241,0.08);
+    box-shadow: 0 2px 8px 0 rgba(37, 99, 235, 0.08);
     transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
     color: #fff;
 }
 .login-admin-btn:hover, .login-admin-btn:focus {
-    background: linear-gradient(90deg, #2563eb 0%, #6366f1 100%);
-    box-shadow: 0 4px 16px 0 rgba(99,102,241,0.15);
+    background: #1d4ed8;
+    box-shadow: 0 4px 16px 0 rgba(37, 99, 235, 0.15);
     transform: translateY(-1px);
     color: #fff;
 }
@@ -932,7 +950,7 @@ section[id] {
     padding: 0.375rem 0.75rem;
 }
 .show-password-toggle:hover {
-    color: #6366f1;
+    color: #2563eb;
 }
 @media (max-width: 576px) {
     .login-admin-card {
@@ -949,6 +967,7 @@ section[id] {
 }
 /* =================== END ADMIN LOGIN PAGE STYLING =================== */ 
 
+/* Hero Button Styling - Consistent with main button styling */
 .hero .btn-primary {
     background: #2563eb;
     border: none;
@@ -956,12 +975,14 @@ section[id] {
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    color: white;
 }
 
 .hero .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
     background: #1d4ed8;
+    color: white;
 }
 
 .hero .btn-outline-light {

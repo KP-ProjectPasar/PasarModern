@@ -22,7 +22,7 @@
 <body>
 <div class="d-flex" id="wrapper">
     <!-- Sidebar -->
-    <div class="border-end" id="sidebar-wrapper">
+    <div id="sidebar-wrapper">
         <div class="sidebar-heading text-white py-4 px-3 d-flex align-items-center">
             <img src="/assets/img/logo/Logorbg.png" width="32" class="me-2" alt="Logo"> Pasar Modern Tangerang
         </div>
@@ -46,9 +46,6 @@
                             </a>
                             <a href="/admin/role" class="dropdown-item<?= (strpos($_SERVER['REQUEST_URI'], '/admin/role') === 0 ? ' active' : '') ?>">
                                 <i class="bi bi-shield-lock"></i> Kelola Role
-                            </a>
-                            <a href="/admin/grup" class="dropdown-item<?= (strpos($_SERVER['REQUEST_URI'], '/admin/grup') === 0 ? ' active' : '') ?>">
-                                <i class="bi bi-box"></i> Kelola Grup
                             </a>
                         <?php endif; ?>
                     </div>
@@ -84,8 +81,8 @@
                 <i class="bi bi-cash-coin"></i> Harga Komoditas
             </a>
             
-            <a href="/admin/logout" class="list-group-item text-danger">
-                <i class="bi bi-box-arrow-right"></i> Logout
+            <a href="/admin/feedback" class="list-group-item<?= (strpos($_SERVER['REQUEST_URI'], '/admin/feedback') === 0 ? ' active' : '') ?>">
+                <i class="bi bi-chat-dots"></i> Feedback
             </a>
         </div>
     </div>
@@ -111,11 +108,11 @@
                             <i class="bi bi-chevron-down ms-2"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><h6 class="dropdown-header">Profil</h6></li>
+                            <li><h6 class="dropdown-header">PROFIL</h6></li>
                             <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profil Saya</a></li>
                             <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Pengaturan</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="/admin/logout"><i class="bi bi-box-arrow-right me-2"></i>Keluar</a></li>
+                            <li><a class="dropdown-item text-danger" href="/admin/logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                         </ul>
                     </div>
                 </div>
