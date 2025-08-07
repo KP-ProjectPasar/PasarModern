@@ -11,6 +11,8 @@ class AdminModel extends Model
         'password', 
         'role', 
         'email', 
+        'status',
+        'last_login', 
         'last_activity', 
         'created_at', 
         'updated_at'

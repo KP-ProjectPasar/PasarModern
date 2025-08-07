@@ -13,11 +13,12 @@ class AdminLevel extends BaseController
 
         $levelModel = new LevelModel();
         $levels = $levelModel->findAll();
-        return view('admin/level_list', [
+        $data = [
             'levels' => $levels,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
-        ]);
+        ];
+        return view('admin/lists/level_list', $data);
     }
 
     public function create()

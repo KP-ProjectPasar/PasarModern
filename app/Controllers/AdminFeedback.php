@@ -10,10 +10,6 @@ class AdminFeedback extends BaseController
         }
         
         // For now, we'll show a placeholder page
-        return view('admin/feedback_list', [
-            'admin_nama' => session()->get('admin_nama'),
-            'admin_role' => session()->get('admin_role'),
-            'title' => 'Kelola Feedback'
-        ]);
+        return view('admin/lists/feedback_list', $data);
     }
 } 

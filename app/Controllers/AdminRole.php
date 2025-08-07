@@ -1,7 +1,6 @@
 <?php
 namespace App\Controllers;
 use App\Models\RoleModel;
-use CodeIgniter\Controller;
 
 class AdminRole extends BaseController
 {
@@ -29,7 +28,7 @@ class AdminRole extends BaseController
 
         $roles = $roleModel->findAll();
         
-        return view('admin/role_list', [
+        return view('admin/lists/role_list', [
             'roles' => $roles,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
@@ -50,11 +49,13 @@ class AdminRole extends BaseController
             return redirect()->to('/admin/role')->with('error', 'Anda tidak memiliki akses untuk menambah role!');
         }
 
-        return view('admin/role_form', [
+        $data = [
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
             'title' => 'Tambah Role Baru'
-        ]);
+        ];
+
+        return view('admin/forms/role_form', $data);
     }
 
     public function store()
@@ -127,7 +128,7 @@ class AdminRole extends BaseController
             return redirect()->to('/admin/role')->with('error', 'Role tidak ditemukan!');
         }
         
-        return view('admin/role_form', [
+        return view('admin/forms/role_form', [
             'role' => $role,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),

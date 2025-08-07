@@ -20,6 +20,7 @@ $routes->get('informasi/informasi-pasar', 'Informasi::informasi_pasar');
 $routes->get('admin/login', 'Admin::login');
 $routes->post('admin/login', 'Admin::login');
 $routes->get('admin/dashboard', 'Admin::dashboard');
+$routes->post('admin/update-activity', 'Admin::updateActivity');
 $routes->get('admin/logout', 'Admin::logout');
 
 // CRUD User Admin

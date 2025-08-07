@@ -2,9 +2,7 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
-
-class AdminHarga extends Controller
+class AdminHarga extends BaseController
 {
     public function index()
     {
@@ -17,7 +15,7 @@ class AdminHarga extends Controller
         // $hargaModel = new HargaModel();
         // $hargas = $hargaModel->findAll();
 
-        return view('admin/harga_list', [
+        return view('admin/lists/harga_list', [
             'hargas' => [], // Empty array for now, will be populated from database
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
@@ -35,7 +33,7 @@ class AdminHarga extends Controller
         // $komoditasModel = new KomoditasModel();
         // $komoditas = $komoditasModel->findAll();
         
-        return view('admin/harga_form', [
+        return view('admin/forms/harga_form', [
             'komoditas' => [], // Empty array for now, will be populated from database
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
@@ -89,7 +87,7 @@ class AdminHarga extends Controller
         // $komoditasModel = new KomoditasModel();
         // $komoditas = $komoditasModel->findAll();
         
-        return view('admin/harga_form', [
+        return view('admin/forms/harga_form', [
             'harga' => null, // Will be populated from database
             'komoditas' => [], // Will be populated from database
             'admin_nama' => session()->get('admin_nama'),

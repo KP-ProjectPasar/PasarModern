@@ -13,11 +13,12 @@ class AdminGaleri extends BaseController
 
         $galeriModel = new GaleriModel();
         $galeris = $galeriModel->findAll();
-        return view('admin/galeri_list', [
+        $data = [
             'galeris' => $galeris,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
-        ]);
+        ];
+        return view('admin/lists/galeri_list', $data);
     }
 
     public function create()
@@ -27,7 +28,7 @@ class AdminGaleri extends BaseController
             return redirect()->to('/admin/login');
         }
 
-        return view('admin/galeri_form', [
+        return view('admin/forms/galeri_form', [
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
         ]);
@@ -68,11 +69,12 @@ class AdminGaleri extends BaseController
 
         $galeriModel = new GaleriModel();
         $galeri = $galeriModel->find($id);
-        return view('admin/galeri_form', [
+        $data = [
             'galeri' => $galeri,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
-        ]);
+        ];
+        return view('admin/forms/galeri_form', $data);
     }
 
     public function update($id)

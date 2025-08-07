@@ -2,7 +2,6 @@
 namespace App\Controllers;
 use App\Models\AdminModel;
 use App\Models\RoleModel;
-use CodeIgniter\Controller;
 
 class AdminUser extends BaseController
 {
@@ -14,8 +13,40 @@ class AdminUser extends BaseController
         }
 
         $adminModel = new AdminModel();
+        
+        // Get all users
         $users = $adminModel->findAll();
-        return view('admin/user_list', [
+        
+        // Update user status based on last activity
+        foreach ($users as $user) {
+            $status = 'offline';
+            $lastLogin = null;
+            
+            // Check if user has last_activity
+            if (isset($user['last_activity']) && $user['last_activity']) {
+                $lastActivity = strtotime($user['last_activity']);
+                $currentTime = time();
+                $timeDiff = $currentTime - $lastActivity;
+                
+                // Consider user online if last activity was within 15 minutes
+                if ($timeDiff <= 900) { // 15 minutes = 900 seconds
+                    $status = 'online';
+                }
+                
+                $lastLogin = $user['last_activity'];
+            }
+            
+            // Update user status in database
+            $adminModel->update($user['id'], [
+                'status' => $status,
+                'last_login' => $lastLogin
+            ]);
+        }
+        
+        // Get updated users with proper status
+        $users = $adminModel->findAll();
+        
+        return view('admin/lists/user_list', [
             'users' => $users,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
@@ -37,11 +68,12 @@ class AdminUser extends BaseController
 
         $roleModel = new RoleModel();
         $roles = $roleModel->findAll();
-        return view('admin/user_form', [
+        $data = [
             'roles' => $roles,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
-        ]);
+        ];
+        return view('admin/forms/user_form', $data);
     }
 
     public function store()
@@ -109,7 +141,7 @@ class AdminUser extends BaseController
         $roleModel = new RoleModel();
         $user = $adminModel->find($id);
         $roles = $roleModel->findAll();
-        return view('admin/user_form', [
+        return view('admin/forms/user_form', [
             'user' => $user,
             'roles' => $roles,
             'admin_nama' => session()->get('admin_nama'),
@@ -135,10 +167,6 @@ class AdminUser extends BaseController
         $availableRoles = $roleModel->where('is_active', 1)->findAll();
         $roleNames = array_column($availableRoles, 'nama');
 
-        // Debug: Check what data is being received
-        $postData = $this->request->getPost();
-        log_message('info', 'Update user data received: ' . json_encode($postData));
-
         // Validate input
         $validation = \Config\Services::validation();
         $validation->setRules([
@@ -147,7 +175,6 @@ class AdminUser extends BaseController
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
-            log_message('error', 'Validation failed: ' . json_encode($validation->getErrors()));
             // Return to form with errors
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
@@ -165,19 +192,15 @@ class AdminUser extends BaseController
             $data['password'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
         }
         
-        log_message('info', 'Data to update: ' . json_encode($data));
-        
         try {
             $result = $adminModel->update($id, $data);
-            log_message('info', 'Update result: ' . ($result ? 'true' : 'false'));
             
             if ($result) {
-                return redirect()->to('/admin/user')->with('success', 'User berhasil diperbarui!');
+            return redirect()->to('/admin/user')->with('success', 'User berhasil diperbarui!');
             } else {
                 return redirect()->back()->withInput()->with('error', 'Gagal memperbarui user. Tidak ada perubahan data.');
             }
         } catch (\Exception $e) {
-            log_message('error', 'Update exception: ' . $e->getMessage());
             return redirect()->back()->withInput()->with('error', 'Gagal memperbarui user: ' . $e->getMessage());
         }
     }

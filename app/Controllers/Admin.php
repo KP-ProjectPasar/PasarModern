@@ -43,7 +43,9 @@ class Admin extends BaseController
                             } else {
                                 // Update last_activity on successful login
                                 $adminModel->update($admin['id'], [
-                                    'last_activity' => date('Y-m-d H:i:s')
+                                    'last_activity' => date('Y-m-d H:i:s'),
+                                    'last_login' => date('Y-m-d H:i:s'),
+                                    'status' => 'online'
                                 ]);
                                 
                                 session()->set('is_admin', true);
@@ -86,6 +88,9 @@ class Admin extends BaseController
             return redirect()->to('/admin/login');
         }
         
+        // Update user activity to keep status online
+        $this->updateUserActivity();
+        
         // Check if user's role is still active
         $admin_role = session()->get('admin_role');
         
@@ -102,11 +107,21 @@ class Admin extends BaseController
             log_message('error', 'Dashboard role check error: ' . $e->getMessage());
         }
         
-        // Use simple data for now
+        // TODO: Ambil data dari database
+        // Untuk sementara menggunakan data dummy
         $total_berita = 0;
         $total_galeri = 0;
         $total_pasar = 3;
         $total_feedback = 0;
+        
+        // Tambahkan data galeri jika model tersedia
+        try {
+            // TODO: Implementasi dengan model yang sesuai
+            // $galeriModel = new \App\Models\GaleriModel();
+            // $total_galeri = $galeriModel->countAllResults();
+        } catch (\Exception $e) {
+            log_message('error', 'Galeri model error: ' . $e->getMessage());
+        }
         
         return view('admin/dashboard', [
             'admin_nama' => session()->get('admin_nama'),
@@ -118,8 +133,45 @@ class Admin extends BaseController
         ]);
     }
 
+    private function updateUserActivity()
+    {
+        if (session()->get('is_admin')) {
+            $adminModel = new AdminModel();
+            $adminId = session()->get('admin_id');
+            if ($adminId) {
+                $adminModel->update($adminId, [
+                    'last_activity' => date('Y-m-d H:i:s'),
+                    'status' => 'online'
+                ]);
+            }
+        }
+    }
+
+    public function updateActivity()
+    {
+        if (!session()->get('is_admin')) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Unauthorized']);
+        }
+        
+        $this->updateUserActivity();
+        
+        return $this->response->setJSON(['success' => true, 'message' => 'Activity updated']);
+    }
+
     public function logout()
     {
+        // Set user status to offline before destroying session
+        if (session()->get('is_admin')) {
+            $adminModel = new AdminModel();
+            $adminId = session()->get('admin_id');
+            if ($adminId) {
+                $adminModel->update($adminId, [
+                    'status' => 'offline',
+                    'last_activity' => date('Y-m-d H:i:s')
+                ]);
+            }
+        }
+        
         session()->destroy();
         return redirect()->to('/admin/login');
     }

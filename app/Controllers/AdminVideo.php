@@ -13,7 +13,7 @@ class AdminVideo extends BaseController
 
         $videoModel = new VideoModel();
         $videos = $videoModel->findAll();
-        return view('admin/video_list', [
+        return view('admin/lists/video_list', [
             'videos' => $videos,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
@@ -27,7 +27,7 @@ class AdminVideo extends BaseController
             return redirect()->to('/admin/login');
         }
 
-        return view('admin/video_form', [
+        return view('admin/forms/video_form', [
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
         ]);
@@ -76,7 +76,7 @@ class AdminVideo extends BaseController
 
         $videoModel = new VideoModel();
         $video = $videoModel->find($id);
-        return view('admin/video_form', [
+        return view('admin/forms/video_form', [
             'video' => $video,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),

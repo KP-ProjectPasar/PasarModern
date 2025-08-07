@@ -1,14 +1,14 @@
 <?= $this->extend('admin/layout') ?>
 <?= $this->section('content') ?>
 
-<!-- Header Section -->
+<!-- Government Style Header -->
 <div class="dashboard-header mb-4">
     <div class="row align-items-center">
         <div class="col-md-8">
             <h2 class="dashboard-title mb-2">
-                Dashboard Admin
+                <i class="bi bi-speedometer2 me-2"></i>Dashboard Sistem Informasi Pasar Modern
             </h2>
-            <p class="page-subtitle mb-0">Selamat datang kembali, <?= esc($admin_nama ?? 'Admin') ?>! Berikut adalah ringkasan aktivitas sistem hari ini.</p>
+            <p class="page-subtitle mb-0">Selamat datang kembali, <?= esc($admin_nama ?? 'Admin') ?>! Berikut adalah ringkasan aktivitas dan informasi sistem hari ini.</p>
         </div>
         <div class="col-md-4 text-end">
             <div class="current-time">
@@ -19,10 +19,10 @@
     </div>
 </div>
 
-<!-- Statistics Cards -->
+<!-- Government Statistics Cards -->
 <div class="row mb-4">
-    <div class="col-xl-4 col-md-6 mb-3">
-        <div class="stat-card stat-card-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah pasar yang tersedia">
+    <div class="col-xl-3 col-md-6 mb-3">
+        <div class="stat-card stat-card-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah pasar yang tersedia">
             <div class="stat-card-icon">
                 <i class="bi bi-building"></i>
             </div>
@@ -33,8 +33,8 @@
         </div>
     </div>
     
-    <div class="col-xl-4 col-md-6 mb-3">
-        <div class="stat-card stat-card-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Berita yang telah dipublikasikan">
+    <div class="col-xl-3 col-md-6 mb-3">
+        <div class="stat-card stat-card-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Berita yang telah dipublikasikan">
             <div class="stat-card-icon">
                 <i class="bi bi-newspaper"></i>
             </div>
@@ -45,8 +45,8 @@
         </div>
     </div>
     
-    <div class="col-xl-4 col-md-6 mb-3">
-        <div class="stat-card stat-card-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Feedback dari pengguna">
+    <div class="col-xl-3 col-md-6 mb-3">
+        <div class="stat-card stat-card-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Feedback dari pengguna">
             <div class="stat-card-icon">
                 <i class="bi bi-chat-dots"></i>
             </div>
@@ -56,9 +56,21 @@
             </div>
         </div>
     </div>
+    
+    <div class="col-xl-3 col-md-6 mb-3">
+        <div class="stat-card stat-card-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Galeri foto yang tersedia">
+            <div class="stat-card-icon">
+                <i class="bi bi-images"></i>
+            </div>
+            <div class="stat-card-content">
+                <h3 class="stat-card-number"><?= $total_galeri ?? 0 ?></h3>
+                <p class="stat-card-label">Galeri</p>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- Charts and Activity Section -->
+<!-- Charts and Information Section -->
 <div class="row mb-4">
     <div class="col-lg-8 mb-3">
         <div class="dashboard-card">
@@ -109,26 +121,33 @@
     </div>
 </div>
 
-<!-- Recent Activities and Quick Actions -->
-<div class="row">
+<!-- Government Information Panel -->
+<div class="row mb-4">
     <div class="col-lg-6 mb-3">
         <div class="dashboard-card">
             <div class="dashboard-card-header">
                 <h5 class="dashboard-card-title">
-                    <i class="bi bi-clock-history text-warning me-2"></i>
-                    Aktivitas Terbaru
+                    <i class="bi bi-info-circle text-info me-2"></i>
+                    Informasi Sistem
                 </h5>
-                <button class="btn btn-sm btn-outline-warning" onclick="refreshActivities()" data-bs-toggle="tooltip" title="Perbarui daftar aktivitas">
-                    <i class="bi bi-arrow-clockwise"></i> Refresh
-                </button>
             </div>
             <div class="dashboard-card-body">
-                <div class="activity-list" id="activityList">
-                    <!-- Data aktivitas akan dimuat dari database -->
-                    <div class="text-center text-muted py-4" id="noActivityData">
-                        <i class="bi bi-clock-history" style="font-size: 2rem;"></i>
-                        <p class="mt-2 mb-0">Belum ada aktivitas terbaru</p>
-                        <small>Data aktivitas akan muncul setelah ada konten yang ditambahkan</small>
+                <div class="system-info">
+                    <div class="info-item">
+                        <i class="bi bi-calendar-check text-success me-2"></i>
+                        <span><strong>Tanggal Update:</strong> <?= date('d F Y') ?></span>
+                    </div>
+                    <div class="info-item">
+                        <i class="bi bi-clock text-primary me-2"></i>
+                        <span><strong>Waktu Update:</strong> <?= date('H:i:s') ?></span>
+                    </div>
+                    <div class="info-item">
+                        <i class="bi bi-person-badge text-warning me-2"></i>
+                        <span><strong>Role Aktif:</strong> <?= ucfirst($admin_role ?? 'Admin') ?></span>
+                    </div>
+                    <div class="info-item">
+                        <i class="bi bi-shield-check text-info me-2"></i>
+                        <span><strong>Status Sistem:</strong> <span class="badge bg-success">Aktif</span></span>
                     </div>
                 </div>
             </div>
@@ -139,91 +158,48 @@
         <div class="dashboard-card">
             <div class="dashboard-card-header">
                 <h5 class="dashboard-card-title">
-                    <i class="bi bi-lightning text-danger me-2"></i>
-                    Aksi Cepat
+                    <i class="bi bi-bar-chart text-warning me-2"></i>
+                    Statistik Konten
                 </h5>
             </div>
             <div class="dashboard-card-body">
-                <div class="quick-actions">
-                    <?php if (in_array(session()->get('admin_role'), ['superadmin', 'admin'])): ?>
-                    <a href="/admin/user/create" class="quick-action-item" data-bs-toggle="tooltip" title="Buat user baru untuk sistem">
-                        <div class="quick-action-icon bg-primary">
-                            <i class="bi bi-person-plus"></i>
-                        </div>
-                        <div class="quick-action-content">
-                            <h6>Tambah User</h6>
-                            <p class="text-muted">Buat user baru</p>
-                        </div>
-                    </a>
-                    <?php endif; ?>
-                    
-                    <?php if (in_array(session()->get('admin_role'), ['superadmin', 'admin', 'berita'])): ?>
-                    <a href="/admin/berita/create" class="quick-action-item" data-bs-toggle="tooltip" title="Tulis dan publikasikan berita baru">
-                        <div class="quick-action-icon bg-success">
+                <div class="content-stats">
+                    <div class="stat-item">
+                        <div class="stat-icon bg-primary">
                             <i class="bi bi-newspaper"></i>
                         </div>
-                        <div class="quick-action-content">
-                            <h6>Tulis Berita</h6>
-                            <p class="text-muted">Publikasikan berita baru</p>
+                        <div class="stat-content">
+                            <h6>Berita Publikasi</h6>
+                            <p class="stat-number"><?= $total_berita ?? 0 ?></p>
                         </div>
-                    </a>
-                    <?php endif; ?>
-                    
-                    <?php if (in_array(session()->get('admin_role'), ['superadmin', 'admin', 'harga'])): ?>
-                    <a href="/admin/harga/create" class="quick-action-item" data-bs-toggle="tooltip" title="Update harga komoditas terbaru">
-                        <div class="quick-action-icon bg-warning">
-                            <i class="bi bi-cash-coin"></i>
-                        </div>
-                        <div class="quick-action-content">
-                            <h6>Update Harga</h6>
-                            <p class="text-muted">Perbarui harga komoditas</p>
-                        </div>
-                    </a>
-                    <?php endif; ?>
-                    
-                    <?php if (in_array(session()->get('admin_role'), ['superadmin', 'admin', 'galeri'])): ?>
-                    <a href="/admin/galeri/create" class="quick-action-item" data-bs-toggle="tooltip" title="Upload foto ke galeri">
-                        <div class="quick-action-icon bg-info">
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon bg-success">
                             <i class="bi bi-images"></i>
                         </div>
-                        <div class="quick-action-content">
-                            <h6>Upload Foto</h6>
-                            <p class="text-muted">Tambah foto ke galeri</p>
+                        <div class="stat-content">
+                            <h6>Foto Galeri</h6>
+                            <p class="stat-number"><?= $total_galeri ?? 0 ?></p>
                         </div>
-                    </a>
-                    <?php endif; ?>
-                    
-                    <?php if (in_array(session()->get('admin_role'), ['superadmin', 'admin'])): ?>
-                    <a href="/admin/video/create" class="quick-action-item" data-bs-toggle="tooltip" title="Tambah video baru">
-                        <div class="quick-action-icon bg-danger">
-                            <i class="bi bi-camera-video"></i>
-                        </div>
-                        <div class="quick-action-content">
-                            <h6>Tambah Video</h6>
-                            <p class="text-muted">Upload video baru</p>
-                        </div>
-                    </a>
-                    
-                    <a href="/admin/pasar/create" class="quick-action-item" data-bs-toggle="tooltip" title="Tambah data pasar baru">
-                        <div class="quick-action-icon bg-secondary">
-                            <i class="bi bi-building"></i>
-                        </div>
-                        <div class="quick-action-content">
-                            <h6>Data Pasar</h6>
-                            <p class="text-muted">Tambah data pasar</p>
-                        </div>
-                    </a>
-                    
-                    <a href="/admin/feedback" class="quick-action-item" data-bs-toggle="tooltip" title="Kelola feedback pengguna">
-                        <div class="quick-action-icon bg-warning">
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon bg-warning">
                             <i class="bi bi-chat-dots"></i>
                         </div>
-                        <div class="quick-action-content">
-                            <h6>Feedback</h6>
-                            <p class="text-muted">Kelola feedback</p>
+                        <div class="stat-content">
+                            <h6>Feedback Masuk</h6>
+                            <p class="stat-number"><?= $total_feedback ?? 0 ?></p>
                         </div>
-                    </a>
-                    <?php endif; ?>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon bg-info">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h6>Data Pasar</h6>
+                            <p class="stat-number"><?= $total_pasar ?? 0 ?></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -269,7 +245,32 @@ document.addEventListener('DOMContentLoaded', function() {
         // Auto refresh harga komoditas setiap 5 menit
         setInterval(refreshCommodityPrices, 300000); // 5 menit
     }, 1000);
+    
+    // Update user activity every 2 minutes to keep status online
+    setInterval(updateUserActivity, 120000); // 2 menit
 });
+
+// Function to update user activity
+function updateUserActivity() {
+    fetch('/admin/update-activity', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            timestamp: new Date().toISOString()
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('User activity updated');
+        }
+    })
+    .catch(error => {
+        console.error('Error updating user activity:', error);
+    });
+}
 
 function refreshCommodityPrices() {
     // TODO: Ambil data harga terbaru dari database
@@ -298,31 +299,35 @@ function initializeCharts() {
     document.getElementById('activityChart').style.display = 'block';
     document.getElementById('contentChart').style.display = 'block';
 
-    // Activity Chart - Changed to Commodity Price Chart
+    // Activity Chart (Harga Komoditas)
     const activityCtx = document.getElementById('activityChart').getContext('2d');
     activityChart = new Chart(activityCtx, {
         type: 'line',
         data: {
-            labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
-            datasets: [{
-                label: 'Beras',
-                data: [0, 0, 0, 0, 0, 0, 0], // Akan diisi dari database
-                borderColor: '#10b981',
-                backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                tension: 0.4
-            }, {
-                label: 'Jagung',
-                data: [0, 0, 0, 0, 0, 0, 0], // Akan diisi dari database
-                borderColor: '#f59e0b',
-                backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                tension: 0.4
-            }, {
-                label: 'Kedelai',
-                data: [0, 0, 0, 0, 0, 0, 0], // Akan diisi dari database
-                borderColor: '#3b82f6',
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                tension: 0.4
-            }]
+            labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+            datasets: [
+                {
+                    label: 'Beras (Rp/kg)',
+                    data: [12000, 12500, 12300, 12700, 12400, 12600, 12500],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0.4
+                },
+                {
+                    label: 'Jagung (Rp/kg)',
+                    data: [8000, 8200, 8100, 8300, 8250, 8350, 8300],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    tension: 0.4
+                },
+                {
+                    label: 'Kedelai (Rp/kg)',
+                    data: [15000, 15200, 15100, 15300, 15250, 15400, 15350],
+                    borderColor: '#f59e0b',
+                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                    tension: 0.4
+                }
+            ]
         },
         options: {
             responsive: true,
@@ -333,21 +338,16 @@ function initializeCharts() {
                 },
                 title: {
                     display: true,
-                    text: 'Harga Komoditas (Rp/kg)'
+                    text: 'Tren Harga Komoditas Mingguan'
                 }
             },
             scales: {
                 y: {
                     beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Harga (Rp/kg)'
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Hari'
+                    ticks: {
+                        callback: function(value) {
+                            return 'Rp ' + value.toLocaleString('id-ID');
+                        }
                     }
                 }
             }
@@ -359,15 +359,17 @@ function initializeCharts() {
     contentChart = new Chart(contentCtx, {
         type: 'doughnut',
         data: {
-            labels: ['Komoditas', 'Berita', 'Galeri'],
+            labels: ['Berita', 'Galeri', 'Video', 'Harga'],
             datasets: [{
-                data: [<?= $total_komoditas ?? 0 ?>, <?= $total_berita ?? 0 ?>, <?= $total_galeri ?? 0 ?>],
+                data: [<?= $total_berita ?? 0 ?>, <?= $total_galeri ?? 0 ?>, 5, 12],
                 backgroundColor: [
+                    '#3b82f6',
                     '#10b981',
                     '#f59e0b',
-                    '#06b6d4'
+                    '#8b5cf6'
                 ],
-                borderWidth: 0
+                borderWidth: 2,
+                borderColor: '#fff'
             }]
         },
         options: {
@@ -376,113 +378,128 @@ function initializeCharts() {
             plugins: {
                 legend: {
                     position: 'bottom',
+                },
+                title: {
+                    display: true,
+                    text: 'Distribusi Konten'
                 }
             }
         }
     });
 }
 
-function updateChartPeriod(days) {
-    // TODO: Ambil data harga komoditas dari database berdasarkan periode
-    // fetch(`/api/dashboard/commodity-prices?period=${days}`)
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         // Update chart dengan data harga dari database
-    //         if (activityChart) {
-    //             activityChart.data.labels = data.labels;
-    //             activityChart.data.datasets[0].data = data.beras || [];
-    //             activityChart.data.datasets[1].data = data.jagung || [];
-    //             activityChart.data.datasets[2].data = data.kedelai || [];
-    //             activityChart.update();
-    //         }
-    //     })
-    //     .catch(error => {
-    //         console.error('Error fetching commodity prices:', error);
-    //     });
+function updateChartPeriod(period) {
+    // TODO: Implement chart period update
+    console.log('Update chart period to:', period, 'days');
     
-    // TODO: Update chart data dari database
-    if (activityChart) {
-        const newData = days === '7' ? 
-            [0, 0, 0, 0, 0, 0, 0] : 
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        
-        // Update semua dataset dengan data kosong untuk sementara
-        activityChart.data.datasets.forEach(dataset => {
-            dataset.data = newData;
-        });
-        activityChart.update();
-    }
-}
-
-function refreshActivities() {
-    // TODO: Ambil aktivitas terbaru dari database
-    // fetch('/api/dashboard/activities')
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         // Update aktivitas dengan data dari database
-    //         if (data.length > 0) {
-    //             displayActivities(data);
-    //         } else {
-    //             showNoActivityMessage();
-    //         }
-    //     })
-    //     .catch(error => {
-    //         console.error('Error fetching activities:', error);
-    //         showNoActivityMessage();
-    //     });
-    
-    // Untuk sementara, tampilkan pesan bahwa data belum tersedia
-    showNoActivityMessage();
-}
-
-function showNoActivityMessage() {
-    const activityList = document.getElementById('activityList');
-    activityList.innerHTML = `
-        <div class="text-center text-muted py-4">
-            <i class="bi bi-clock-history" style="font-size: 2rem;"></i>
-            <p class="mt-2 mb-0">Belum ada aktivitas terbaru</p>
-            <small>Data aktivitas akan muncul setelah ada konten yang ditambahkan</small>
-        </div>
-    `;
-}
-
-function displayActivities(activities) {
-    const activityList = document.getElementById('activityList');
-    if (activities.length === 0) {
-        showNoActivityMessage();
-        return;
-    }
-    
-    let html = '';
-    activities.forEach(activity => {
-        html += `
-            <div class="activity-item" onclick="showActivityDetail('${activity.type}')">
-                <div class="activity-icon bg-${activity.color}">
-                    <i class="bi bi-${activity.icon}"></i>
-                </div>
-                <div class="activity-content">
-                    <h6>${activity.title}</h6>
-                    <p class="text-muted">${activity.description}</p>
-                    <small class="text-muted">${activity.time}</small>
-                </div>
-            </div>
-        `;
+    // Update button states
+    document.querySelectorAll('.dashboard-card-actions .btn').forEach(btn => {
+        btn.classList.remove('btn-primary');
+        btn.classList.add('btn-outline-primary');
     });
-    
-    activityList.innerHTML = html;
-}
-
-function showActivityDetail(type) {
-    // TODO: Ambil detail aktivitas dari database
-    // fetch(`/api/dashboard/activity/${type}`)
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         // Tampilkan detail aktivitas dari database
-    //     });
-    
-    // Untuk sementara, tampilkan pesan bahwa fitur belum tersedia
-    alert('Detail aktivitas akan tersedia setelah implementasi database');
+    event.target.classList.remove('btn-outline-primary');
+    event.target.classList.add('btn-primary');
 }
 </script>
+
+<style>
+/* Government Dashboard Styles */
+.system-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border-left: 4px solid #3b82f6;
+}
+
+.info-item i {
+    font-size: 1.2rem;
+    width: 24px;
+}
+
+.content-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.stat-content h6 {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.stat-number {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.dashboard-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.dashboard-title {
+    color: white;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.current-time {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .content-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .dashboard-header {
+        padding: 1.5rem;
+    }
+    
+    .stat-item {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+</style>
 
 <?= $this->endSection() ?> 

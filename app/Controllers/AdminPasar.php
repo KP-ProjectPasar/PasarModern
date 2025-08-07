@@ -2,9 +2,7 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
-
-class AdminPasar extends Controller
+class AdminPasar extends BaseController
 {
     public function index()
     {
@@ -24,7 +22,7 @@ class AdminPasar extends Controller
             'pasars' => [] // Empty array for now, will be populated from database
         ];
 
-        return view('admin/pasar_list', $data);
+        return view('admin/lists/pasar_list', $data);
     }
 
     public function create()
@@ -40,7 +38,7 @@ class AdminPasar extends Controller
             'admin_role' => session()->get('admin_role')
         ];
 
-        return view('admin/pasar_form', $data);
+        return view('admin/forms/pasar_form', $data);
     }
 
     public function store()
@@ -142,7 +140,7 @@ class AdminPasar extends Controller
             'pasar' => null // Will be populated from database
         ];
 
-        return view('admin/pasar_form', $data);
+        return view('admin/forms/pasar_form', $data);
     }
 
     public function update($id)

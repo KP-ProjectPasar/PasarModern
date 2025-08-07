@@ -13,11 +13,12 @@ class AdminBerita extends BaseController
 
         $beritaModel = new BeritaModel();
         $beritas = $beritaModel->findAll();
-        return view('admin/berita_list', [
+        $data = [
             'beritas' => $beritas,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
-        ]);
+        ];
+        return view('admin/lists/berita_list', $data);
     }
 
     public function create()
@@ -27,7 +28,7 @@ class AdminBerita extends BaseController
             return redirect()->to('/admin/login');
         }
 
-        return view('admin/berita_form', [
+        return view('admin/forms/berita_form', [
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
         ]);
@@ -69,11 +70,12 @@ class AdminBerita extends BaseController
 
         $beritaModel = new BeritaModel();
         $berita = $beritaModel->find($id);
-        return view('admin/berita_form', [
+        $data = [
             'berita' => $berita,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
-        ]);
+        ];
+        return view('admin/forms/berita_form', $data);
     }
 
     public function update($id)
