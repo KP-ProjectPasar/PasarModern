@@ -50,7 +50,7 @@
             </div>
             <div class="stat-card-mini-content">
                 <div class="stat-card-mini-number"><?= count(array_unique(array_column($users, 'role'))) ?></div>
-                <div class="stat-card-mini-label">Level Akses</div>
+                <div class="stat-card-mini-label">Role</div>
             </div>
         </div>
     </div>
@@ -107,7 +107,7 @@
                                 <i class="bi bi-person me-2"></i>Informasi User
                             </th>
                             <th scope="col">
-                                <i class="bi bi-shield me-2"></i>Level Akses
+                                <i class="bi bi-shield me-2"></i>Role
                             </th>
                             <th scope="col">
                                 <i class="bi bi-circle me-2"></i>Status

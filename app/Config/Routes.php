@@ -31,14 +31,6 @@ $routes->get('admin/user/edit/(:num)', 'AdminUser::edit/$1');
 $routes->post('admin/user/update/(:num)', 'AdminUser::update/$1');
 $routes->get('admin/user/delete/(:num)', 'AdminUser::delete/$1');
 
-// CRUD Level/Grup
-$routes->get('admin/level', 'AdminLevel::index');
-$routes->get('admin/level/create', 'AdminLevel::create');
-$routes->post('admin/level/store', 'AdminLevel::store');
-$routes->get('admin/level/edit/(:num)', 'AdminLevel::edit/$1');
-$routes->post('admin/level/update/(:num)', 'AdminLevel::update/$1');
-$routes->get('admin/level/delete/(:num)', 'AdminLevel::delete/$1');
-
 // CRUD Kelola Role
 $routes->get('admin/role', 'AdminRole::index');
 $routes->get('admin/role/create', 'AdminRole::create');
