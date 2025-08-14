@@ -5,136 +5,135 @@ namespace Config;
 use CodeIgniter\Config\BaseConfig;
 
 /**
- * Stores the default settings for the ContentSecurityPolicy, if you
- * choose to use it. The values here will be read in and set as defaults
- * for the site. If needed, they can be overridden on a page-by-page basis.
+ * Menyimpan pengaturan default untuk ContentSecurityPolicy.
+ * Nilai di sini akan dibaca dan diset sebagai default untuk situs.
+ * Jika diperlukan, dapat diganti per halaman.
  *
- * Suggested reference for explanations:
+ * Referensi untuk penjelasan:
  *
  * @see https://www.html5rocks.com/en/tutorials/security/content-security-policy/
  */
 class ContentSecurityPolicy extends BaseConfig
 {
     // -------------------------------------------------------------------------
-    // Broadbrush CSP management
+    // Manajemen CSP secara umum
     // -------------------------------------------------------------------------
 
     /**
-     * Default CSP report context
+     * Konteks laporan CSP default
      */
     public bool $reportOnly = false;
 
     /**
-     * Specifies a URL where a browser will send reports
-     * when a content security policy is violated.
+     * Menentukan URL tempat browser akan mengirim laporan
+     * ketika kebijakan keamanan konten dilanggar.
      */
     public ?string $reportURI = null;
 
     /**
-     * Instructs user agents to rewrite URL schemes, changing
-     * HTTP to HTTPS. This directive is for websites with
-     * large numbers of old URLs that need to be rewritten.
+     * Memberi petunjuk kepada user agent untuk menulis ulang skema URL,
+     * mengubah HTTP menjadi HTTPS. Direktif ini untuk website dengan
+     * banyak URL lama yang perlu ditulis ulang.
      */
     public bool $upgradeInsecureRequests = false;
 
     // -------------------------------------------------------------------------
-    // Sources allowed
-    // NOTE: once you set a policy to 'none', it cannot be further restricted
+    // Sources yang diizinkan
+    // Catatan: setelah policy diset ke 'none', tidak bisa dibatasi lagi
     // -------------------------------------------------------------------------
 
     /**
-     * Will default to self if not overridden
+     * Akan default ke self jika tidak diganti
      *
      * @var list<string>|string|null
      */
     public $defaultSrc;
 
     /**
-     * Lists allowed scripts' URLs.
+     * Daftar URL script yang diizinkan.
      *
      * @var list<string>|string
      */
     public $scriptSrc = 'self';
 
     /**
-     * Lists allowed stylesheets' URLs.
+     * Daftar URL stylesheet yang diizinkan.
      *
      * @var list<string>|string
      */
     public $styleSrc = 'self';
 
     /**
-     * Defines the origins from which images can be loaded.
+     * Menentukan asal dari mana gambar dapat dimuat.
      *
      * @var list<string>|string
      */
     public $imageSrc = 'self';
 
     /**
-     * Restricts the URLs that can appear in a page's `<base>` element.
+     * Membatasi URL yang dapat muncul di elemen `<base>` halaman.
      *
-     * Will default to self if not overridden
+     * Akan default ke self jika tidak diganti
      *
      * @var list<string>|string|null
      */
     public $baseURI;
 
     /**
-     * Lists the URLs for workers and embedded frame contents
+     * Daftar URL untuk worker dan konten frame yang disematkan
      *
      * @var list<string>|string
      */
     public $childSrc = 'self';
 
     /**
-     * Limits the origins that you can connect to (via XHR,
-     * WebSockets, and EventSource).
+     * Membatasi asal yang dapat Anda hubungi (melalui XHR,
+     * WebSockets, dan EventSource).
      *
      * @var list<string>|string
      */
     public $connectSrc = 'self';
 
     /**
-     * Specifies the origins that can serve web fonts.
+     * Menentukan asal yang dapat menyediakan web font.
      *
      * @var list<string>|string
      */
     public $fontSrc;
 
     /**
-     * Lists valid endpoints for submission from `<form>` tags.
+     * Daftar endpoint yang valid untuk pengiriman dari tag `<form>`.
      *
      * @var list<string>|string
      */
     public $formAction = 'self';
 
     /**
-     * Specifies the sources that can embed the current page.
-     * This directive applies to `<frame>`, `<iframe>`, `<embed>`,
-     * and `<applet>` tags. This directive can't be used in
-     * `<meta>` tags and applies only to non-HTML resources.
+     * Menentukan asal yang dapat menyematkan halaman saat ini.
+     * Direktif ini berlaku untuk tag `<frame>`, `<iframe>`, `<embed>`,
+     * dan `<applet>`. Direktif ini tidak dapat digunakan di
+     * tag `<meta>` dan hanya berlaku untuk sumber non-HTML.
      *
      * @var list<string>|string|null
      */
     public $frameAncestors;
 
     /**
-     * The frame-src directive restricts the URLs which may
-     * be loaded into nested browsing contexts.
+     * Direktif frame-src membatasi URL yang dapat dimuat ke konteks navigasi bersarang.
      *
      * @var list<string>|string|null
      */
     public $frameSrc;
 
     /**
-     * Restricts the origins allowed to deliver video and audio.
+     * Membatasi asal yang diizinkan untuk menyediakan video dan audio.
      *
      * @var list<string>|string|null
      */
     public $mediaSrc;
 
     /**
-     * Allows control over Flash and other plugins.
+     * Memungkinkan kontrol atas Flash dan plugin lainnya.
      *
      * @var list<string>|string
      */
@@ -146,31 +145,31 @@ class ContentSecurityPolicy extends BaseConfig
     public $manifestSrc;
 
     /**
-     * Limits the kinds of plugins a page may invoke.
+     * Membatasi jenis plugin yang dapat dipanggil oleh halaman.
      *
      * @var list<string>|string|null
      */
     public $pluginTypes;
 
     /**
-     * List of actions allowed.
+     * Daftar tindakan yang diizinkan.
      *
      * @var list<string>|string|null
      */
     public $sandbox;
 
     /**
-     * Nonce tag for style
+     * Nonce tag untuk style
      */
     public string $styleNonceTag = '{csp-style-nonce}';
 
     /**
-     * Nonce tag for script
+     * Nonce tag untuk script
      */
     public string $scriptNonceTag = '{csp-script-nonce}';
 
     /**
-     * Replace nonce tag automatically
+     * Ganti nonce tag secara otomatis
      */
     public bool $autoNonce = true;
 }

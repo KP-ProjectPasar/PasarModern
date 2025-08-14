@@ -1,7 +1,7 @@
-// Custom JavaScript untuk Website Perumda Pasar Modern
+// JavaScript untuk Website Pasar Modern Tangerang
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Lightbox untuk galeri
+    // Inisialisasi lightbox untuk galeri
     const galleryImages = document.querySelectorAll('.gallery-img');
     
     galleryImages.forEach(img => {
@@ -10,8 +10,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Inisialisasi gallery placeholder
+    const galleryPlaceholders = document.querySelectorAll('.gallery-placeholder');
+    
+    galleryPlaceholders.forEach(placeholder => {
+        placeholder.addEventListener('click', function() {
+            showGalleryMessage();
+        });
+    });
+    
+    function showGalleryMessage() {
+        const message = document.createElement('div');
+        message.className = 'alert alert-info alert-dismissible fade show position-fixed';
+        message.style.cssText = 'top: 20px; right: 20px; z-index: 9999; max-width: 300px;';
+        message.innerHTML = `
+            <i class="bi bi-info-circle me-2"></i>
+            Galeri akan diisi dengan foto-foto pasar dari database.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        document.body.appendChild(message);
+        
+        setTimeout(() => {
+            if (message.parentNode) {
+                message.remove();
+            }
+        }, 5000);
+    }
+    
     function openLightbox(src, alt) {
-        // Buat overlay
         const overlay = document.createElement('div');
         overlay.className = 'lightbox-overlay';
         overlay.innerHTML = `
@@ -22,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         `;
         
-        // Tambahkan CSS inline untuk lightbox
         const style = document.createElement('style');
         style.textContent = `
             .lightbox-overlay {
@@ -98,14 +124,12 @@ document.addEventListener('DOMContentLoaded', function() {
         document.head.appendChild(style);
         document.body.appendChild(overlay);
         
-        // Tutup lightbox
         overlay.addEventListener('click', function(e) {
             if (e.target === overlay || e.target.classList.contains('lightbox-close')) {
                 closeLightbox();
             }
         });
         
-        // Tutup dengan ESC key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeLightbox();
@@ -134,21 +158,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetSection = document.querySelector(targetId);
             
             if (targetSection) {
-                // Khusus untuk beranda, scroll ke atas halaman
                 if (targetId === '#beranda') {
                     window.scrollTo({
                         top: 0,
                         behavior: 'smooth'
                     });
                 } else {
-                const offsetTop = targetSection.offsetTop - 80; // Offset untuk navbar
+                const offsetTop = targetSection.offsetTop - 80;
                 window.scrollTo({
                     top: offsetTop,
                     behavior: 'smooth'
                 });
                 }
                 
-                // Tutup mobile menu jika terbuka
                 const navbarCollapse = document.querySelector('.navbar-collapse');
                 if (navbarCollapse.classList.contains('show')) {
                     const bsCollapse = new bootstrap.Collapse(navbarCollapse);
@@ -158,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Khusus untuk logo navbar
+    // Event listener untuk logo navbar
     const navbarBrand = document.querySelector('.navbar-brand');
     if (navbarBrand) {
         navbarBrand.addEventListener('click', function(e) {
@@ -168,7 +190,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 behavior: 'smooth'
             });
             
-            // Tutup mobile menu jika terbuka
             const navbarCollapse = document.querySelector('.navbar-collapse');
             if (navbarCollapse.classList.contains('show')) {
                 const bsCollapse = new bootstrap.Collapse(navbarCollapse);
@@ -177,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Active navigation berdasarkan scroll
+    // Update active navigation berdasarkan posisi scroll
     window.addEventListener('scroll', function() {
         const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
@@ -185,7 +206,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let current = '';
         
-        // Efek visual navbar saat scroll
         if (window.scrollY > 50) {
             navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
             navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
@@ -203,7 +223,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Jika di bagian atas halaman, aktifkan link beranda
         if (window.scrollY < 100) {
             current = 'beranda';
         }
@@ -211,7 +230,6 @@ document.addEventListener('DOMContentLoaded', function() {
         navLinks.forEach(link => {
             link.classList.remove('active');
             
-            // Khusus untuk dropdown, cek apakah ada submenu yang aktif
             if (link.classList.contains('dropdown-toggle')) {
                 const dropdownItems = link.parentElement.querySelectorAll('.dropdown-item');
                 let hasActiveChild = false;
@@ -240,11 +258,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
+            if (entry.isIntersecting && !entry.target.dataset.animated) {
+                entry.target.dataset.animated = 'true';
+                
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
                 
-                // Khusus untuk statistik counter
                 if (entry.target.classList.contains('stats-counter')) {
                     const target = parseInt(entry.target.textContent.replace(/[^\d]/g, ''));
                     animateCounter(entry.target, target);
@@ -254,29 +273,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }, observerOptions);
     
     // Observe cards and sections
-    document.querySelectorAll('.card, .section-title, #tentang-kami .card, #tentang-kami h3, #tentang-kami .blockquote').forEach(el => {
+    document.querySelectorAll('.card, .section-title, .layanan-card, .about-card, .stats-card, .komoditas-card').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
     });
     
-    // Observe statistik counter
-    document.querySelectorAll('#ringkasan h4').forEach(el => {
-        el.classList.add('stats-counter');
-        // Jangan observe lagi karena sudah di observe di tentangKamiObserver
-    });
-    
-    // Counter animation for statistics (if any)
+    // Counter animation for statistics
     function animateCounter(element, target, duration = 2000) {
-        // Cek apakah sudah di-animate
-        if (element.dataset.animated === 'true') return;
-        element.dataset.animated = 'true';
+        if (element.dataset.counterAnimated === 'true') return;
+        element.dataset.counterAnimated = 'true';
         
         let start = 0;
         const increment = target / (duration / 16);
         const originalText = element.textContent;
-        const suffix = originalText.replace(/[\d,]/g, ''); // Ambil suffix (+, %, dll)
+        const suffix = originalText.replace(/[\d,]/g, '');
         
         function updateCounter() {
             start += increment;
@@ -316,101 +328,6 @@ document.addEventListener('DOMContentLoaded', function() {
         img.style.transform = 'scale(0.9)';
         img.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     });
-    
-    // Animasi khusus untuk section Tentang Kami
-    const tentangKamiObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const target = entry.target;
-                
-                // Animasi untuk statistik
-                if (target.classList.contains('stats-counter')) {
-                    // Cek apakah sudah di-animate
-                    if (target.dataset.animated === 'true') return;
-                    target.dataset.animated = 'true';
-                    
-                    const originalText = target.textContent;
-                    const number = parseInt(originalText.replace(/[^\d]/g, ''));
-                    const suffix = originalText.replace(/[\d,]/g, '');
-                    
-                    let current = 0;
-                    const increment = number / 50;
-                    
-                    const counter = setInterval(() => {
-                        current += increment;
-                        if (current >= number) {
-                            target.textContent = number.toLocaleString() + suffix;
-                            clearInterval(counter);
-                        } else {
-                            target.textContent = Math.floor(current).toLocaleString() + suffix;
-                        }
-                    }, 50);
-                }
-                
-                // Animasi untuk cards
-                if (target.classList.contains('card')) {
-                    target.style.opacity = '1';
-                    target.style.transform = 'translateY(0)';
-                }
-                
-                // Animasi untuk blockquote
-                if (target.classList.contains('blockquote')) {
-                    target.style.opacity = '1';
-                    target.style.transform = 'translateX(0)';
-                }
-            }
-        });
-    }, { threshold: 0.2 });
-    
-    // Observe elements di section Tentang Kami
-    document.querySelectorAll('#tentang-kami .card, #tentang-kami .blockquote, #tentang-kami .stats-counter').forEach(el => {
-        if (el.classList.contains('card')) {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        } else if (el.classList.contains('blockquote')) {
-            el.style.opacity = '0';
-            el.style.transform = 'translateX(-30px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        } else if (el.classList.contains('stats-counter')) {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        }
-        tentangKamiObserver.observe(el);
-    });
-    
-    // Tambahkan efek loading untuk section Tentang Kami
-    const tentangKamiSection = document.getElementById('tentang-kami');
-    if (tentangKamiSection) {
-        const loadingObserver = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // Tambahkan class untuk animasi
-                    entry.target.classList.add('section-loaded');
-                    
-                    // Animate elements dengan delay
-                    const elements = entry.target.querySelectorAll('.card, .blockquote, .stats-counter');
-                    elements.forEach((el, index) => {
-                        setTimeout(() => {
-                            if (el.classList.contains('card')) {
-                                el.style.opacity = '1';
-                                el.style.transform = 'translateY(0)';
-                            } else if (el.classList.contains('blockquote')) {
-                                el.style.opacity = '1';
-                                el.style.transform = 'translateX(0)';
-                            } else if (el.classList.contains('stats-counter')) {
-                                el.style.opacity = '1';
-                                el.style.transform = 'translateY(0)';
-                            }
-                        }, index * 200);
-                    });
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        loadingObserver.observe(tentangKamiSection);
-    }
     
     // Add hover effect for table rows
     const tableRows = document.querySelectorAll('tbody tr');
@@ -536,7 +453,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add click effect for dropdown items
     dropdownItems.forEach(item => {
         item.addEventListener('click', function() {
-            // Add ripple effect
             const ripple = document.createElement('span');
             ripple.style.cssText = `
                 position: absolute;
@@ -582,7 +498,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const perubahanFilter = document.getElementById('filterPerubahan');
     const komoditasItems = document.querySelectorAll('.komoditas-item');
 
-    // Fungsi filter komoditas
     function filterKomoditas() {
         const searchTerm = searchInput.value.toLowerCase();
         const kategoriValue = kategoriFilter.value;
@@ -599,17 +514,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (matchesSearch && matchesKategori && matchesPerubahan) {
                 item.style.display = 'block';
-                item.style.animation = 'fadeInUp 0.5s ease-out';
             } else {
                 item.style.display = 'none';
             }
         });
 
-        // Update statistik berdasarkan filter
         updateStatistics();
     }
 
-    // Update statistik berdasarkan filter yang aktif
     function updateStatistics() {
         const visibleItems = document.querySelectorAll('.komoditas-item[style*="block"], .komoditas-item:not([style*="none"])');
         let naikCount = 0;
@@ -621,7 +533,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (perubahan === 'turun') turunCount++;
         });
 
-        // Update statistik cards jika ada
         const statCards = document.querySelectorAll('.stat-card h4');
         if (statCards.length >= 2) {
             statCards[0].textContent = naikCount;
@@ -629,7 +540,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Event listeners
     if (searchInput) {
         searchInput.addEventListener('input', filterKomoditas);
     }
@@ -639,40 +549,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (perubahanFilter) {
         perubahanFilter.addEventListener('change', filterKomoditas);
     }
-
-    // Animasi loading untuk cards
-    function animateCards() {
-        const cards = document.querySelectorAll('.komoditas-card');
-        cards.forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            
-            setTimeout(() => {
-                card.style.transition = 'all 0.6s ease-out';
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, index * 100);
-        });
-    }
-
-    // Jalankan animasi saat halaman dimuat
-    setTimeout(animateCards, 500);
 });
 
 // Fungsi untuk menampilkan detail komoditas
 function showDetail(commodityId) {
-    // TODO: Ambil data detail dari API berdasarkan commodityId
-    // fetch(`/api/komoditas/${commodityId}`)
-    //     .then(res => res.json())
-    //     .then(detail => {
-    //         // Tampilkan modal dengan data dari database
-    //     });
-    
-    // Untuk sementara, tampilkan pesan
     showNotification('Fitur detail komoditas akan segera tersedia', 'info');
 }
 
-// Fungsi untuk berbagi harga
+// Fungsi untuk berbagi harga komoditas
 function sharePrice(commodityName, price) {
     const shareText = `Harga ${commodityName} saat ini: ${price} - Update dari E-Pasar Tangerang`;
     const shareUrl = window.location.href;
@@ -684,7 +568,6 @@ function sharePrice(commodityName, price) {
             url: shareUrl
         });
     } else {
-        // Fallback untuk browser yang tidak mendukung Web Share API
         const textArea = document.createElement('textarea');
         textArea.value = `${shareText}\n${shareUrl}`;
         document.body.appendChild(textArea);
@@ -692,27 +575,22 @@ function sharePrice(commodityName, price) {
         document.execCommand('copy');
         document.body.removeChild(textArea);
         
-        // Tampilkan notifikasi
         showNotification('Link berhasil disalin ke clipboard!', 'success');
     }
 }
 
 // Fungsi untuk menampilkan semua komoditas
 function showAllCommodities() {
-    // Reset semua filter
     document.getElementById('searchKomoditas').value = '';
     document.getElementById('filterKategori').value = '';
     document.getElementById('filterPerubahan').value = '';
     
-    // Tampilkan semua item
     document.querySelectorAll('.komoditas-item').forEach(item => {
         item.style.display = 'block';
     });
     
-    // Update statistik
     updateStatistics();
     
-    // Scroll ke section komoditas
     document.getElementById('harga').scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -728,7 +606,6 @@ function showNotification(message, type = 'info') {
     
     document.body.appendChild(notification);
     
-    // Auto remove setelah 3 detik
     setTimeout(() => {
         if (notification.parentNode) {
             notification.remove();
@@ -736,47 +613,23 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-// --- AJAX Komoditas ---
+// Fungsi untuk mengambil data komoditas
 function fetchKomoditas() {
     const grid = document.getElementById('komoditasGrid');
     if (!grid) return;
     grid.innerHTML = '<div class="text-center w-100 py-5">Loading data komoditas...</div>';
     
-    // TODO: Implementasi API call yang sebenarnya
-    // fetch('/api/komoditas')
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         if (!data.length) {
-    //             grid.innerHTML = '<div class="text-center w-100 py-5">Tidak ada data komoditas.</div>';
-    //             return;
-    //         }
-    //         // Render data dari database
-    //     });
-    
-    // Untuk sementara, tampilkan pesan
     setTimeout(() => {
         grid.innerHTML = '<div class="text-center w-100 py-5">Data komoditas akan tersedia setelah implementasi database.</div>';
     }, 1000);
 }
 
-// --- AJAX Berita ---
+// AJAX Berita
 function fetchBerita() {
     const list = document.getElementById('beritaList');
     if (!list) return;
     list.innerHTML = '<div class="text-center w-100 py-5">Loading berita...</div>';
     
-    // TODO: Implementasi API call yang sebenarnya
-    // fetch('/api/berita')
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         if (!data.length) {
-    //             list.innerHTML = '<div class="text-center w-100 py-5">Tidak ada berita.</div>';
-    //             return;
-    //         }
-    //         // Render data dari database
-    //     });
-    
-    // Untuk sementara, tampilkan pesan
     setTimeout(() => {
         list.innerHTML = '<div class="text-center w-100 py-5">Data berita akan tersedia setelah implementasi database.</div>';
     }, 1000);

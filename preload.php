@@ -12,54 +12,43 @@
 use CodeIgniter\Boot;
 use Config\Paths;
 
-/*
- *---------------------------------------------------------------
- * Sample file for Preloading
- *---------------------------------------------------------------
- * See https://www.php.net/manual/en/opcache.preloading.php
- *
- * How to Use:
- *   0. Copy this file to your project root folder.
- *   1. Set the $paths property of the preload class below.
- *   2. Set opcache.preload in php.ini.
- *     php.ini:
- *     opcache.preload=/path/to/preload.php
- */
+// File untuk preloading OPcache
+// Lihat dokumentasi: https://www.php.net/manual/en/opcache.preloading.php
+//
+// Cara penggunaan:
+// 1. Copy file ini ke root folder project
+// 2. Set property $paths di class preload di bawah
+// 3. Set opcache.preload di php.ini:
+//    opcache.preload=/path/to/preload.php
 
-// Load the paths config file
 require __DIR__ . '/app/Config/Paths.php';
 
-// Path to the front controller
 define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR);
 
 class preload
 {
     /**
-     * @var array Paths to preload.
+     * Path yang akan di-preload
      */
     private array $paths = [
         [
-            'include' => __DIR__ . '/vendor/codeigniter4/framework/system', // Change this path if using manual installation
+            'include' => __DIR__ . '/vendor/codeigniter4/framework/system',
             'exclude' => [
-                // Not needed if you don't use them.
                 '/system/Database/OCI8/',
                 '/system/Database/Postgre/',
                 '/system/Database/SQLite3/',
                 '/system/Database/SQLSRV/',
-                // Not needed for web apps.
                 '/system/Database/Seeder.php',
                 '/system/Test/',
                 '/system/CLI/',
                 '/system/Commands/',
                 '/system/Publisher/',
                 '/system/ComposerScripts.php',
-                // Not Class/Function files.
                 '/system/Config/Routes.php',
                 '/system/Language/',
                 '/system/bootstrap.php',
                 '/system/rewrite.php',
                 '/Views/',
-                // Errors occur.
                 '/system/ThirdParty/',
             ],
         ],
@@ -79,7 +68,7 @@ class preload
     }
 
     /**
-     * Load PHP files.
+     * Load file PHP untuk preloading
      */
     public function load(): void
     {

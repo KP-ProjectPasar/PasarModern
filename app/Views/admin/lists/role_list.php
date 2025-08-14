@@ -1,12 +1,17 @@
 <?= $this->extend('admin/layout') ?>
+
+<?= $this->section('head') ?>
+<link rel="stylesheet" href="/assets/css/admin/role-list-styles.css">
+<script src="/assets/js/admin/role-list.js" defer></script>
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 
-<!-- Government Style Header -->
 <div class="page-header">
     <div class="row align-items-center">
         <div class="col">
             <h1 class="page-title">
-                <i class="bi bi-shield-check me-2"></i>Kelola Role Sistem
+                <i class="bi bi-shield-fill me-2"></i>Kelola Role
             </h1>
             <p class="page-subtitle mb-0">Manajemen role dan hak akses sistem informasi pasar modern</p>
         </div>
@@ -18,7 +23,6 @@
     </div>
 </div>
 
-<!-- Flash Messages -->
 <?php if (session()->getFlashdata('success')): ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <i class="bi bi-check-circle me-2"></i>
@@ -49,12 +53,11 @@
     </div>
 <?php endif; ?>
 
-<!-- Government Statistics -->
 <div class="row mb-4">
-    <div class="col-md-3 mb-3">
+    <div class="col-md-4 mb-3">
         <div class="stat-card-mini stat-card-primary">
             <div class="stat-card-mini-icon">
-                <i class="bi bi-shield-check"></i>
+                <i class="bi bi-shield"></i>
             </div>
             <div class="stat-card-mini-content">
                 <div class="stat-card-mini-number"><?= count($roles) ?></div>
@@ -62,46 +65,34 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
+    <div class="col-md-4 mb-3">
         <div class="stat-card-mini stat-card-success">
             <div class="stat-card-mini-icon">
                 <i class="bi bi-check-circle"></i>
             </div>
             <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= count(array_filter($roles, function($role) { return $role['is_active'] == 1; })) ?></div>
-                <div class="stat-card-mini-label">Role Aktif</div>
+                <div class="stat-card-mini-number"><?= count(array_filter($roles, function($role) { return isset($role['is_active']) && $role['is_active'] == 1; })) ?></div>
+                <div class="stat-card-mini-label">Aktif</div>
             </div>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
+    <div class="col-md-4 mb-3">
         <div class="stat-card-mini stat-card-warning">
-            <div class="stat-card-mini-icon">
-                <i class="bi bi-x-circle"></i>
-            </div>
-            <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= count(array_filter($roles, function($role) { return $role['is_active'] == 0; })) ?></div>
-                <div class="stat-card-mini-label">Role Nonaktif</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 mb-3">
-        <div class="stat-card-mini stat-card-info">
             <div class="stat-card-mini-icon">
                 <i class="bi bi-people"></i>
             </div>
             <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= date('d') ?></div>
-                <div class="stat-card-mini-label">Update Hari Ini</div>
+                <div class="stat-card-mini-number"><?= array_sum(array_column($roles, 'user_count') ?? []) ?></div>
+                <div class="stat-card-mini-label">Total User</div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Government Style Table -->
 <div class="content-card">
     <div class="content-card-header">
         <div class="content-card-title">
-            <h3><i class="bi bi-table me-2"></i>Daftar Role Sistem</h3>
+            <h3><i class="bi bi-table me-2"></i>Daftar Role</h3>
         </div>
         <div class="content-card-actions">
             <div class="input-group" style="max-width: 300px;">
@@ -112,12 +103,12 @@
             </div>
         </div>
     </div>
-    
+                
     <div class="content-card-body">
         <?php if (empty($roles)): ?>
             <div class="empty-state">
                 <div class="empty-state-icon">
-                    <i class="bi bi-shield-check"></i>
+                    <i class="bi bi-shield"></i>
                 </div>
                 <h4>Belum ada data role</h4>
                 <p>Mulai dengan menambahkan role pertama untuk sistem</p>
@@ -127,8 +118,8 @@
             </div>
         <?php else: ?>
             <div class="table-responsive">
-                <table class="table table-hover government-table">
-                    <thead class="table-dark">
+                <table class="table table-hover admin-table">
+                    <thead>
                         <tr>
                             <th scope="col" class="text-center" style="width: 50px;">
                                 <i class="bi bi-hash"></i>
@@ -254,7 +245,6 @@
                 </table>
             </div>
             
-            <!-- Government Style Summary -->
             <div class="table-summary mt-4">
                 <div class="row">
                     <div class="col-md-6">
@@ -277,7 +267,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Search functionality
     const searchInput = document.getElementById('searchInput');
     const roleRows = document.querySelectorAll('.role-row');
     
@@ -295,7 +284,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Role action functions
     window.editRole = function(id) {
         window.location.href = `/admin/role/edit/${id}`;
     };
@@ -307,138 +295,5 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 });
 </script>
-
-<style>
-/* Government Table Styles for Role */
-.role-info-cell {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.role-icon-mini {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.2rem;
-}
-
-.role-details {
-    flex: 1;
-}
-
-.role-name {
-    font-weight: 600;
-    color: #1e293b;
-    margin-bottom: 0.25rem;
-}
-
-.role-description {
-    font-size: 0.875rem;
-    color: #64748b;
-}
-
-.permissions-display {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem;
-}
-
-.permission-badge-mini {
-    display: inline-block;
-    padding: 0.25rem 0.5rem;
-    background: #f1f5f9;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    color: #475569;
-    font-weight: 500;
-}
-
-.status-indicator.active {
-    color: #059669;
-}
-
-.status-indicator.inactive {
-    color: #6b7280;
-}
-
-.status-indicator i {
-    font-size: 0.75rem;
-}
-
-.user-count {
-    font-size: 0.875rem;
-    color: #64748b;
-}
-
-.created-date {
-    font-size: 0.875rem;
-    color: #64748b;
-}
-
-/* Action Buttons */
-.action-buttons {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: center;
-}
-
-.action-buttons .btn {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-    font-size: 0.875rem;
-}
-
-.action-buttons .btn:hover {
-    transform: scale(1.1);
-}
-
-.action-buttons .btn-outline-warning:hover {
-    background-color: #f59e0b;
-    border-color: #f59e0b;
-    color: white;
-}
-
-.action-buttons .btn-outline-danger:hover {
-    background-color: #dc2626;
-    border-color: #dc2626;
-    color: white;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .government-table {
-        font-size: 0.875rem;
-    }
-    
-    .government-table thead th,
-    .government-table tbody td {
-        padding: 0.75rem 0.5rem;
-    }
-    
-    .role-info-cell {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-    
-    .action-buttons {
-        flex-direction: column;
-        gap: 0.25rem;
-    }
-}
-</style>
 
 <?= $this->endSection() ?> 

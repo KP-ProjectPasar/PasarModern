@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/landing-styles.css">
 </head>
 <body>
     <!-- Navbar -->
@@ -141,28 +142,52 @@
             <h2 class="section-title text-center">Galeri Pasar Modern</h2>
             <div class="row g-3" id="galeri-list">
                 <div class="col-6 col-md-3">
-                    <img src="/assets/img/pasar1.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 1">
+                    <div class="gallery-placeholder">
+                        <i class="bi bi-image"></i>
+                        <span>Galeri 1</span>
+                    </div>
                 </div>
                 <div class="col-6 col-md-3">
-                    <img src="/assets/img/pasar2.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 2">
+                    <div class="gallery-placeholder">
+                        <i class="bi bi-image"></i>
+                        <span>Galeri 2</span>
+                    </div>
                 </div>
                 <div class="col-6 col-md-3">
-                    <img src="/assets/img/pasar3.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 3">
+                    <div class="gallery-placeholder">
+                        <i class="bi bi-image"></i>
+                        <span>Galeri 3</span>
+                    </div>
                 </div>
                 <div class="col-6 col-md-3">
-                    <img src="/assets/img/pasar4.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 4">
+                    <div class="gallery-placeholder">
+                        <i class="bi bi-image"></i>
+                        <span>Galeri 4</span>
+                    </div>
                 </div>
                 <div class="col-6 col-md-3">
-                    <img src="/assets/img/pasar5.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 5">
+                    <div class="gallery-placeholder">
+                        <i class="bi bi-image"></i>
+                        <span>Galeri 5</span>
+                    </div>
                 </div>
                 <div class="col-6 col-md-3">
-                    <img src="/assets/img/pasar6.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 6">
+                    <div class="gallery-placeholder">
+                        <i class="bi bi-image"></i>
+                        <span>Galeri 6</span>
+                    </div>
                 </div>
                 <div class="col-6 col-md-3">
-                    <img src="/assets/img/pasar7.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 7">
+                    <div class="gallery-placeholder">
+                        <i class="bi bi-image"></i>
+                        <span>Galeri 7</span>
+                    </div>
                 </div>
                 <div class="col-6 col-md-3">
-                    <img src="/assets/img/pasar8.jpeg" class="w-100 gallery-img" alt="Galeri Pasar 8">
+                    <div class="gallery-placeholder">
+                        <i class="bi bi-image"></i>
+                        <span>Galeri 8</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -230,34 +255,113 @@
         <div class="container">
             <h2 class="section-title text-center">Kirim Feedback & Saran</h2>
             <div class="row justify-content-center">
-                <div class="col-lg-7">
-                    <form id="feedbackForm" class="card border-0 shadow-sm p-4">
-                        <div class="mb-3">
-                            <label for="nama" class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="nama" name="nama" required>
+                <div class="col-lg-8">
+                    <div class="feedback-card">
+                        <div class="feedback-header text-center mb-4">
+                            <h3 class="feedback-title">
+                                <i class="bi bi-chat-dots me-2"></i>
+                                Kirim Feedback
+                            </h3>
+                            <p class="feedback-subtitle">
+                                Berikan masukan, saran, atau laporan untuk meningkatkan layanan Pasar Modern Tangerang
+                            </p>
                         </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="pesan" class="form-label">Pesan / Saran</label>
-                            <textarea class="form-control" id="pesan" name="pesan" rows="4" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Rating</label>
-                            <div id="ratingStars" class="mb-2">
-                                <i class="bi bi-star" data-value="1"></i>
-                                <i class="bi bi-star" data-value="2"></i>
-                                <i class="bi bi-star" data-value="3"></i>
-                                <i class="bi bi-star" data-value="4"></i>
-                                <i class="bi bi-star" data-value="5"></i>
+                        
+                        <form id="feedbackForm" class="feedback-form">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="nama" class="form-label">
+                                        <i class="bi bi-person me-1"></i>Nama Lengkap <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="nama" name="nama" required 
+                                           placeholder="Masukkan nama lengkap Anda">
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">
+                                        <i class="bi bi-envelope me-1"></i>Email <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="email" class="form-control" id="email" name="email" required 
+                                           placeholder="contoh@email.com">
+                                </div>
                             </div>
-                            <input type="hidden" name="rating" id="rating" value="0">
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-lg w-100" aria-label="Kirim Feedback"><i class="bi bi-send me-2"></i>Kirim Feedback</button>
-                        <div id="feedbackMsg" class="mt-3"></div>
-                    </form>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="telepon" class="form-label">
+                                        <i class="bi bi-telephone me-1"></i>Nomor Telepon
+                                    </label>
+                                    <input type="tel" class="form-control" id="telepon" name="telepon" 
+                                           placeholder="081234567890">
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="jenis_feedback" class="form-label">
+                                        <i class="bi bi-tag me-1"></i>Jenis Feedback <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select" id="jenis_feedback" name="jenis_feedback" required>
+                                        <option value="">Pilih jenis feedback</option>
+                                        <option value="keluhan">Keluhan</option>
+                                        <option value="saran">Saran</option>
+                                        <option value="pujian">Pujian</option>
+                                        <option value="laporan">Laporan</option>
+                                        <option value="pertanyaan">Pertanyaan</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="subjek" class="form-label">
+                                    <i class="bi bi-chat-text me-1"></i>Subjek <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="subjek" name="subjek" required 
+                                       placeholder="Masukkan subjek feedback">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="pesan" class="form-label">
+                                    <i class="bi bi-chat-dots me-1"></i>Pesan <span class="text-danger">*</span>
+                                </label>
+                                <textarea class="form-control" id="pesan" name="pesan" rows="5" required 
+                                          placeholder="Jelaskan detail feedback Anda..."></textarea>
+                                <div class="form-text">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Minimal 10 karakter, maksimal 1000 karakter
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="file_lampiran" class="form-label">
+                                    <i class="bi bi-paperclip me-1"></i>Lampiran (Opsional)
+                                </label>
+                                <input type="file" class="form-control" id="file_lampiran" name="file_lampiran" 
+                                       accept="image/*,video/*,.pdf,.doc,.docx">
+                                <div class="form-text">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Format: JPG, PNG, GIF, MP4, AVI, MOV, WMV, PDF, DOC. Maksimal 50MB.
+                                </div>
+                                
+                                <!-- File Preview -->
+                                <div id="filePreview" class="mt-2" style="display: none;">
+                                    <div class="preview-container">
+                                        <img id="imagePreview" class="img-thumbnail" style="max-width: 200px; display: none;">
+                                        <video id="videoPreview" controls style="max-width: 200px; display: none;"></video>
+                                        <div id="fileInfo" class="mt-2"></div>
+                                        <button type="button" class="btn btn-sm btn-outline-danger mt-2" onclick="removeFile()">
+                                            <i class="bi bi-x-circle me-1"></i>Hapus File
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+                                    <i class="bi bi-send me-2"></i>
+                                    Kirim Feedback
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -342,7 +446,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/js/landing.js"></script>
-    <script src="/assets/js/komoditas.js"></script>
     <script src="/assets/js/feedback.js"></script>
 </body>
 </html> 

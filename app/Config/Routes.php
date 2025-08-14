@@ -7,6 +7,10 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'LandingPage::index');
 
+// Feedback Routes
+$routes->get('feedback', 'Feedback::index');
+$routes->post('feedback/submit', 'Feedback::submit');
+
 $routes->get('api/komoditas', 'Api::komoditas');
 $routes->get('api/berita', 'Api::berita');
 
@@ -89,3 +93,6 @@ $routes->get('admin/pasar/delete/(:num)', 'AdminPasar::delete/$1');
 
 // CRUD Feedback
 $routes->get('admin/feedback', 'AdminFeedback::index');
+$routes->get('admin/feedback/view/(:num)', 'AdminFeedback::view/$1');
+$routes->post('admin/feedback/update-status/(:num)', 'AdminFeedback::updateStatus/$1');
+$routes->get('admin/feedback/delete/(:num)', 'AdminFeedback::delete/$1');

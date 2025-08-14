@@ -12,12 +12,14 @@ class AdminVideo extends BaseController
         }
 
         $videoModel = new VideoModel();
-        $videos = $videoModel->findAll();
-        return view('admin/lists/video_list', [
-            'videos' => $videos,
+        $video = $videoModel->findAll();
+        $data = [
+            'videos' => $video,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
-        ]);
+            'active_page' => 'video',
+        ];
+        return view('admin/lists/video_list', $data);
     }
 
     public function create()
@@ -30,6 +32,8 @@ class AdminVideo extends BaseController
         return view('admin/forms/video_form', [
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
+            'title' => 'Tambah Video',
+            'active_page' => 'video',
         ]);
     }
 
@@ -40,31 +44,50 @@ class AdminVideo extends BaseController
             return redirect()->to('/admin/login');
         }
 
+        // Validation
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'judul' => 'required|min_length[3]|max_length[200]',
+            'deskripsi' => 'required|min_length[10]|max_length[500]',
+            'url_video' => 'required|valid_url',
+            'thumbnail' => 'uploaded[thumbnail]|is_image[thumbnail]|max_size[thumbnail,5120]'
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
         $videoModel = new VideoModel();
         
-        $tipe = $this->request->getPost('tipe');
-        $url = '';
-        $fileVideo = '';
-        
-        if ($tipe === 'url') {
-            $url = $this->request->getPost('url');
-        } elseif ($tipe === 'file') {
-            // Handle file upload
-            $video = $this->request->getFile('file_video');
-            if ($video->isValid() && !$video->hasMoved()) {
-                $fileVideo = $video->getRandomName();
-                $video->move(ROOTPATH . 'public/uploads/video', $fileVideo);
+        try {
+            // Handle thumbnail upload
+            $thumbnail = $this->request->getFile('thumbnail');
+            $thumbnailName = '';
+            
+            if ($thumbnail->isValid() && !$thumbnail->hasMoved()) {
+                // Ensure upload directory exists
+                $uploadPath = ROOTPATH . 'public/uploads/video';
+                if (!is_dir($uploadPath)) {
+                    mkdir($uploadPath, 0755, true);
+                }
+                
+                $thumbnailName = $thumbnail->getRandomName();
+                $thumbnail->move($uploadPath, $thumbnailName);
             }
+            
+            $data = [
+                'judul' => $this->request->getPost('judul'),
+                'deskripsi' => $this->request->getPost('deskripsi'),
+                'url_video' => $this->request->getPost('url_video'),
+                'thumbnail' => $thumbnailName,
+            ];
+            
+            $videoModel->insert($data);
+            return redirect()->to('/admin/video')->with('success', 'Video berhasil ditambahkan!');
+            
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Gagal menambahkan video: ' . $e->getMessage());
         }
-        
-        $data = [
-            'judul' => $this->request->getPost('judul'),
-            'url' => $url,
-            'file_video' => $fileVideo,
-            'tipe' => $tipe,
-        ];
-        $videoModel->insert($data);
-        return redirect()->to('/admin/video');
     }
 
     public function edit($id)
@@ -76,11 +99,19 @@ class AdminVideo extends BaseController
 
         $videoModel = new VideoModel();
         $video = $videoModel->find($id);
-        return view('admin/forms/video_form', [
+        
+        if (!$video) {
+            return redirect()->to('/admin/video')->with('error', 'Video tidak ditemukan!');
+        }
+        
+        $data = [
             'video' => $video,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
-        ]);
+            'title' => 'Edit Video',
+            'active_page' => 'video',
+        ];
+        return view('admin/forms/video_form', $data);
     }
 
     public function update($id)
@@ -90,32 +121,57 @@ class AdminVideo extends BaseController
             return redirect()->to('/admin/login');
         }
 
+        // Validation
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'judul' => 'required|min_length[3]|max_length[200]',
+            'deskripsi' => 'required|min_length[10]|max_length[500]',
+            'url_video' => 'required|valid_url',
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
         $videoModel = new VideoModel();
         
-        $tipe = $this->request->getPost('tipe');
-        $url = '';
-        $fileVideo = '';
-        
-        if ($tipe === 'url') {
-            $url = $this->request->getPost('url');
-        } elseif ($tipe === 'file') {
-            // Handle file upload if new video is uploaded
-            $video = $this->request->getFile('file_video');
-            if ($video->isValid() && !$video->hasMoved()) {
-                $fileVideo = $video->getRandomName();
-                $video->move(ROOTPATH . 'public/uploads/video', $fileVideo);
+        try {
+            $data = [
+                'judul' => $this->request->getPost('judul'),
+                'deskripsi' => $this->request->getPost('deskripsi'),
+                'url_video' => $this->request->getPost('url_video'),
+            ];
+            
+            // Handle thumbnail upload if new thumbnail is uploaded
+            $thumbnail = $this->request->getFile('thumbnail');
+            if ($thumbnail->isValid() && !$thumbnail->hasMoved()) {
+                // Additional validation for new thumbnail
+                $imageValidation = \Config\Services::validation();
+                $imageValidation->setRules([
+                    'thumbnail' => 'is_image[thumbnail]|max_size[thumbnail,5120]'
+                ]);
+                
+                if (!$imageValidation->withRequest($this->request)->run()) {
+                    return redirect()->back()->withInput()->with('errors', $imageValidation->getErrors());
+                }
+                
+                // Ensure upload directory exists
+                $uploadPath = ROOTPATH . 'public/uploads/video';
+                if (!is_dir($uploadPath)) {
+                    mkdir($uploadPath, 0755, true);
+                }
+                
+                $thumbnailName = $thumbnail->getRandomName();
+                $thumbnail->move($uploadPath, $thumbnailName);
+                $data['thumbnail'] = $thumbnailName;
             }
+            
+            $videoModel->update($id, $data);
+            return redirect()->to('/admin/video')->with('success', 'Video berhasil diperbarui!');
+            
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Gagal memperbarui video: ' . $e->getMessage());
         }
-        
-        $data = [
-            'judul' => $this->request->getPost('judul'),
-            'url' => $url,
-            'file_video' => $fileVideo,
-            'tipe' => $tipe,
-        ];
-        
-        $videoModel->update($id, $data);
-        return redirect()->to('/admin/video');
     }
 
     public function delete($id)
@@ -125,8 +181,23 @@ class AdminVideo extends BaseController
             return redirect()->to('/admin/login');
         }
 
-        $videoModel = new VideoModel();
-        $videoModel->delete($id);
-        return redirect()->to('/admin/video');
+        try {
+            $videoModel = new VideoModel();
+            $video = $videoModel->find($id);
+            
+            if ($video && $video['thumbnail']) {
+                // Delete thumbnail file
+                $imagePath = ROOTPATH . 'public/uploads/video/' . $video['thumbnail'];
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+            }
+            
+            $videoModel->delete($id);
+            return redirect()->to('/admin/video')->with('success', 'Video berhasil dihapus!');
+            
+        } catch (\Exception $e) {
+            return redirect()->to('/admin/video')->with('error', 'Gagal menghapus video: ' . $e->getMessage());
+        }
     }
 } 

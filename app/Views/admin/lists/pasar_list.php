@@ -1,25 +1,28 @@
 <?= $this->extend('admin/layout') ?>
 
+<?= $this->section('head') ?>
+<link rel="stylesheet" href="/assets/css/admin/pasar-list-styles.css">
+<script src="/assets/js/admin/pasar-list.js" defer></script>
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 
-<!-- Government Style Header -->
 <div class="page-header">
     <div class="row align-items-center">
         <div class="col">
             <h1 class="page-title">
-                <i class="bi bi-building me-2"></i>Kelola Data Pasar
+                <i class="bi bi-building-fill me-2"></i>Kelola Pasar
             </h1>
-            <p class="page-subtitle mb-0">Manajemen informasi dan data pasar yang tersedia dalam sistem</p>
+            <p class="page-subtitle mb-0">Manajemen data pasar dalam sistem informasi pasar modern</p>
         </div>
         <div class="col-auto">
             <a href="/admin/pasar/create" class="btn btn-primary">
-                <i class="bi bi-plus-circle me-2"></i>Tambah Data Pasar
+                <i class="bi bi-plus-circle me-2"></i>Tambah Pasar
             </a>
         </div>
     </div>
 </div>
 
-<!-- Government Statistics -->
 <div class="row mb-4">
     <div class="col-md-3 mb-3">
         <div class="stat-card-mini stat-card-primary">
@@ -27,7 +30,7 @@
                 <i class="bi bi-building"></i>
             </div>
             <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= count($pasar ?? []) ?></div>
+                <div class="stat-card-mini-number"><?= count($pasar) ?></div>
                 <div class="stat-card-mini-label">Total Pasar</div>
             </div>
         </div>
@@ -38,66 +41,65 @@
                 <i class="bi bi-check-circle"></i>
             </div>
             <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= count(array_filter($pasar ?? [], function($p) { return $p['status'] == 'aktif'; })) ?></div>
-                <div class="stat-card-mini-label">Pasar Aktif</div>
+                <div class="stat-card-mini-number"><?= count(array_filter($pasar, function($p) { return isset($p['status']) && $p['status'] == 'active'; })) ?></div>
+                <div class="stat-card-mini-label">Aktif</div>
             </div>
         </div>
     </div>
     <div class="col-md-3 mb-3">
         <div class="stat-card-mini stat-card-warning">
             <div class="stat-card-mini-icon">
-                <i class="bi bi-clock"></i>
+                <i class="bi bi-geo-alt"></i>
             </div>
             <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= count(array_filter($pasar ?? [], function($p) { return $p['status'] == 'perbaikan'; })) ?></div>
-                <div class="stat-card-mini-label">Dalam Perbaikan</div>
+                <div class="stat-card-mini-number"><?= count(array_unique(array_column($pasar, 'kecamatan'))) ?></div>
+                <div class="stat-card-mini-label">Kecamatan</div>
             </div>
         </div>
     </div>
     <div class="col-md-3 mb-3">
         <div class="stat-card-mini stat-card-info">
             <div class="stat-card-mini-icon">
-                <i class="bi bi-people"></i>
+                <i class="bi bi-calendar-check"></i>
             </div>
             <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= array_sum(array_column($pasar ?? [], 'jumlah_pedagang')) ?></div>
-                <div class="stat-card-mini-label">Total Pedagang</div>
+                <div class="stat-card-mini-number"><?= date('d') ?></div>
+                <div class="stat-card-mini-label">Update Hari Ini</div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Government Style Table -->
 <div class="content-card">
     <div class="content-card-header">
         <div class="content-card-title">
-            <h3><i class="bi bi-table me-2"></i>Daftar Data Pasar</h3>
+            <h3><i class="bi bi-table me-2"></i>Daftar Pasar</h3>
         </div>
         <div class="content-card-actions">
             <div class="input-group" style="max-width: 300px;">
                 <span class="input-group-text">
                     <i class="bi bi-search"></i>
                 </span>
-                <input type="text" class="form-control" id="searchInput" placeholder="Cari data pasar...">
+                <input type="text" class="form-control" id="searchInput" placeholder="Cari pasar...">
             </div>
         </div>
     </div>
-    
+                
     <div class="content-card-body">
-        <?php if (empty($pasar ?? [])): ?>
+        <?php if (empty($pasar)): ?>
             <div class="empty-state">
                 <div class="empty-state-icon">
                     <i class="bi bi-building"></i>
                 </div>
                 <h4>Belum ada data pasar</h4>
-                <p>Mulai dengan menambahkan data pasar pertama untuk sistem</p>
+                <p>Mulai dengan menambahkan pasar pertama untuk sistem</p>
                 <a href="/admin/pasar/create" class="btn btn-primary">
-                    <i class="bi bi-plus-circle me-2"></i>Tambah Data Pasar Pertama
+                    <i class="bi bi-plus-circle me-2"></i>Tambah Pasar Pertama
                 </a>
             </div>
         <?php else: ?>
             <div class="table-responsive">
-                <table class="table table-hover government-table">
+                <table class="table table-hover admin-table">
                     <thead class="table-dark">
                         <tr>
                             <th scope="col" class="text-center" style="width: 50px;">
@@ -134,15 +136,15 @@
                                     <div class="pasar-info-cell">
                                         <div class="pasar-icon-mini">
                                             <i class="bi bi-building"></i>
-                                        </div>
+                </div>
                                         <div class="pasar-details">
                                             <div class="pasar-name"><?= esc($pasar_item['nama_pasar']) ?></div>
                                             <div class="pasar-phone">
                                                 <i class="bi bi-telephone me-1"></i>
                                                 <?= esc($pasar_item['telepon'] ?? 'N/A') ?>
-                                            </div>
-                                        </div>
-                                    </div>
+                    </div>
+                </div>
+            </div>
                                 </td>
                                 <td>
                                     <div class="pasar-location">
@@ -160,27 +162,27 @@
                                     <div class="pedagang-count">
                                         <i class="bi bi-people me-1"></i>
                                         <?= $pasar_item['jumlah_pedagang'] ?? 0 ?> pedagang
-                                    </div>
+        </div>
                                 </td>
                                 <td>
                                     <div class="operational-hours">
                                         <i class="bi bi-clock me-1"></i>
                                         <?= esc($pasar_item['jam_operasional'] ?? 'N/A') ?>
-                                    </div>
+    </div>
                                 </td>
                                 <td>
                                     <div class="action-buttons">
                                         <button type="button" class="btn btn-sm btn-outline-warning" 
                                                 onclick="editPasar(<?= $pasar_item['id'] ?>)" 
                                                 title="Edit Data Pasar">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
+                            <i class="bi bi-pencil"></i>
+                        </button>
                                         <button type="button" class="btn btn-sm btn-outline-danger" 
                                                 onclick="deletePasar(<?= $pasar_item['id'] ?>, '<?= esc($pasar_item['nama_pasar']) ?>')" 
                                                 title="Hapus Data Pasar">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -188,7 +190,6 @@
                 </table>
             </div>
             
-            <!-- Government Style Summary -->
             <div class="table-summary mt-4">
                 <div class="row">
                     <div class="col-md-6">
@@ -211,12 +212,11 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Search functionality
     const searchInput = document.getElementById('searchInput');
     const pasarRows = document.querySelectorAll('.pasar-row');
     
     searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
+    const searchTerm = this.value.toLowerCase();
         
         pasarRows.forEach(row => {
             const name = row.getAttribute('data-name');
@@ -229,7 +229,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Pasar action functions
     window.editPasar = function(id) {
         window.location.href = `/admin/pasar/edit/${id}`;
     };
@@ -241,130 +240,5 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 });
 </script>
-
-<style>
-/* Government Table Styles for Pasar */
-.pasar-info-cell {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.pasar-icon-mini {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.2rem;
-}
-
-.pasar-details {
-    flex: 1;
-}
-
-.pasar-name {
-    font-weight: 600;
-    color: #1e293b;
-    margin-bottom: 0.25rem;
-}
-
-.pasar-phone {
-    font-size: 0.875rem;
-    color: #64748b;
-}
-
-.pasar-location {
-    font-size: 0.875rem;
-    color: #64748b;
-}
-
-.status-indicator.aktif {
-    color: #059669;
-}
-
-.status-indicator.perbaikan {
-    color: #f59e0b;
-}
-
-.status-indicator.nonaktif {
-    color: #dc2626;
-}
-
-.status-indicator i {
-    font-size: 0.75rem;
-}
-
-.pedagang-count {
-    font-size: 0.875rem;
-    color: #64748b;
-}
-
-.operational-hours {
-    font-size: 0.875rem;
-    color: #64748b;
-}
-
-/* Action Buttons */
-.action-buttons {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: center;
-}
-
-.action-buttons .btn {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-    font-size: 0.875rem;
-}
-
-.action-buttons .btn:hover {
-    transform: scale(1.1);
-}
-
-.action-buttons .btn-outline-warning:hover {
-    background-color: #f59e0b;
-    border-color: #f59e0b;
-    color: white;
-}
-
-.action-buttons .btn-outline-danger:hover {
-    background-color: #dc2626;
-    border-color: #dc2626;
-    color: white;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .government-table {
-        font-size: 0.875rem;
-    }
-    
-    .government-table thead th,
-    .government-table tbody td {
-        padding: 0.75rem 0.5rem;
-    }
-    
-    .pasar-info-cell {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-    
-    .action-buttons {
-        flex-direction: column;
-        gap: 0.25rem;
-    }
-}
-</style>
 
 <?= $this->endSection() ?> 

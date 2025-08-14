@@ -11,6 +11,7 @@ class CreateBeritaTable extends Migration
             'judul' => ['type' => 'VARCHAR', 'constraint' => 150],
             'isi'   => ['type' => 'TEXT'],
             'gambar'=> ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
+            'tanggal_publish' => ['type' => 'DATE', 'null' => true],
             'created_at' => ['type' => 'DATETIME', 'null' => true],
             'updated_at' => ['type' => 'DATETIME', 'null' => true],
         ]);

@@ -1,15 +1,19 @@
 <?= $this->extend('admin/layout') ?>
 
+<?= $this->section('head') ?>
+<link rel="stylesheet" href="/assets/css/admin/berita-list-styles.css">
+<script src="/assets/js/admin/berita-list.js" defer></script>
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 
-<!-- Government Style Header -->
 <div class="page-header">
     <div class="row align-items-center">
         <div class="col">
             <h1 class="page-title">
-                <i class="bi bi-newspaper me-2"></i>Kelola Berita Pasar
+                <i class="bi bi-newspaper me-2"></i>Kelola Berita
             </h1>
-            <p class="page-subtitle mb-0">Manajemen berita dan informasi pasar yang dipublikasikan</p>
+            <p class="page-subtitle mb-0">Manajemen berita dan informasi pasar modern</p>
         </div>
         <div class="col-auto">
             <a href="/admin/berita/create" class="btn btn-primary">
@@ -19,7 +23,6 @@
     </div>
 </div>
 
-<!-- Government Statistics -->
 <div class="row mb-4">
     <div class="col-md-3 mb-3">
         <div class="stat-card-mini stat-card-primary">
@@ -27,7 +30,7 @@
                 <i class="bi bi-newspaper"></i>
             </div>
             <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= count($beritas ?? []) ?></div>
+                <div class="stat-card-mini-number"><?= count($berita) ?></div>
                 <div class="stat-card-mini-label">Total Berita</div>
             </div>
         </div>
@@ -38,7 +41,7 @@
                 <i class="bi bi-check-circle"></i>
             </div>
             <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= count(array_filter($beritas ?? [], function($b) { return $b['status'] == 'published'; })) ?></div>
+                <div class="stat-card-mini-number"><?= count(array_filter($berita, function($b) { return isset($b['status']) && $b['status'] == 'published'; })) ?></div>
                 <div class="stat-card-mini-label">Dipublikasikan</div>
             </div>
         </div>
@@ -46,10 +49,10 @@
     <div class="col-md-3 mb-3">
         <div class="stat-card-mini stat-card-warning">
             <div class="stat-card-mini-icon">
-                <i class="bi bi-file-earmark"></i>
+                <i class="bi bi-clock"></i>
             </div>
             <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= count(array_filter($beritas ?? [], function($b) { return $b['status'] == 'draft'; })) ?></div>
+                <div class="stat-card-mini-number"><?= count(array_filter($berita, function($b) { return isset($b['status']) && $b['status'] == 'draft'; })) ?></div>
                 <div class="stat-card-mini-label">Draft</div>
             </div>
         </div>
@@ -60,18 +63,17 @@
                 <i class="bi bi-eye"></i>
             </div>
             <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= date('d') ?></div>
-                <div class="stat-card-mini-label">Update Hari Ini</div>
+                <div class="stat-card-mini-number"><?= array_sum(array_column($berita, 'views') ?? []) ?></div>
+                <div class="stat-card-mini-label">Total Views</div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Government Style Table -->
 <div class="content-card">
     <div class="content-card-header">
         <div class="content-card-title">
-            <h3><i class="bi bi-table me-2"></i>Daftar Berita Pasar</h3>
+            <h3><i class="bi bi-table me-2"></i>Daftar Berita</h3>
         </div>
         <div class="content-card-actions">
             <div class="input-group" style="max-width: 300px;">
@@ -82,9 +84,9 @@
             </div>
         </div>
     </div>
-    
+                
     <div class="content-card-body">
-        <?php if (empty($beritas ?? [])): ?>
+        <?php if (empty($berita)): ?>
             <div class="empty-state">
                 <div class="empty-state-icon">
                     <i class="bi bi-newspaper"></i>
@@ -97,7 +99,7 @@
             </div>
         <?php else: ?>
             <div class="table-responsive">
-                <table class="table table-hover government-table">
+                <table class="table table-hover admin-table">
                     <thead class="table-dark">
                         <tr>
                             <th scope="col" class="text-center" style="width: 50px;">
@@ -124,7 +126,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach (($beritas ?? []) as $index => $berita): ?>
+                        <?php foreach (($berita ?? []) as $index => $berita): ?>
                             <tr class="berita-row" data-title="<?= strtolower($berita['judul']) ?>" 
                                 data-status="<?= strtolower($berita['status']) ?>">
                                 <td class="text-center">
@@ -132,8 +134,16 @@
                                 </td>
                                 <td>
                                     <div class="berita-info-cell">
-                                        <div class="berita-icon-mini">
-                                            <i class="bi bi-newspaper"></i>
+                                        <div class="berita-thumbnail">
+                                            <?php if ($berita['gambar']): ?>
+                                                <img src="/uploads/berita/<?= esc($berita['gambar']) ?>" 
+                                                     alt="<?= esc($berita['judul']) ?>" 
+                                                     class="berita-thumb">
+                                            <?php else: ?>
+                                                <div class="berita-placeholder">
+                                                    <i class="bi bi-newspaper"></i>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="berita-details">
                                             <div class="berita-title"><?= esc($berita['judul']) ?></div>
@@ -165,19 +175,19 @@
                                     <div class="publish-date">
                                         <i class="bi bi-calendar me-1"></i>
                                         <?= date('d M Y', strtotime($berita['created_at'] ?? 'now')) ?>
-                                    </div>
+                        </div>
                                 </td>
                                 <td>
                                     <div class="action-buttons">
                                         <button type="button" class="btn btn-sm btn-outline-warning" 
                                                 onclick="editBerita(<?= $berita['id'] ?>)" 
                                                 title="Edit Berita">
-                                            <i class="bi bi-pencil"></i>
+                                <i class="bi bi-pencil"></i>
                                         </button>
                                         <button type="button" class="btn btn-sm btn-outline-danger" 
                                                 onclick="deleteBerita(<?= $berita['id'] ?>, '<?= esc($berita['judul']) ?>')" 
                                                 title="Hapus Berita">
-                                            <i class="bi bi-trash"></i>
+                                <i class="bi bi-trash"></i>
                                         </button>
                                     </div>
                                 </td>
@@ -187,13 +197,12 @@
                 </table>
             </div>
             
-            <!-- Government Style Summary -->
             <div class="table-summary mt-4">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="summary-item">
                             <i class="bi bi-info-circle me-2"></i>
-                            <span>Total: <strong><?= count($beritas ?? []) ?></strong> berita</span>
+                            <span>Total: <strong><?= count($berita) ?></strong> berita</span>
                         </div>
                     </div>
                     <div class="col-md-6 text-end">
@@ -210,7 +219,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Search functionality
     const searchInput = document.getElementById('searchInput');
     const beritaRows = document.querySelectorAll('.berita-row');
     
@@ -227,8 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
             row.style.display = matches ? '' : 'none';
         });
     });
-    
-    // Berita action functions
+
     window.editBerita = function(id) {
         window.location.href = `/admin/berita/edit/${id}`;
     };
@@ -240,130 +247,5 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 });
 </script>
-
-<style>
-/* Government Table Styles for Berita */
-.berita-info-cell {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.berita-icon-mini {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.2rem;
-}
-
-.berita-details {
-    flex: 1;
-}
-
-.berita-title {
-    font-weight: 600;
-    color: #1e293b;
-    margin-bottom: 0.25rem;
-}
-
-.berita-excerpt {
-    font-size: 0.875rem;
-    color: #64748b;
-}
-
-.berita-author {
-    font-size: 0.875rem;
-    color: #64748b;
-}
-
-.status-indicator.published {
-    color: #059669;
-}
-
-.status-indicator.draft {
-    color: #f59e0b;
-}
-
-.status-indicator.archived {
-    color: #6b7280;
-}
-
-.status-indicator i {
-    font-size: 0.75rem;
-}
-
-.berita-views {
-    font-size: 0.875rem;
-    color: #64748b;
-}
-
-.publish-date {
-    font-size: 0.875rem;
-    color: #64748b;
-}
-
-/* Action Buttons */
-.action-buttons {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: center;
-}
-
-.action-buttons .btn {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-    font-size: 0.875rem;
-}
-
-.action-buttons .btn:hover {
-    transform: scale(1.1);
-}
-
-.action-buttons .btn-outline-warning:hover {
-    background-color: #f59e0b;
-    border-color: #f59e0b;
-    color: white;
-}
-
-.action-buttons .btn-outline-danger:hover {
-    background-color: #dc2626;
-    border-color: #dc2626;
-    color: white;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .government-table {
-        font-size: 0.875rem;
-    }
-    
-    .government-table thead th,
-    .government-table tbody td {
-        padding: 0.75rem 0.5rem;
-    }
-    
-    .berita-info-cell {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-    
-    .action-buttons {
-        flex-direction: column;
-        gap: 0.25rem;
-    }
-}
-</style>
 
 <?= $this->endSection() ?> 

@@ -12,9 +12,9 @@
             <p class="page-subtitle mb-0"><?= isset($role) ? 'Perbarui informasi role' : 'Buat role baru untuk sistem' ?></p>
         </div>
         <div class="col-md-4 text-end">
-            <a href="/admin/role" class="btn btn-outline-secondary">
+            <a href="/admin/role" class="btn btn-secondary btn-lg">
                 <i class="bi bi-arrow-left me-2"></i>
-                Kembali ke Daftar Role
+                Kembali
             </a>
         </div>
     </div>
@@ -229,8 +229,8 @@
 
             <!-- Form Actions -->
             <div class="d-flex justify-content-between">
-                <a href="/admin/role" class="btn btn-outline-secondary">
-                    <i class="bi bi-x-circle me-2"></i>
+                <a href="/admin/role" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>
                     Batal
                 </a>
                 <button type="submit" class="btn btn-primary">
@@ -241,96 +241,5 @@
         </form>
     </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('roleForm');
-    
-    form.addEventListener('submit', function(e) {
-        // Validate at least one permission is selected
-        const permissions = document.querySelectorAll('input[name="permissions[]"]:checked');
-        if (permissions.length === 0) {
-            e.preventDefault();
-            alert('Pilih minimal satu permission untuk role ini!');
-            return false;
-        }
-        
-        // Validate role name
-        const roleName = document.getElementById('nama').value.trim();
-        if (roleName.length < 3) {
-            e.preventDefault();
-            alert('Nama role minimal 3 karakter!');
-            return false;
-        }
-        
-        // Validate description
-        const description = document.getElementById('deskripsi').value.trim();
-        if (description.length < 10) {
-            e.preventDefault();
-            alert('Deskripsi role minimal 10 karakter!');
-            return false;
-        }
-        
-        // Confirm if role is being deactivated
-        const isActive = document.getElementById('is_active').value;
-        const originalStatus = <?= isset($role) ? $role['is_active'] : 1 ?>;
-        
-        if (originalStatus == 1 && isActive == 0) {
-            if (!confirm('Anda akan menonaktifkan role ini. User dengan role ini tidak akan bisa login lagi. Lanjutkan?')) {
-                e.preventDefault();
-                return false;
-            }
-        }
-    });
-    
-    // Auto-save draft functionality
-    let autoSaveTimer;
-    const inputs = form.querySelectorAll('input, textarea, select');
-    
-    inputs.forEach(input => {
-        input.addEventListener('input', function() {
-            clearTimeout(autoSaveTimer);
-            autoSaveTimer = setTimeout(() => {
-                // Save form data to localStorage
-                const formData = new FormData(form);
-                const data = {};
-                for (let [key, value] of formData.entries()) {
-                    if (data[key]) {
-                        if (Array.isArray(data[key])) {
-                            data[key].push(value);
-                        } else {
-                            data[key] = [data[key], value];
-                        }
-                    } else {
-                        data[key] = value;
-                    }
-                }
-                localStorage.setItem('roleFormDraft', JSON.stringify(data));
-            }, 2000);
-        });
-    });
-    
-    // Load draft on page load
-    const draft = localStorage.getItem('roleFormDraft');
-    if (draft && !<?= isset($role) ? 'true' : 'false' ?>) {
-        const data = JSON.parse(draft);
-        Object.keys(data).forEach(key => {
-            const input = form.querySelector(`[name="${key}"]`);
-            if (input) {
-                if (input.type === 'checkbox') {
-                    input.checked = Array.isArray(data[key]) ? data[key].includes(input.value) : data[key] === input.value;
-                } else {
-                    input.value = Array.isArray(data[key]) ? data[key][0] : data[key];
-                }
-            }
-        });
-    }
-    
-    // Clear draft on successful submit
-    form.addEventListener('submit', function() {
-        localStorage.removeItem('roleFormDraft');
-    });
-});
-</script>
 
 <?= $this->endSection() ?> 

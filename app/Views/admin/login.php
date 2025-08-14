@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin - E-Pasar Tangerang</title>
+    <title>Login Admin - Pasar Modern</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/admin/login-styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body class="login-admin-bg d-flex align-items-center">
@@ -16,9 +17,9 @@
                     <div class="card-body p-4">
                         <div class="text-center mb-3">
                             <div class="login-admin-logo-wrapper mb-2">
-                                <img src="/assets/img/logo/Logorbg.png" alt="Logo E-Pasar" class="login-admin-logo">
+                                <img src="/assets/img/logo/Logorbg.png" alt="Logo Pasar Modern" class="login-admin-logo">
                             </div>
-                            <h5 class="fw-bold mb-1 text-primary">Admin E-Pasar</h5>
+                            <h5 class="fw-bold mb-1 text-primary">Admin Pasar Modern</h5>
                             <div class="text-muted mb-3 small">Masuk ke Panel Admin</div>
                         </div>
                         <?php if (!empty($error)) : ?>
@@ -49,33 +50,12 @@
                     </div>
                 </div>
                 <div class="text-center mt-4 text-muted small copyright">
-                    &copy; <?= date('Y') ?> E-Pasar Tangerang
+                    &copy; <?= date('Y') ?> Pasar Modern
                 </div>
             </div>
         </div>
     </div>
-    <script>
-    function togglePassword() {
-        const pwd = document.getElementById('password');
-        const icon = document.getElementById('toggleIcon');
-        if (pwd.type === 'password') {
-            pwd.type = 'text';
-            icon.classList.remove('bi-eye-slash');
-            icon.classList.add('bi-eye');
-        } else {
-            pwd.type = 'password';
-            icon.classList.remove('bi-eye');
-            icon.classList.add('bi-eye-slash');
-        }
-    }
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-        var btn = document.getElementById('loginBtn');
-        var text = document.getElementById('loginBtnText');
-        var spinner = document.getElementById('loginSpinner');
-        btn.disabled = true;
-        text.classList.add('d-none');
-        spinner.classList.remove('d-none');
-    });
-    </script>
+    
+    <script src="/assets/js/admin/login.js"></script>
 </body>
 </html>

@@ -32,7 +32,8 @@ class AdminRole extends BaseController
             'roles' => $roles,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
-            'title' => 'Kelola Role'
+            'title' => 'Kelola Role',
+            'active_page' => 'role'
         ]);
     }
 
@@ -52,7 +53,8 @@ class AdminRole extends BaseController
         $data = [
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
-            'title' => 'Tambah Role Baru'
+            'title' => 'Tambah Role Baru',
+            'active_page' => 'role'
         ];
 
         return view('admin/forms/role_form', $data);
@@ -132,7 +134,8 @@ class AdminRole extends BaseController
             'role' => $role,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
-            'title' => 'Edit Role'
+            'title' => 'Edit Role',
+            'active_page' => 'role'
         ]);
     }
 

@@ -50,6 +50,7 @@ class AdminUser extends BaseController
             'users' => $users,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
+            'active_page' => 'user',
         ]);
     }
 
@@ -72,6 +73,8 @@ class AdminUser extends BaseController
             'roles' => $roles,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
+            'title' => 'Tambah User',
+            'active_page' => 'user',
         ];
         return view('admin/forms/user_form', $data);
     }
@@ -146,6 +149,8 @@ class AdminUser extends BaseController
             'roles' => $roles,
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
+            'title' => 'Edit User',
+            'active_page' => 'user'
         ]);
     }
 

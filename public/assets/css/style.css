@@ -1,4 +1,4 @@
-/* Custom CSS untuk Website Perumda Pasar Modern */
+/* CSS Kustom untuk Website Pasar Modern */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
@@ -11,7 +11,7 @@ body {
     line-height: 1.6;
 }
 
-/* Navbar Styling */
+/* Style Navbar */
 .navbar {
     backdrop-filter: blur(10px);
     background-color: rgba(255, 255, 255, 0.6) !important;
@@ -80,7 +80,7 @@ body {
     color: #ffc107 !important;
 }
 
-/* Dropdown Styling */
+/* Style Dropdown */
 .dropdown-menu {
     border: none;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -697,14 +697,6 @@ section[id] {
     }
 }
 
-.card {
-    animation: fadeInUp 0.6s ease;
-}
-
-.card:hover {
-    animation: none;
-}
-
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
@@ -1013,7 +1005,103 @@ section[id] {
 .hero .btn-outline-primary:hover {
     background: #2563eb;
     border-color: #2563eb;
-    color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+} 
+
+/* ===================== FEEDBACK FORM STYLING ===================== */
+.feedback-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+}
+
+.feedback-title {
+    color: #1e293b;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.feedback-subtitle {
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+.feedback-form .form-label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.feedback-form .form-control,
+.feedback-form .form-select {
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+    background: #f8fafc;
+}
+
+.feedback-form .form-control:focus,
+.feedback-form .form-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+    background: #fff;
+}
+
+.feedback-form .form-control.border-danger {
+    border-color: #dc2626;
+}
+
+.feedback-form .btn-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.feedback-form .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+}
+
+.feedback-form .btn-primary:disabled {
+    opacity: 0.7;
+    transform: none;
+}
+
+.preview-container {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.preview-container img,
+.preview-container video {
+    border-radius: 6px;
+}
+
+#fileInfo {
+    font-size: 0.875rem;
+    color: #64748b;
+}
+
+@media (max-width: 768px) {
+    .feedback-card {
+        padding: 1.5rem;
+        margin: 0 1rem;
+    }
+    
+    .feedback-title {
+        font-size: 1.5rem;
+    }
+    
+    .feedback-form .btn-primary {
+        width: 100%;
+    }
 } 

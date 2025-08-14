@@ -6,20 +6,16 @@ class AdminPasar extends BaseController
 {
     public function index()
     {
-        // Check if user is logged in
         if (!session()->get('is_admin')) {
             return redirect()->to('/admin/login');
         }
-
-        // TODO: Replace with database query
-        // $pasarModel = new PasarModel();
-        // $pasars = $pasarModel->findAll();
         
         $data = [
             'title' => 'Data Pasar',
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
-            'pasars' => [] // Empty array for now, will be populated from database
+            'pasar' => [],
+            'active_page' => 'pasar'
         ];
 
         return view('admin/lists/pasar_list', $data);
@@ -27,7 +23,6 @@ class AdminPasar extends BaseController
 
     public function create()
     {
-        // Check if user is logged in
         if (!session()->get('is_admin')) {
             return redirect()->to('/admin/login');
         }
@@ -35,7 +30,8 @@ class AdminPasar extends BaseController
         $data = [
             'title' => 'Tambah Data Pasar',
             'admin_nama' => session()->get('admin_nama'),
-            'admin_role' => session()->get('admin_role')
+            'admin_role' => session()->get('admin_role'),
+            'active_page' => 'pasar'
         ];
 
         return view('admin/forms/pasar_form', $data);
@@ -43,12 +39,10 @@ class AdminPasar extends BaseController
 
     public function store()
     {
-        // Check if user is logged in
         if (!session()->get('is_admin')) {
             return redirect()->to('/admin/login');
         }
 
-        // Validate input
         $validation = \Config\Services::validation();
         $validation->setRules([
             'nama_pasar' => 'required|min_length[3]',
@@ -69,16 +63,14 @@ class AdminPasar extends BaseController
         }
 
         try {
-            // Handle file upload
             $fotoName = '';
             $foto = $this->request->getFile('foto');
             
             if ($foto && $foto->isValid() && !$foto->hasMoved()) {
-                // Validate file
-                if ($foto->getSize() > 2 * 1024 * 1024) { // 2MB limit
+                if ($foto->getSize() > 50 * 1024 * 1024) {
                     return $this->response->setJSON([
                         'success' => false,
-                        'message' => 'File terlalu besar. Maksimal 2MB.'
+                        'message' => 'File terlalu besar. Maksimal 50MB.'
                     ]);
                 }
                 
@@ -94,21 +86,6 @@ class AdminPasar extends BaseController
                 $foto->move(ROOTPATH . 'public/uploads/pasar', $fotoName);
             }
             
-            // TODO: Replace with actual database save
-            // $pasarModel = new PasarModel();
-            // $data = [
-            //     'nama' => $this->request->getPost('nama_pasar'),
-            //     'alamat' => $this->request->getPost('alamat'),
-            //     'telepon' => $this->request->getPost('telepon'),
-            //     'status' => $this->request->getPost('status'),
-            //     'jam_operasional' => $this->request->getPost('jam_operasional'),
-            //     'jumlah_pedagang' => $this->request->getPost('jumlah_pedagang'),
-            //     'deskripsi' => $this->request->getPost('deskripsi'),
-            //     'foto' => $fotoName
-            // ];
-            // $pasarModel->insert($data);
-            
-            // For now, just return success
             return $this->response->setJSON([
                 'success' => true,
                 'message' => 'Data pasar berhasil ditambahkan!'
@@ -124,20 +101,15 @@ class AdminPasar extends BaseController
 
     public function edit($id)
     {
-        // Check if user is logged in
         if (!session()->get('is_admin')) {
             return redirect()->to('/admin/login');
         }
-
-        // TODO: Replace with database query
-        // $pasarModel = new PasarModel();
-        // $pasar = $pasarModel->find($id);
         
         $data = [
             'title' => 'Edit Data Pasar',
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
-            'pasar' => null // Will be populated from database
+            'pasar' => null
         ];
 
         return view('admin/forms/pasar_form', $data);
@@ -145,38 +117,9 @@ class AdminPasar extends BaseController
 
     public function update($id)
     {
-        // Check if user is logged in
         if (!session()->get('is_admin')) {
             return redirect()->to('/admin/login');
         }
-
-        // TODO: Implement database update with file upload
-        // $pasarModel = new PasarModel();
-        
-        // Handle file upload
-        // $foto = $this->request->getFile('foto');
-        // $fotoName = '';
-        
-        // if ($foto->isValid() && !$foto->hasMoved()) {
-        //     $fotoName = $foto->getRandomName();
-        //     $foto->move(ROOTPATH . 'public/uploads/galeri', $fotoName);
-        // }
-        
-        // $data = [
-        //     'nama' => $this->request->getPost('nama_pasar'),
-        //     'alamat' => $this->request->getPost('alamat'),
-        //     'telepon' => $this->request->getPost('telepon'),
-        //     'status' => $this->request->getPost('status'),
-        //     'jam_operasional' => $this->request->getPost('jam_operasional'),
-        //     'jumlah_pedagang' => $this->request->getPost('jumlah_pedagang'),
-        //     'deskripsi' => $this->request->getPost('deskripsi')
-        // ];
-        
-        // if (!empty($fotoName)) {
-        //     $data['foto'] = $fotoName;
-        // }
-        
-        // $pasarModel->update($id, $data);
 
         session()->setFlashdata('success', 'Data pasar berhasil diperbarui!');
         return redirect()->to('/admin/pasar');
@@ -184,14 +127,9 @@ class AdminPasar extends BaseController
 
     public function delete($id)
     {
-        // Check if user is logged in
         if (!session()->get('is_admin')) {
             return redirect()->to('/admin/login');
         }
-
-        // TODO: Implement database delete
-        // $pasarModel = new PasarModel();
-        // $pasarModel->delete($id);
 
         session()->setFlashdata('success', 'Data pasar berhasil dihapus!');
         return redirect()->to('/admin/pasar');

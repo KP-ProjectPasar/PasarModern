@@ -183,7 +183,7 @@
                                     </div>
                                     <div class="file-upload-help">
                                         <i class="bi bi-info-circle me-1"></i>
-                                        Format: JPG, PNG, GIF. Maksimal 2MB.
+                                        Format: JPG, PNG, GIF. Maksimal 50MB.
                                     </div>
                                 </div>
                                 
@@ -211,8 +211,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-end">
-                                    <button type="button" class="btn btn-outline-secondary me-2" onclick="history.back()">
-                                        <i class="bi bi-x-circle me-2"></i>Batal
+                                    <button type="button" class="btn btn-secondary me-2" onclick="history.back()">
+                                        <i class="bi bi-arrow-left me-2"></i>Batal
                                     </button>
                                     <button type="submit" class="btn btn-primary modern-submit-btn">
                                         <i class="bi bi-check-circle me-2"></i>
@@ -227,155 +227,5 @@
         </div>
     </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Form validation and progress tracking
-    const form = document.getElementById('hargaForm');
-    const progressBar = document.getElementById('formProgress');
-    const progressText = document.querySelector('.progress-text');
-    
-    // File upload handling
-    const fileInput = document.getElementById('foto');
-    const imagePreview = document.getElementById('imagePreview');
-    const previewImage = document.getElementById('previewImage');
-    
-    if (fileInput) {
-        fileInput.addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
-                // Check file size (2MB limit)
-                if (file.size > 2 * 1024 * 1024) {
-                    alert('File terlalu besar. Maksimal 2MB.');
-                    this.value = '';
-                    return;
-                }
-                
-                // Check file type
-                const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
-                if (!allowedTypes.includes(file.type)) {
-                    alert('Format file tidak didukung. Gunakan JPG, PNG, atau GIF.');
-                    this.value = '';
-                    return;
-                }
-                
-                // Show preview
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewImage.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-                
-                console.log('File selected:', file.name, file.size, file.type);
-            }
-        });
-    }
-    
-    // Remove image function
-    window.removeImage = function() {
-        fileInput.value = '';
-        imagePreview.style.display = 'none';
-        previewImage.src = '';
-    };
-    
-    // Form progress tracking
-    const requiredFields = form.querySelectorAll('[required]');
-    const totalFields = requiredFields.length;
-    
-    function updateProgress() {
-        let filledFields = 0;
-        requiredFields.forEach(field => {
-            if (field.value.trim() !== '') {
-                filledFields++;
-            }
-        });
-        
-        const progress = (filledFields / totalFields) * 100;
-        progressBar.style.width = progress + '%';
-        
-        if (progress === 100) {
-            progressText.textContent = 'Form siap untuk disimpan!';
-            progressText.style.color = '#198754';
-        } else {
-            progressText.textContent = `${filledFields} dari ${totalFields} field wajib telah diisi`;
-            progressText.style.color = '#6c757d';
-        }
-    }
-    
-    // Add event listeners to required fields
-    requiredFields.forEach(field => {
-        field.addEventListener('input', updateProgress);
-        field.addEventListener('change', updateProgress);
-    });
-    
-    // Initial progress update
-    updateProgress();
-    
-    // Form submission
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Validate form
-        const requiredFields = this.querySelectorAll('[required]');
-        let isValid = true;
-        let errorMessage = '';
-        
-        requiredFields.forEach(function(field) {
-            if (!field.value.trim()) {
-                field.classList.add('border-danger');
-                isValid = false;
-                errorMessage += field.name + ' wajib diisi. ';
-            } else {
-                field.classList.remove('border-danger');
-            }
-        });
-        
-        if (!isValid) {
-            alert('Validasi gagal: ' + errorMessage);
-            return;
-        }
-        
-        // Show loading state
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Menyimpan...';
-        submitBtn.disabled = true;
-        
-        // Submit form
-        const formData = new FormData(this);
-        
-        fetch(this.action, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            console.log('Response received:', response);
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Data received:', data);
-            if (data.success) {
-                alert('Data harga komoditas berhasil disimpan!');
-                window.location.href = '/admin/harga';
-            } else {
-                alert('Gagal menyimpan data: ' + (data.message || 'Terjadi kesalahan'));
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Terjadi kesalahan saat menyimpan data: ' + error.message);
-        })
-        .finally(() => {
-            // Reset button state
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        });
-    });
-});
-</script>
 
 <?= $this->endSection() ?> 

@@ -3,209 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'Admin Dashboard' ?> - E-Pasar Tangerang</title>
-    
-    <!-- Google Fonts - Inter for modern institutional look -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title><?= $title ?? 'Admin Dashboard' ?> - Pasar Modern</title>
     
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <!-- Custom Admin CSS -->
     <link rel="stylesheet" href="/assets/css/admin/admin-dashboard.css">
+    <link rel="stylesheet" href="/assets/css/admin/form-styles.css">
+    
+    <?= $this->renderSection('head') ?>
+    
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
-<div class="d-flex" id="wrapper">
-    <!-- Sidebar -->
-    <div id="sidebar-wrapper">
-        <div class="sidebar-heading text-white py-4 px-3 d-flex align-items-center">
-            <img src="/assets/img/logo/Logorbg.png" width="32" class="me-2" alt="Logo"> Pasar Modern Tangerang
-        </div>
-        <div class="list-group list-group-flush">
-            <!-- Dashboard -->
-            <a href="/admin/dashboard" class="list-group-item<?= (strpos($_SERVER['REQUEST_URI'], '/admin/dashboard') === 0 ? ' active' : '') ?>">
-                <i class="bi bi-house"></i> Dashboard
-            </a>
-            
-            <!-- Pengaturan Akun Dropdown -->
-            <div class="sidebar-dropdown">
-                <div class="dropdown-header" data-bs-toggle="collapse" data-bs-target="#pengaturanAkun" aria-expanded="false">
-                    <i class="bi bi-chevron-down"></i>
-                    <span>Pengaturan Akun</span>
-                </div>
-                <div class="collapse" id="pengaturanAkun">
-                    <div class="dropdown-items">
-                        <?php if (isset($admin_role) && $admin_role === 'superadmin'): ?>
-                            <a href="/admin/user" class="dropdown-item<?= (strpos($_SERVER['REQUEST_URI'], '/admin/user') === 0 ? ' active' : '') ?>">
-                                <i class="bi bi-people"></i> Kelola Admin
-                            </a>
-                            <a href="/admin/role" class="dropdown-item<?= (strpos($_SERVER['REQUEST_URI'], '/admin/role') === 0 ? ' active' : '') ?>">
-                                <i class="bi bi-shield-lock"></i> Kelola Role
-                            </a>
-                        <?php endif; ?>
-                    </div>
-                </div>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <div class="sidebar-heading text-white">
+                <img src="/assets/img/logo/Logorbg.png" alt="Logo" width="32" height="32">
+                <span>Admin Panel</span>
             </div>
             
-            <!-- Manajemen Konten Dropdown -->
-            <div class="sidebar-dropdown">
-                <div class="dropdown-header" data-bs-toggle="collapse" data-bs-target="#manajemenKonten" aria-expanded="false">
-                    <i class="bi bi-chevron-down"></i>
-                    <span>Manajemen Konten</span>
-                </div>
-                <div class="collapse" id="manajemenKonten">
-                    <div class="dropdown-items">
-                        <a href="/admin/pasar" class="dropdown-item<?= (strpos($_SERVER['REQUEST_URI'], '/admin/pasar') === 0 ? ' active' : '') ?>">
-                            <i class="bi bi-building"></i> Data Pasar
-                        </a>
-                        <a href="/admin/berita" class="dropdown-item<?= (strpos($_SERVER['REQUEST_URI'], '/admin/berita') === 0 ? ' active' : '') ?>">
-                            <i class="bi bi-newspaper"></i> Berita Pasar
-                        </a>
-                        <a href="/admin/galeri" class="dropdown-item<?= (strpos($_SERVER['REQUEST_URI'], '/admin/galeri') === 0 ? ' active' : '') ?>">
-                            <i class="bi bi-images"></i> Galeri
-                        </a>
-                        <a href="/admin/video" class="dropdown-item<?= (strpos($_SERVER['REQUEST_URI'], '/admin/video') === 0 ? ' active' : '') ?>">
-                            <i class="bi bi-camera-video"></i> Video
-                        </a>
+            <div class="list-group list-group-flush">
+                <a href="/admin/dashboard" class="list-group-item list-group-item-action <?= $active_page == 'dashboard' ? 'active' : '' ?>">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+                
+                <div class="sidebar-dropdown">
+                    <div class="dropdown-header" data-bs-toggle="collapse" data-bs-target="#userCollapse">
+                        <span><i class="bi bi-people"></i> User</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="collapse" id="userCollapse">
+                        <div class="dropdown-items">
+                            <a href="/admin/user" class="dropdown-item <?= $active_page == 'user' ? 'active' : '' ?>">
+                                <i class="bi bi-person"></i>
+                                <span>User</span>
+                            </a>
+                            <a href="/admin/role" class="dropdown-item <?= $active_page == 'role' ? 'active' : '' ?>">
+                                <i class="bi bi-shield"></i>
+                                <span>Role</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
+                
+                <div class="sidebar-dropdown">
+                    <div class="dropdown-header" data-bs-toggle="collapse" data-bs-target="#contentCollapse">
+                        <span><i class="bi bi-file-text"></i> Konten</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="collapse" id="contentCollapse">
+                        <div class="dropdown-items">
+                            <a href="/admin/berita" class="dropdown-item <?= $active_page == 'berita' ? 'active' : '' ?>">
+                                <i class="bi bi-newspaper"></i>
+                                <span>Berita</span>
+                            </a>
+                            <a href="/admin/galeri" class="dropdown-item <?= $active_page == 'galeri' ? 'active' : '' ?>">
+                                <i class="bi bi-images"></i>
+                                <span>Galeri</span>
+                            </a>
+                            <a href="/admin/video" class="dropdown-item <?= $active_page == 'video' ? 'active' : '' ?>">
+                                <i class="bi bi-camera-video"></i>
+                                <span>Video</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-dropdown">
+                    <div class="dropdown-header" data-bs-toggle="collapse" data-bs-target="#dataCollapse">
+                        <span><i class="bi bi-database"></i> Data</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="collapse" id="dataCollapse">
+                        <div class="dropdown-items">
+                            <a href="/admin/pasar" class="dropdown-item <?= $active_page == 'pasar' ? 'active' : '' ?>">
+                                <i class="bi bi-building"></i>
+                                <span>Pasar</span>
+                            </a>
+                            <a href="/admin/harga" class="dropdown-item <?= $active_page == 'harga' ? 'active' : '' ?>">
+                                <i class="bi bi-currency-dollar"></i>
+                                <span>Harga</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="/admin/feedback" class="list-group-item list-group-item-action <?= $active_page == 'feedback' ? 'active' : '' ?>">
+                    <i class="bi bi-chat-dots"></i>
+                    <span>Feedback</span>
+                </a>
             </div>
-            
-            <!-- Standalone Links -->
-            <a href="/admin/harga" class="list-group-item<?= (strpos($_SERVER['REQUEST_URI'], '/admin/harga') === 0 ? ' active' : '') ?>">
-                <i class="bi bi-cash-coin"></i> Harga Komoditas
-            </a>
-            
-            <a href="/admin/feedback" class="list-group-item<?= (strpos($_SERVER['REQUEST_URI'], '/admin/feedback') === 0 ? ' active' : '') ?>">
-                <i class="bi bi-chat-dots"></i> Feedback
-            </a>
         </div>
-    </div>
-    <!-- /#sidebar-wrapper -->
-
-    <!-- Page Content -->
-    <div id="page-content-wrapper" class="flex-grow-1">
-        <!-- Modern Top Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+        
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <!-- Top Navigation -->
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <div class="navbar-nav ms-auto">
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                                <div class="user-avatar me-2">
+                                    <?= substr(session()->get('admin_nama'), 0, 1) ?>
+                                </div>
+                                <div class="user-info">
+                                    <div class="user-name"><?= session()->get('admin_nama') ?></div>
+                                    <div class="user-role"><?= ucfirst(session()->get('admin_role')) ?></div>
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="/admin/profile"><i class="bi bi-person me-2"></i>Profile</a></li>
+                                <li><a class="dropdown-item" href="/admin/settings"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/admin/logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- Main Content -->
             <div class="container-fluid">
-                <!-- Right side - User profile and actions -->
-                <div class="d-flex align-items-center ms-auto">
-                    <!-- User Profile -->
-                    <div class="dropdown">
-                        <button class="btn btn-light d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="user-avatar me-2">
-                                <i class="bi bi-person-circle text-primary"></i>
-                            </div>
-                            <div class="user-info text-start">
-                                <div class="fw-semibold text-dark"><?= esc($admin_nama ?? 'Admin') ?></div>
-                                <small class="text-muted"><?= esc(ucfirst($admin_role ?? 'admin')) ?></small>
-                            </div>
-                            <i class="bi bi-chevron-down ms-2"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><h6 class="dropdown-header">PROFIL</h6></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profil Saya</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Pengaturan</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="/admin/logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
-                        </ul>
-                    </div>
-                </div>
+                <?= $this->renderSection('content') ?>
             </div>
-        </nav>
-
-        <div class="container-fluid mt-4">
-            <?= $this->renderSection('content') ?>
         </div>
     </div>
-</div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="/assets/js/admin/dashboard.js"></script>
-
-<!-- Custom Scripts -->
-<script>
-// Add smooth scrolling and enhanced interactions
-document.addEventListener('DOMContentLoaded', function() {
-    // Add hover effects to sidebar items
-    const sidebarItems = document.querySelectorAll('#sidebar-wrapper .list-group-item');
-    sidebarItems.forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateX(5px)';
-        });
-        item.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateX(0)';
-        });
-    });
-
-    // Add click effects to quick action items
-    const quickActionItems = document.querySelectorAll('.quick-action-item');
-    quickActionItems.forEach(item => {
-        item.addEventListener('click', function() {
-            this.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                this.style.transform = 'scale(1)';
-            }, 150);
-        });
-    });
-
-    // Add loading animation for charts
-    const chartContainers = document.querySelectorAll('canvas');
-    chartContainers.forEach(canvas => {
-        canvas.style.opacity = '0';
-        canvas.style.transition = 'opacity 0.5s ease';
-        setTimeout(() => {
-            canvas.style.opacity = '1';
-        }, 500);
-    });
-
-    // Sidebar dropdown functionality
-    const dropdownHeaders = document.querySelectorAll('.sidebar-dropdown .dropdown-header');
-    // Auto-expand dropdown if it contains active item
-    const activeDropdownItems = document.querySelectorAll('.sidebar-dropdown .dropdown-item.active');
-    activeDropdownItems.forEach(item => {
-        const parentDropdown = item.closest('.sidebar-dropdown');
-        if (parentDropdown) {
-            const dropdownHeader = parentDropdown.querySelector('.dropdown-header');
-            const collapse = parentDropdown.querySelector('.collapse');
-            if (dropdownHeader && collapse) {
-                // Only expand if this item is actually active
-                if (item.classList.contains('active')) {
-                    collapse.classList.add('show');
-                    dropdownHeader.setAttribute('aria-expanded', 'true');
-                }
-            }
-        }
-    });
-
-    // Ensure only one dropdown is open at a time
-    dropdownHeaders.forEach(header => {
-        header.addEventListener('click', function() {
-            const target = this.getAttribute('data-bs-target');
-            const collapse = document.querySelector(target);
-            
-            // Close other dropdowns
-            dropdownHeaders.forEach(otherHeader => {
-                if (otherHeader !== this) {
-                    const otherTarget = otherHeader.getAttribute('data-bs-target');
-                    const otherCollapse = document.querySelector(otherTarget);
-                    if (otherCollapse.classList.contains('show')) {
-                        otherCollapse.classList.remove('show');
-                        otherHeader.setAttribute('aria-expanded', 'false');
-                    }
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom Admin JavaScript - Hanya yang diperlukan -->
+    <script src="/assets/js/admin/dashboard-charts.js"></script>
+    
+    <script>
+        // Update activity every 5 minutes
+        setInterval(function() {
+            fetch('/admin/update-activity', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
                 }
             });
-        });
-    });
-});
-</script>
-
+        }, 5 * 60 * 1000);
+    </script>
 </body>
 </html> 
