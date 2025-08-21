@@ -11,15 +11,14 @@ class CreateRoleTable extends Migration
         $this->forge->addField([
             'id' => [
                 'type' => 'INT',
-                'constraint' => 11,
+                'constraint' => 11, 
                 'unsigned' => true,
                 'auto_increment' => true,
-            ],
+            ],          
             'nama' => [
                 'type' => 'VARCHAR',
-                'constraint' => 100,
-                'unique' => true,
-            ],
+                'constraint' => 100, 
+            ],        
             'deskripsi' => [
                 'type' => 'TEXT',
                 'null' => true,
@@ -33,7 +32,7 @@ class CreateRoleTable extends Migration
                 'type' => 'TINYINT',
                 'constraint' => 1,
                 'default' => 1,
-            ],
+            ],      
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true,
@@ -45,7 +44,6 @@ class CreateRoleTable extends Migration
         ]);
         
         $this->forge->addKey('id', true);
-        $this->forge->addUniqueKey('nama');
         $this->forge->createTable('role');
     }
 
@@ -53,4 +51,4 @@ class CreateRoleTable extends Migration
     {
         $this->forge->dropTable('role');
     }
-} 
+}

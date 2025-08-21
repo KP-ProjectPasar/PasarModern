@@ -96,3 +96,8 @@ $routes->get('admin/feedback', 'AdminFeedback::index');
 $routes->get('admin/feedback/view/(:num)', 'AdminFeedback::view/$1');
 $routes->post('admin/feedback/update-status/(:num)', 'AdminFeedback::updateStatus/$1');
 $routes->get('admin/feedback/delete/(:num)', 'AdminFeedback::delete/$1');
+
+// CRUD Direksi
+$routes->get('admin/direksi', 'AdminDireksi::index');
+$routes->get('admin/direksi/edit/(:num)', 'AdminDireksi::edit/$1');
+$routes->post('admin/direksi/update/(:num)', 'AdminDireksi::update/$1');
