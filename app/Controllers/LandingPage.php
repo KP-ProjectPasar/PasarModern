@@ -1,8 +1,10 @@
 <?php
-namespace App\Controllers;
-use CodeIgniter\Controller;
 
-class LandingPage extends Controller
+namespace App\Controllers;
+
+use App\Controllers\BaseController;
+
+class LandingPage extends BaseController
 {
     public function index()
     {

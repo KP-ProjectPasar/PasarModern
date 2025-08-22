@@ -1,6 +1,0 @@
-
-POST diterima: {"csrf_test_name":"35de23980b388b034aebe96d76d75985","username":"admin","password":"admin123"}
-Bukan POST, method: GET
-POST diterima: {"csrf_test_name":"35de23980b388b034aebe96d76d75985","username":"admin","password":"admin123"}
-Bukan POST, method: GET
-POST diterima: {"csrf_test_name":"35de23980b388b034aebe96d76d75985","username":"admin","password":"admin123"}

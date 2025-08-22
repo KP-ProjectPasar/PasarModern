@@ -67,10 +67,12 @@ class CreateFeedbacksTable extends Migration
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => false,
+                'default' => 'CURRENT_TIMESTAMP'
             ],
             'updated_at' => [
                 'type' => 'DATETIME',
                 'null' => false,
+                'default' => 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'
             ],
         ]);
         
@@ -78,8 +80,14 @@ class CreateFeedbacksTable extends Migration
         $this->forge->addKey('status');
         $this->forge->addKey('jenis_feedback');
         $this->forge->addKey('created_at');
+        $this->forge->addKey('email');
         
-        $this->forge->createTable('feedbacks');
+        // Create table with proper charset and collation
+        $this->forge->createTable('feedbacks', true, [
+            'ENGINE' => 'InnoDB',
+            'CHARSET' => 'utf8mb4',
+            'COLLATE' => 'utf8mb4_unicode_ci'
+        ]);
     }
 
     public function down()

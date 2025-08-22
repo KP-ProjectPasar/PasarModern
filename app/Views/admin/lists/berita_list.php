@@ -1,19 +1,94 @@
 <?= $this->extend('admin/layout') ?>
 
 <?= $this->section('head') ?>
-<link rel="stylesheet" href="/assets/css/admin/berita-list-styles.css">
-<script src="/assets/js/admin/berita-list.js" defer></script>
+<style>
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.status-badge i {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+}
+
+/* Status badge styles */
+.status-badge-draft {
+    background-color: #FEF3C7;
+    color: #D97706;
+    border-color: #FDE68A;
+}
+
+.status-badge-draft:hover {
+    background-color: #FDE68A;
+}
+
+.status-badge-published {
+    background-color: #D1FAE5;
+    color: #059669;
+    border-color: #A7F3D0;
+}
+
+.status-badge-published:hover {
+    background-color: #A7F3D0;
+}
+
+.status-badge-archived { display:none; }
+
+/* Dropdown styles */
+.dropdown-menu {
+    padding: 0.5rem;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    min-width: 160px;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    color: #374151;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item i {
+    margin-right: 0.75rem;
+    font-size: 1rem;
+}
+
+.dropdown-item:hover {
+    background-color: #F8FAFC;
+}
+
+.dropdown-item.active {
+    background-color: #F1F5F9;
+    font-weight: 500;
+}
+
+.status-draft { color: #D97706; }
+.status-published { color: #059669; }
+.status-archived { display:none; }
+</style>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-
 <div class="page-header">
     <div class="row align-items-center">
         <div class="col">
             <h1 class="page-title">
                 <i class="bi bi-newspaper me-2"></i>Kelola Berita
             </h1>
-            <p class="page-subtitle mb-0">Manajemen berita dan informasi pasar modern</p>
+            <p class="page-subtitle mb-0">Manajemen informasi berita untuk sistem informasi pasar modern</p>
         </div>
         <div class="col-auto">
             <a href="/admin/berita/create" class="btn btn-primary">
@@ -23,229 +98,119 @@
     </div>
 </div>
 
-<div class="row mb-4">
-    <div class="col-md-3 mb-3">
-        <div class="stat-card-mini stat-card-primary">
-            <div class="stat-card-mini-icon">
-                <i class="bi bi-newspaper"></i>
-            </div>
-            <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= count($berita) ?></div>
-                <div class="stat-card-mini-label">Total Berita</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 mb-3">
-        <div class="stat-card-mini stat-card-success">
-            <div class="stat-card-mini-icon">
-                <i class="bi bi-check-circle"></i>
-            </div>
-            <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= count(array_filter($berita, function($b) { return isset($b['status']) && $b['status'] == 'published'; })) ?></div>
-                <div class="stat-card-mini-label">Dipublikasikan</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 mb-3">
-        <div class="stat-card-mini stat-card-warning">
-            <div class="stat-card-mini-icon">
-                <i class="bi bi-clock"></i>
-            </div>
-            <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= count(array_filter($berita, function($b) { return isset($b['status']) && $b['status'] == 'draft'; })) ?></div>
-                <div class="stat-card-mini-label">Draft</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 mb-3">
-        <div class="stat-card-mini stat-card-info">
-            <div class="stat-card-mini-icon">
-                <i class="bi bi-eye"></i>
-            </div>
-            <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= array_sum(array_column($berita, 'views') ?? []) ?></div>
-                <div class="stat-card-mini-label">Total Views</div>
-            </div>
-        </div>
+<div class="content-card">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 50px;">#</th>
+                    <th scope="col">INFORMASI BERITA</th>
+                    <th scope="col">PENULIS</th>
+                    <th scope="col">STATUS</th>
+                    <th scope="col">VIEWS</th>
+                    <th scope="col">TANGGAL PUBLIKASI</th>
+                    <th scope="col" style="width: 150px;">AKSI</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($berita as $index => $item): ?>
+                <tr>
+                    <td><?= $index + 1 ?></td>
+                    <td>
+                        <div class="d-flex align-items-center gap-3">
+                            <?php if (!empty($item['gambar'])): ?>
+                                <img src="/uploads/berita/<?= $item['gambar'] ?>" alt="<?= esc($item['judul']) ?>" class="berita-thumbnail">
+                            <?php endif; ?>
+                            <div>
+                                <div class="fw-medium"><?= esc($item['judul']) ?></div>
+                                <div class="text-muted small"><?= substr(strip_tags($item['konten']), 0, 100) ?>...</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td><?= esc($item['penulis'] ?? 'Admin') ?></td>
+                    <td>
+                        <div class="dropdown">
+                            <?php
+                            $statusConfig = [
+                                'draft' => [
+                                    'icon' => 'pencil-fill',
+                                    'text' => 'Draft',
+                                    'class' => 'status-draft'
+                                ],
+                                'published' => [
+                                    'icon' => 'check-circle-fill',
+                                    'text' => 'Published',
+                                    'class' => 'status-published'
+                                ]
+                            ];
+                            $currentStatus = $item['status'] ?? 'draft';
+                            $statusInfo = $statusConfig[$currentStatus] ?? $statusConfig['draft'];
+                            ?>
+                            <button class="status-badge status-badge-<?= $currentStatus ?> dropdown-toggle" 
+                                    type="button" 
+                                    data-bs-toggle="dropdown" 
+                                    data-bs-auto-close="true" 
+                                    aria-expanded="false">
+                                <i class="bi bi-<?= $statusInfo['icon'] ?>"></i>
+                                <span><?= $statusInfo['text'] ?></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <?php foreach ($statusConfig as $status => $config): ?>
+                                <li>
+                                    <a class="dropdown-item <?= $currentStatus === $status ? 'active' : '' ?>"
+                                       href="/admin/berita/changeStatus/<?= $item['id'] ?>/<?= $status ?>">
+                                        <i class="bi bi-<?= $config['icon'] ?> <?= $config['class'] ?>"></i>
+                                        <?= $config['text'] ?>
+                                    </a>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </td>
+                    <td><?= number_format($item['views'] ?? 0) ?></td>
+                    <td><?= date('d M Y', strtotime($item['created_at'])) ?></td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <a href="/admin/berita/edit/<?= $item['id'] ?>" class="btn btn-sm btn-outline-primary" title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmDelete(<?= $item['id'] ?>, '<?= esc($item['judul']) ?>')" title="Hapus">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 </div>
 
-<div class="content-card">
-    <div class="content-card-header">
-        <div class="content-card-title">
-            <h3><i class="bi bi-table me-2"></i>Daftar Berita</h3>
-        </div>
-        <div class="content-card-actions">
-            <div class="input-group" style="max-width: 300px;">
-                <span class="input-group-text">
-                    <i class="bi bi-search"></i>
-                </span>
-                <input type="text" class="form-control" id="searchInput" placeholder="Cari berita...">
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Konfirmasi Hapus</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Anda yakin ingin menghapus berita "<span id="deleteBeritaTitle"></span>"?</p>
+                <p class="text-danger mb-0"><small>Tindakan ini tidak dapat dibatalkan.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <a href="#" id="deleteBeritaBtn" class="btn btn-danger">Hapus</a>
             </div>
         </div>
-    </div>
-                
-    <div class="content-card-body">
-        <?php if (empty($berita)): ?>
-            <div class="empty-state">
-                <div class="empty-state-icon">
-                    <i class="bi bi-newspaper"></i>
-                </div>
-                <h4>Belum ada data berita</h4>
-                <p>Mulai dengan menambahkan berita pertama untuk sistem</p>
-                <a href="/admin/berita/create" class="btn btn-primary">
-                    <i class="bi bi-plus-circle me-2"></i>Tambah Berita Pertama
-                </a>
-            </div>
-        <?php else: ?>
-            <div class="table-responsive">
-                <table class="table table-hover admin-table">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col" class="text-center" style="width: 50px;">
-                                <i class="bi bi-hash"></i>
-                            </th>
-                            <th scope="col">
-                                <i class="bi bi-newspaper me-2"></i>Informasi Berita
-                            </th>
-                            <th scope="col">
-                                <i class="bi bi-person me-2"></i>Penulis
-                            </th>
-                            <th scope="col">
-                                <i class="bi bi-circle me-2"></i>Status
-                            </th>
-                            <th scope="col">
-                                <i class="bi bi-eye me-2"></i>Views
-                            </th>
-                            <th scope="col">
-                                <i class="bi bi-calendar me-2"></i>Tanggal Publikasi
-                            </th>
-                            <th scope="col" class="text-center" style="width: 150px;">
-                                <i class="bi bi-gear me-2"></i>Aksi
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach (($berita ?? []) as $index => $berita): ?>
-                            <tr class="berita-row" data-title="<?= strtolower($berita['judul']) ?>" 
-                                data-status="<?= strtolower($berita['status']) ?>">
-                                <td class="text-center">
-                                    <span class="badge bg-secondary"><?= $index + 1 ?></span>
-                                </td>
-                                <td>
-                                    <div class="berita-info-cell">
-                                        <div class="berita-thumbnail">
-                                            <?php if ($berita['gambar']): ?>
-                                                <img src="/uploads/berita/<?= esc($berita['gambar']) ?>" 
-                                                     alt="<?= esc($berita['judul']) ?>" 
-                                                     class="berita-thumb">
-                                            <?php else: ?>
-                                                <div class="berita-placeholder">
-                                                    <i class="bi bi-newspaper"></i>
-                                                </div>
-                                            <?php endif; ?>
-                                        </div>
-                                        <div class="berita-details">
-                                            <div class="berita-title"><?= esc($berita['judul']) ?></div>
-                                            <div class="berita-excerpt">
-                                                <?= esc(substr($berita['isi'] ?? '', 0, 100)) ?>...
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="berita-author">
-                                        <i class="bi bi-person me-1"></i>
-                                        <?= esc($berita['penulis'] ?? 'Admin') ?>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="status-indicator <?= $berita['status'] ?>">
-                                        <i class="bi bi-circle-fill me-1"></i>
-                                        <?= ucfirst($berita['status']) ?>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="berita-views">
-                                        <i class="bi bi-eye me-1"></i>
-                                        <?= $berita['views'] ?? 0 ?> views
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="publish-date">
-                                        <i class="bi bi-calendar me-1"></i>
-                                        <?= date('d M Y', strtotime($berita['created_at'] ?? 'now')) ?>
-                        </div>
-                                </td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button type="button" class="btn btn-sm btn-outline-warning" 
-                                                onclick="editBerita(<?= $berita['id'] ?>)" 
-                                                title="Edit Berita">
-                                <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-sm btn-outline-danger" 
-                                                onclick="deleteBerita(<?= $berita['id'] ?>, '<?= esc($berita['judul']) ?>')" 
-                                                title="Hapus Berita">
-                                <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="table-summary mt-4">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="summary-item">
-                            <i class="bi bi-info-circle me-2"></i>
-                            <span>Total: <strong><?= count($berita) ?></strong> berita</span>
-                        </div>
-                    </div>
-                    <div class="col-md-6 text-end">
-                        <div class="summary-item">
-                            <i class="bi bi-clock me-2"></i>
-                            <span>Update terakhir: <strong><?= date('d M Y H:i') ?></strong></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
     </div>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    const beritaRows = document.querySelectorAll('.berita-row');
-    
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        
-        beritaRows.forEach(row => {
-            const title = row.getAttribute('data-title');
-            const status = row.getAttribute('data-status');
-            
-            const matches = title.includes(searchTerm) || 
-                           status.includes(searchTerm);
-            
-            row.style.display = matches ? '' : 'none';
-        });
-    });
-
-    window.editBerita = function(id) {
-        window.location.href = `/admin/berita/edit/${id}`;
-    };
-    
-    window.deleteBerita = function(id, title) {
-        if (confirm(`Apakah Anda yakin ingin menghapus berita "${title}"?\n\nTindakan ini tidak dapat dibatalkan.`)) {
-            window.location.href = `/admin/berita/delete/${id}`;
-        }
-    };
-});
+function confirmDelete(id, title) {
+    document.getElementById('deleteBeritaTitle').textContent = title;
+    document.getElementById('deleteBeritaBtn').href = '/admin/berita/delete/' + id;
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
 </script>
-
-<?= $this->endSection() ?> 
+<?= $this->endSection() ?>

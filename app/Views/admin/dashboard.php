@@ -7,7 +7,7 @@
             <h2 class="dashboard-title mb-2">
                 <i class="bi bi-speedometer2 me-2"></i>Dashboard Sistem Informasi Pasar Modern
             </h2>
-            <p class="page-subtitle mb-0">Selamat datang kembali, <?= esc($admin_nama ?? 'Admin') ?>! Berikut adalah ringkasan aktivitas dan informasi sistem hari ini.</p>
+            <p class="page-subtitle mb-0" style="color: #ffffff !important; font-weight: 500;">Selamat datang kembali, <?= esc($admin_nama ?? 'Admin') ?>! Berikut adalah ringkasan aktivitas dan informasi sistem hari ini.</p>
         </div>
         <div class="col-md-4 text-end">
             <div class="current-time-container">
@@ -66,13 +66,13 @@
     </div>
     
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card stat-card-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Galeri foto yang tersedia">
+        <div class="stat-card stat-card-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Total views dari semua berita">
             <div class="stat-card-icon">
-                <i class="bi bi-images"></i>
+                <i class="bi bi-eye"></i>
             </div>
             <div class="stat-card-content">
-                <h3 class="stat-card-number"><?= $total_galeri ?? 0 ?></h3>
-                <p class="stat-card-label">Galeri</p>
+                <h3 class="stat-card-number"><?= $total_views ?? 0 ?></h3>
+                <p class="stat-card-label">Total Views</p>
             </div>
         </div>
     </div>

@@ -1,68 +1,160 @@
-# CodeIgniter 4 Application Starter
+# Pasar Modern - Sistem Informasi Pasar
 
-## What is CodeIgniter?
+Sistem informasi pasar modern yang menyediakan informasi lengkap tentang pasar, harga komoditas, berita, dan galeri.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Fitur Utama
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+- **Dashboard Admin** - Panel admin yang lengkap dengan statistik real-time
+- **Manajemen Berita** - CRUD berita dengan kategori dan status publikasi
+- **Manajemen Galeri** - Upload dan kelola foto galeri
+- **Manajemen Video** - Upload dan kelola video
+- **Manajemen Harga** - Data harga komoditas harian
+- **Manajemen Pasar** - Informasi lengkap tentang pasar
+- **Manajemen User** - Sistem user admin dengan role-based access
+- **Feedback System** - Sistem feedback dari pengguna
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## Sistem Status User Otomatis
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+Sistem ini menggunakan **status user otomatis** berdasarkan aktivitas login/logout, bukan pilihan manual:
 
-## Installation & updates
+### Cara Kerja Status Otomatis
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+1. **Login**: Status otomatis menjadi "online" saat user login
+2. **Aktivitas**: Status tetap "online" selama ada aktivitas dalam 30 menit terakhir
+3. **Logout**: Status otomatis menjadi "offline" saat user logout
+4. **Timeout**: Status otomatis menjadi "offline" jika tidak ada aktivitas selama 30 menit
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+### Field Database yang Digunakan
 
-## Setup
+- `last_login` - Waktu terakhir user login
+- `last_activity` - Waktu terakhir user melakukan aktivitas
+- **TIDAK ADA** field `status` manual
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+### Method Model yang Tersedia
 
-## Important Change with index.php
+```php
+// Update last login dan activity saat login
+$adminModel->updateLastLogin($adminId);
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+// Update last activity saat ada aktivitas
+$adminModel->updateLastActivity($adminId);
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+// Get status otomatis berdasarkan last_activity
+$status = $adminModel->getAdminStatus($adminId);
 
-**Please** read the user guide for a better explanation of how CI4 works!
+// Get semua admin dengan status otomatis
+$admins = $adminModel->getAdminsWithStatus();
+```
 
-## Repository Management
+## Struktur Form Modern
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+Sistem ini menggunakan style form modern yang rapi dan sederhana dengan fitur:
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+### CSS Classes Utama
 
-## Server Requirements
+#### Form Container
+```css
+.modern-form-container     /* Container utama form */
+.modern-form-header       /* Header form dengan gradient */
+.modern-form-body         /* Body form dengan padding */
+```
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+#### Form Groups
+```css
+.modern-form-group        /* Group input dengan spacing */
+.modern-form-group label  /* Label dengan style modern */
+.modern-form-group .form-control  /* Input dengan border dan focus effect */
+```
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+#### Form Sections
+```css
+.modern-form-section      /* Section dengan background dan border */
+.modern-form-section-header  /* Header section */
+.modern-form-section-title   /* Judul section */
+```
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+#### Form Grid
+```css
+.modern-form-grid.cols-2  /* Grid 2 kolom responsive */
+.modern-form-grid.cols-3  /* Grid 3 kolom responsive */
+```
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+#### Form Actions
+```css
+.modern-form-actions      /* Container tombol aksi */
+.modern-form-actions .btn /* Style tombol dengan hover effect */
+```
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+### Fitur Form
+
+1. **Responsive Design** - Otomatis menyesuaikan dengan ukuran layar
+2. **Modern Styling** - Border radius, shadow, dan gradient yang modern
+3. **Focus Effects** - Border biru dan shadow saat focus
+4. **Help Text** - Teks bantuan dengan icon yang informatif
+5. **Validation States** - Border merah untuk input yang error
+6. **File Upload** - Area upload file yang menarik dengan drag & drop
+7. **Section Organization** - Form dibagi menjadi section yang logis
+
+### Contoh Penggunaan
+
+```html
+<div class="modern-form-container">
+    <div class="modern-form-header">
+        <h3 class="modern-form-title">
+            <i class="bi bi-person-plus"></i>
+            Form Tambah User
+        </h3>
+        <p class="modern-form-subtitle">Lengkapi data user dengan informasi yang akurat</p>
+    </div>
+    
+    <div class="modern-form-body">
+        <form method="POST">
+            <div class="modern-form-grid cols-2">
+                <div class="modern-form-group">
+                    <label for="username" class="required">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                    <div class="modern-form-help">
+                        <i class="bi bi-lightbulb"></i>
+                        Username unik untuk login
+                    </div>
+                </div>
+                
+                <div class="modern-form-group">
+                    <label for="email" class="required">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                    <div class="modern-form-help">
+                        <i class="bi bi-envelope"></i>
+                        Email aktif untuk notifikasi
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modern-form-actions">
+                <a href="/admin/user" class="btn btn-secondary">Batal</a>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+        </form>
+    </div>
+</div>
+```
+
+## Instalasi
+
+1. Clone repository ini
+2. Install dependencies dengan `composer install`
+3. Copy `.env.example` ke `.env` dan sesuaikan konfigurasi database
+4. Jalankan migration dengan `php spark migrate`
+5. Jalankan seeder dengan `php spark db:seed`
+6. Akses aplikasi di browser
+
+## Teknologi
+
+- **Backend**: CodeIgniter 4
+- **Frontend**: Bootstrap 5, Bootstrap Icons
+- **Database**: MySQL/MariaDB
+- **CSS**: Custom modern form styles
+- **JavaScript**: Vanilla JS dengan Chart.js untuk grafik
+
+## Lisensi
+
+MIT License - lihat file LICENSE untuk detail lebih lanjut.

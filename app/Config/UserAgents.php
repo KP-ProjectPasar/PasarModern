@@ -120,23 +120,10 @@ class UserAgents extends BaseConfig
      * @var array<string, string>
      */
     public array $mobiles = [
-        // legacy array, old values commented out
         'mobileexplorer' => 'Mobile Explorer',
-        // 'openwave'             => 'Open Wave',
-        // 'opera mini'           => 'Opera Mini',
-        // 'operamini'            => 'Opera Mini',
-        // 'elaine'               => 'Palm',
         'palmsource' => 'Palm',
-        // 'digital paths'        => 'Palm',
-        // 'avantgo'              => 'Avantgo',
-        // 'xiino'                => 'Xiino',
         'palmscape' => 'Palmscape',
-        // 'nokia'                => 'Nokia',
-        // 'ericsson'             => 'Ericsson',
-        // 'blackberry'           => 'BlackBerry',
-        // 'motorola'             => 'Motorola'
 
-        // Phones and Manufacturers
         'motorola'             => 'Motorola',
         'nokia'                => 'Nokia',
         'palm'                 => 'Palm',
@@ -180,7 +167,6 @@ class UserAgents extends BaseConfig
         'open web'             => 'Open Web',
         'openweb'              => 'OpenWeb',
 
-        // Operating Systems
         'android'    => 'Android',
         'symbian'    => 'Symbian',
         'SymbianOS'  => 'SymbianOS',
@@ -188,7 +174,6 @@ class UserAgents extends BaseConfig
         'series60'   => 'Symbian S60',
         'windows ce' => 'Windows CE',
 
-        // Browsers
         'obigo'         => 'Obigo',
         'netfront'      => 'Netfront Browser',
         'openwave'      => 'Openwave Browser',
@@ -198,7 +183,6 @@ class UserAgents extends BaseConfig
         'opera mobi'    => 'Opera Mobile',
         'fennec'        => 'Firefox Mobile',
 
-        // Other
         'digital paths' => 'Digital Paths',
         'avantgo'       => 'AvantGo',
         'xiino'         => 'Xiino',
@@ -207,7 +191,6 @@ class UserAgents extends BaseConfig
         'docomo'        => 'NTT DoCoMo',
         'o2'            => 'O2',
 
-        // Fallback
         'mobile'     => 'Generic Mobile',
         'wireless'   => 'Generic Mobile',
         'j2me'       => 'Generic Mobile',

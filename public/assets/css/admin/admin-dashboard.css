@@ -385,16 +385,39 @@ body {
     overflow: hidden;
 }
 
-.dashboard-title {
+.dashboard-header .dashboard-title {
     color: white;
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
 }
 
-.page-subtitle {
-    color: rgba(255, 255, 255, 0.9);
+.dashboard-header .page-subtitle {
+    color: #ffffff !important;
     font-size: 1.1rem;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Memastikan teks selamat datang berwarna putih */
+.dashboard-header p.page-subtitle {
+    color: #ffffff !important;
+    font-weight: 500;
+}
+
+/* Override untuk teks selamat datang */
+.dashboard-header .page-subtitle,
+.dashboard-header p.page-subtitle,
+.dashboard-header .col-md-8 .page-subtitle {
+    color: #ffffff !important;
+    font-weight: 500;
+}
+
+/* Style yang sangat spesifik untuk teks selamat datang */
+body #wrapper #page-content-wrapper .dashboard-header .col-md-8 .page-subtitle {
+    color: #ffffff !important;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 /* Modern Time Display */
@@ -414,7 +437,6 @@ body {
     align-items: center;
     gap: 1rem;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
 }
@@ -428,12 +450,6 @@ body {
     bottom: 0;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
     pointer-events: none;
-}
-
-.time-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    background: rgba(255, 255, 255, 0.2);
 }
 
 .time-icon {
@@ -491,31 +507,13 @@ body {
     font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
     letter-spacing: 2px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    animation: timeGlow 2s ease-in-out infinite alternate;
 }
 
-/* Time Animation */
-@keyframes timeGlow {
-    0% {
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-    100% {
-        text-shadow: 0 2px 8px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.1);
-    }
-}
+/* Time display styling - no animation */
 
-/* Pulse animation for time icon */
+/* Time icon styling */
 .time-icon i {
-    animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
+    /* No animation - static display */
 }
 
 /* Stat Cards */
@@ -677,18 +675,18 @@ body {
     
     .time-card {
         padding: 0.75rem 1rem;
-    gap: 0.75rem;
+        gap: 0.75rem;
         min-width: 280px;
-}
+    }
 
     .time-icon {
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
     }
     
     .time-content {
-    align-items: center;
+        align-items: center;
         text-align: center;
     }
     
@@ -702,16 +700,12 @@ body {
     }
     
     .current-date {
-    font-size: 0.75rem;
+        font-size: 0.75rem;
     }
     
     .current-time-display {
         font-size: 1.1rem;
         letter-spacing: 1px;
-    }
-    
-    .current-day {
-        font-size: 0.7rem;
     }
 }
 
