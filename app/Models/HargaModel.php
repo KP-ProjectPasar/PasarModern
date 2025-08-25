@@ -6,5 +6,5 @@ class HargaModel extends Model
 {
     protected $table = 'harga';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['komoditas', 'harga', 'tanggal', 'created_at', 'updated_at'];
-} 
+    protected $allowedFields = ['komoditas_id', 'harga', 'satuan', 'tanggal', 'keterangan', 'created_at', 'updated_at'];
+}

@@ -1,14 +1,3 @@
-<?php
-// Data dinamis dari controller/admin panel
-$visi = $visi ?? 'Menjadi ekosistem pasar modern terdepan di Indonesia yang menginspirasi, memberdayakan, dan berkelanjutan melalui pelayanan prima, inovasi teknologi, serta kolaborasi komunitas.';
-$misi = $misi ?? [
-    'Menghadirkan layanan publik yang unggul, ramah, dan mudah diakses oleh seluruh lapisan masyarakat.',
-    'Mendorong digitalisasi dan transparansi informasi harga serta aktivitas pasar secara real-time.',
-    'Mendukung pertumbuhan UMKM dan pelaku usaha lokal melalui pelatihan, promosi, dan kemitraan.',
-    'Membangun lingkungan pasar yang bersih, aman, inklusif, dan ramah keluarga.',
-    'Mengembangkan inovasi berkelanjutan untuk menjawab tantangan dan peluang di era ekonomi digital.'
-];
-?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -19,104 +8,110 @@ $misi = $misi ?? [
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="/assets/css/landing-styles.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f8f9fa; }
+        .main-section { background: #fff; border-radius: 24px; box-shadow: 0 8px 32px rgba(37,99,235,0.08); padding: 2.5rem 2rem; margin-top: 2.5rem; }
+        .title-main { font-weight: 700; font-size: 2.5rem; color: #1a237e; }
+        .subtitle-main { color: #3949ab; font-size: 1.15rem; margin-bottom: 2rem; }
+        .nav-btns { margin-bottom: 2rem; }
+        .nav-btns .btn { font-weight: 600; font-size: 1rem; border-radius: 10px; margin-right: 0.5rem; }
+        .stats-row { margin-bottom: 2rem; }
+        .stat-card { background: #f5f7fa; border-radius: 14px; padding: 1.2rem 1.5rem; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .stat-value { font-size: 2rem; font-weight: 700; color: #1a237e; }
+        .stat-label { font-size: 1rem; color: #3949ab; }
+        .illustration-box { background: #e3f2fd; border-radius: 16px; min-height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; }
+        .section-title { font-weight: 700; font-size: 1.5rem; color: #1a237e; margin-bottom: 1rem; }
+        .visi-misi-box { background: #f8fafc; border-radius: 14px; padding: 1.5rem; margin-bottom: 2rem; }
+        .visi-misi-flex { display: flex; gap: 2rem; flex-wrap: wrap; }
+        .visi-card, .misi-card { flex: 1 1 300px; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(37,99,235,0.07); padding: 1.2rem; }
+        .visi-card h4, .misi-card h4 { font-weight: 700; color: #1976d2; margin-bottom: 1rem; }
+        .misi-list { padding-left: 1.2rem; }
+        .misi-list li { margin-bottom: 0.7rem; font-size: 1.05rem; }
+        @media (max-width: 768px) {
+            .main-section { padding: 1rem; }
+            .title-main { font-size: 1.5rem; }
+            .visi-misi-flex { flex-direction: column; gap: 1rem; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="/">
-                <img src="/assets/img/logo/Logorbg.png" alt="Logo Pasar Modern" class="img-fluid">
-                <span class="fw-bold text-primary">Pasar Modern Tangerang</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/">Beranda</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tentang Kami</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/tentang-kami/ringkasan">Ringkasan</a></li>
-                            <li><a class="dropdown-item active bg-white text-primary fw-bold" style="border-radius: 10px;" href="/tentang-kami/visi-misi">Visi & Misi</a></li>
-                            <li><a class="dropdown-item" href="/tentang-kami/peraturan">Peraturan</a></li>
-                            <li><a class="dropdown-item" href="/tentang-kami/pesan-direksi">Pesan Direksi</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Informasi</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/informasi/berita">Berita</a></li>
-                            <li><a class="dropdown-item" href="/informasi/harga">Harga</a></li>
-                            <li><a class="dropdown-item" href="/informasi/informasi-pasar">Informasi Pasar</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="#galeri">Galeri</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#feedback">Feedback</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container py-5">
-        <div class="row justify-content-center mb-4">
-            <div class="col-lg-10 col-xl-9">
-                <div class="text-center mb-5">
-                    <h2 class="fw-bold display-4 mb-3 text-primary" style="letter-spacing:1px;">Visi <span class="text-dark">&</span> Misi</h2>
-                    <p class="lead text-secondary mb-0" style="max-width:700px;margin:auto;">Menjadi pusat transformasi pasar rakyat yang adaptif, inovatif, dan berdaya saing global, dengan mengedepankan nilai-nilai kepercayaan, kolaborasi, dan keberlanjutan.</p>
-                </div>
-                <div class="row g-4 mb-4 align-items-stretch">
-                    <div class="col-md-6 mb-4 mb-md-0">
-                        <div class="bg-white rounded-4 shadow p-5 h-100 border-0 d-flex flex-column justify-content-center position-relative corporate-card-hover">
-                            <span class="position-absolute opacity-10" style="top:10px;right:20px;font-size:4rem;"><i class="bi bi-bullseye text-primary"></i></span>
-                            <h5 class="fw-bold text-uppercase text-primary mb-3" style="letter-spacing:1px;"><i class="bi bi-bullseye me-2"></i>Visi</h5>
-                            <blockquote class="blockquote fs-5 lh-lg mb-0 ps-2 border-start border-3 border-primary">“<?= htmlspecialchars($visi) ?>”</blockquote>
-                        </div>
+    <?php include(APPPATH.'Views/landing_page.php'); ?>
+    <main class="container">
+        <section class="main-section">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="title-main mb-2">Visi & Misi</h1>
+                    <div class="subtitle-main">Menjaga transparansi dan keberlanjutan pasar lokal melalui data, teknologi, dan kolaborasi.</div>
+                    <div class="nav-btns mb-4">
+                        <button class="btn btn-dark">Lihat Visi & Misi</button>
+                        <button class="btn btn-outline-dark">Lihat Statistik Pasar</button>
                     </div>
-                    <div class="col-md-6">
-                        <div class="bg-light rounded-4 shadow p-5 h-100 border-0 d-flex flex-column justify-content-center position-relative corporate-card-hover">
-                            <span class="position-absolute opacity-10" style="bottom:10px;left:20px;font-size:4rem;"><i class="bi bi-lightbulb text-warning"></i></span>
-                            <h5 class="fw-bold text-uppercase text-warning mb-3" style="letter-spacing:1px;"><i class="bi bi-lightbulb me-2"></i>Misi</h5>
-                            <ol class="mb-0 fs-5 ps-3">
-                                <?php foreach($misi as $item): ?>
-                                    <li class="mb-2"> <?= htmlspecialchars($item) ?> </li>
-                                <?php endforeach; ?>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-                <div class="row g-4 mb-4">
-                    <div class="col-md-12">
-                        <div class="bg-white rounded-4 shadow p-5 h-100 border-0 d-flex flex-column justify-content-center corporate-card-hover">
-                            <div class="d-flex align-items-center mb-3">
-                                <span class="icon-square bg-primary text-white me-3 d-flex align-items-center justify-content-center" style="width:48px;height:48px;border-radius:12px;">
-                                    <i class="bi bi-people-fill fs-3"></i>
-                                </span>
-                                <h5 class="fw-bold text-primary mb-0 text-uppercase" style="letter-spacing:1px;">Makna & Komitmen</h5>
+                    <div class="row stats-row">
+                        <div class="col-6 col-md-3 mb-3">
+                            <div class="stat-card">
+                                <div class="stat-value">120+</div>
+                                <div class="stat-label">Pasar terdata</div>
                             </div>
-                            <p class="mb-0 fs-5 text-secondary">Kami percaya, visi dan misi ini hanya dapat terwujud melalui <span class="fw-semibold text-primary">kolaborasi erat</span> antara pengelola, pedagang, pengunjung, dan seluruh pemangku kepentingan. Setiap langkah kami didasari semangat untuk menghadirkan pasar yang tidak hanya modern secara fasilitas, tetapi juga dalam budaya pelayanan, transparansi, dan pemberdayaan komunitas. <span class="fw-semibold text-primary">Bersama, kita wujudkan pasar yang menjadi kebanggaan dan pilar ekonomi masyarakat Tangerang.</span></p>
+                        </div>
+                        <div class="col-6 col-md-3 mb-3">
+                            <div class="stat-card">
+                                <div class="stat-value">15K</div>
+                                <div class="stat-label">Transaksi / bulan</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3 mb-3">
+                            <div class="stat-card">
+                                <div class="stat-value">98%</div>
+                                <div class="stat-label">Akurasi data</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3 mb-3">
+                            <div class="stat-card">
+                                <div class="stat-value">5</div>
+                                <div class="stat-label">Kota cakupan</div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-4 d-flex align-items-center">
+                    <div class="illustration-box w-100">
+                        <span class="text-secondary">Ilustrasi pasar (foto/vektor)</span>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <style>
-    /* Card hover effect for corporate feel */
-    .corporate-card-hover {
-        transition: box-shadow 0.3s, transform 0.3s;
-    }
-    .corporate-card-hover:hover {
-        box-shadow: 0 8px 32px 0 rgba(37,99,235,0.12), 0 1.5px 6px 0 rgba(56,189,248,0.10);
-        transform: translateY(-4px) scale(1.02);
-        z-index:2;
-    }
-    </style>
-
-    <footer class="footer text-center bg-dark text-white">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="section-title">Visi & Misi</div>
+                    <div class="visi-misi-box">
+                        <div class="mb-2">Visi dan misi dirancang untuk mendukung pertumbuhan pasar yang adil, transparan, serta memberikan manfaat ekonomi kepada pelaku usaha dan konsumen.</div>
+                        <div class="visi-misi-flex">
+                            <div class="visi-card">
+                                <h4>Visi</h4>
+                                <div>Menjadi pusat informasi pasar terdepan di Indonesia yang mendukung pertumbuhan ekonomi daerah dan nasional.</div>
+                            </div>
+                            <div class="misi-card">
+                                <h4>Misi</h4>
+                                <ol class="misi-list">
+                                    <li>Menyediakan data pasar yang akurat & terpercaya, teknologi ramah pengguna, dan layanan responsif.</li>
+                                    <li>Mengembangkan platform mudah digunakan.</li>
+                                    <li>Mempromosikan perdagangan adil & ramah lingkungan.</li>
+                                    <li>Mendukung pelatihan bagi pelaku usaha.</li>
+                                    <li>Membangun kemitraan strategis.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="section-title">Integrasi Data & Visualisasi</div>
+                    <div class="visi-misi-box">
+                        <div>Menggabungkan data lapangan dengan visualisasi interaktif agar pengambilan keputusan lebih efektif dan transparan.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer text-center bg-dark text-white mt-5">
         <div class="container py-4">
             <div class="row">
                 <div class="col-md-4 mb-3">
@@ -160,9 +155,6 @@ $misi = $misi ?? [
             </div>
         </div>
     </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/landing.js"></script>
-    <script src="/assets/js/feedback.js"></script>
 </body>
 </html>

@@ -130,7 +130,7 @@
                         Jl. Pasar Modern No. 1, Kota Tangerang<br>
                         <strong>Telepon:</strong> (021) 12345678<br>
                         <strong>Email:</strong> info@epasar-tangerang.go.id
-                    </p>
+                    </p>  
                 </div>
             </div>  
             <hr class="my-3">
