@@ -99,8 +99,6 @@ function initializeCharts() {
 
 // Update periode chart
 function updateChartPeriod(period) {
-    console.log('Update chart period to:', period, 'days');
-    
     // Update button states
     document.querySelectorAll('.dashboard-card-actions .btn').forEach(btn => {
         btn.classList.remove('btn-primary');
@@ -127,13 +125,13 @@ function initializeTimeUpdate() {
         const dayStr = now.toLocaleDateString('id-ID', dayOptions);
         const dateStr = now.toLocaleDateString('id-ID', dateOptions);
         
-        // Format waktu dengan leading zero dan animasi
+        // Format waktu dengan leading zero
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
         const seconds = String(now.getSeconds()).padStart(2, '0');
         const timeStr = `${hours} : ${minutes} : ${seconds}`;
         
-        // Update elemen dengan animasi
+        // Update elemen tanpa animasi
         const dayElement = document.getElementById('current-day');
         const dateElement = document.getElementById('current-date');
         const timeElement = document.getElementById('current-time');
@@ -148,42 +146,17 @@ function initializeTimeUpdate() {
         
         if (timeElement) {
             timeElement.textContent = timeStr;
-            timeElement.style.transform = 'scale(1.05)';
-            setTimeout(() => timeElement.style.transform = 'scale(1)', 200);
-        }
-        
-        // Tambahkan efek khusus setiap menit
-        if (now.getSeconds() === 0) {
-            const timeCard = document.querySelector('.time-card');
-            if (timeCard) {
-                timeCard.style.transform = 'translateY(-3px) scale(1.02)';
-                setTimeout(() => {
-                    timeCard.style.transform = 'translateY(0) scale(1)';
-                }, 300);
-            }
         }
     }
     
     // Update waktu setiap detik
     setInterval(updateTime, 1000);
     updateTime(); // Update sekali saat halaman dimuat
-    
-    // Tambahkan efek hover
-    const timeCard = document.querySelector('.time-card');
-    if (timeCard) {
-        timeCard.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-3px) scale(1.02)';
-        });
-        
-        timeCard.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-    }
 }
 
 // Auto refresh harga komoditas setiap 5 menit
 setInterval(() => {
-    console.log('Refreshing harga data...');
+    // Refresh harga data setiap 5 menit
 }, 5 * 60 * 1000);
 
 // Update user activity every 2 minutes to keep status online

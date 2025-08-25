@@ -19,6 +19,10 @@ class CreateRoleTable extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 100, 
             ],        
+                'constraint' => 100,
+                'unique' => true,
+                'null' => false
+            ],
             'deskripsi' => [
                 'type' => 'TEXT',
                 'null' => true,
@@ -33,18 +37,31 @@ class CreateRoleTable extends Migration
                 'constraint' => 1,
                 'default' => 1,
             ],      
+                'null' => false
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
-                'null' => true,
+                'null' => false,
+                'default' => 'CURRENT_TIMESTAMP'
             ],
             'updated_at' => [
                 'type' => 'DATETIME',
-                'null' => true,
+                'null' => false,
+                'default' => 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'
             ],
         ]);
         
         $this->forge->addKey('id', true);
         $this->forge->createTable('role');
+        $this->forge->addUniqueKey('nama');
+        $this->forge->addKey('is_active');
+        
+        // Create table with proper charset and collation
+        $this->forge->createTable('role', true, [
+            'ENGINE' => 'InnoDB',
+            'CHARSET' => 'utf8mb4',
+            'COLLATE' => 'utf8mb4_unicode_ci'
+        ]);
     }
 
     public function down()
