@@ -17,15 +17,13 @@ class BeritaModel extends Model
         'created_at', 
         'updated_at'
     ];
-    
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
     protected $skipValidation = true; // Temporarily disable validation
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
-}           
-    
+
     // Validation rules
     protected $validationRules = [
         'judul' => 'required|min_length[3]|max_length[200]',
@@ -34,7 +32,6 @@ class BeritaModel extends Model
         'gambar' => 'permit_empty|max_length[255]',
         'status' => 'permit_empty|in_list[draft,published]'
     ];
-    
     protected $validationMessages = [
         'judul' => [
             'required' => 'Judul berita harus diisi',
@@ -54,7 +51,7 @@ class BeritaModel extends Model
             'in_list' => 'Status berita tidak valid'
         ]
     ];
-    
+
     // Get published berita
     public function getPublishedBerita()
     {
@@ -68,7 +65,7 @@ class BeritaModel extends Model
             return [];
         }
     }
-    
+
     // Get draft berita
     public function getDraftBerita()
     {
@@ -92,7 +89,7 @@ class BeritaModel extends Model
             return [];
         }
     }
-    
+
     // Increment views for a specific berita
     public function incrementViews($id)
     {
@@ -105,7 +102,7 @@ class BeritaModel extends Model
             return false;
         }
     }
-    
+
     // Get total views for all published berita
     public function getTotalViews()
     {
@@ -119,7 +116,7 @@ class BeritaModel extends Model
             return 0;
         }
     }
-    
+
     // Get dashboard statistics
     public function getDashboardStats()
     {
@@ -130,7 +127,6 @@ class BeritaModel extends Model
                 'draft' => $this->where('status', 'draft')->countAllResults(),
                 'total_views' => $this->getTotalViews()
             ];
-            
             log_message('debug', '[BeritaModel::getDashboardStats] Stats: ' . json_encode($stats));
             return $stats;
         } catch (\Exception $e) {
@@ -143,19 +139,17 @@ class BeritaModel extends Model
             ];
         }
     }
-    
+
     // Get berita with views for admin dashboard
     public function getBeritaWithViews()
     {
         try {
             // Simple approach - just get all berita without complex joins
             $result = $this->orderBy('created_at', 'DESC')->findAll();
-            
             // Add default penulis if not available
             foreach ($result as &$item) {
                 $item['penulis'] = $item['penulis'] ?? 'Admin';
             }
-            
             log_message('debug', '[BeritaModel::getBeritaWithViews] Found ' . count($result) . ' berita');
             return $result ?? [];
         } catch (\Exception $e) {
@@ -163,5 +157,5 @@ class BeritaModel extends Model
             return [];
         }
     }
-} 
+}
 

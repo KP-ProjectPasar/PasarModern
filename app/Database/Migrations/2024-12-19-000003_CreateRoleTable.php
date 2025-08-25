@@ -11,17 +11,15 @@ class CreateRoleTable extends Migration
         $this->forge->addField([
             'id' => [
                 'type' => 'INT',
-                'constraint' => 11, 
+                'constraint' => 11,
                 'unsigned' => true,
                 'auto_increment' => true,
-            ],          
+            ],
             'nama' => [
                 'type' => 'VARCHAR',
-                'constraint' => 100, 
-            ],        
                 'constraint' => 100,
                 'unique' => true,
-                'null' => false
+                'null' => false,
             ],
             'deskripsi' => [
                 'type' => 'TEXT',
@@ -36,27 +34,22 @@ class CreateRoleTable extends Migration
                 'type' => 'TINYINT',
                 'constraint' => 1,
                 'default' => 1,
-            ],      
-                'null' => false
+                'null' => false,
             ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => false,
-                'default' => 'CURRENT_TIMESTAMP'
+                'default' => 'CURRENT_TIMESTAMP',
             ],
             'updated_at' => [
                 'type' => 'DATETIME',
                 'null' => false,
-                'default' => 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'
+                'default' => 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
             ],
         ]);
-        
         $this->forge->addKey('id', true);
-        $this->forge->createTable('role');
         $this->forge->addUniqueKey('nama');
         $this->forge->addKey('is_active');
-        
-        // Create table with proper charset and collation
         $this->forge->createTable('role', true, [
             'ENGINE' => 'InnoDB',
             'CHARSET' => 'utf8mb4',

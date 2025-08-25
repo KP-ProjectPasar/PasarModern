@@ -1,11 +1,6 @@
 <?php
 namespace App\Controllers;
-use CodeIgniter\Controller;
 use App\Models\DireksiModel;
-
-
-namespace App\Controllers;
-
 use App\Controllers\BaseController;
 
 class TentangKami extends BaseController
@@ -18,22 +13,3 @@ class TentangKami extends BaseController
         return view('tentang_kami/pesan_direksi', compact('direksi'));
     }
 }
-    public function ringkasan()
-    {
-        return view('tentang_kami/ringkasan');
-    }
-    
-    public function visi_misi()
-    {
-        return view('tentang_kami/visi_misi');
-    }
-    
-    public function peraturan()
-    {
-        return view('tentang_kami/peraturan');
-    }
-    
-    public function pesan_direksi()
-    {
-        return view('tentang_kami/pesan_direksi');
-    }
