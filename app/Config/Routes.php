@@ -103,19 +103,12 @@ $routes->post('admin/pasar/update/(:num)', 'Admin\AdminPasar::update/$1');
 $routes->get('admin/pasar/delete/(:num)', 'Admin\AdminPasar::delete/$1');
 
 // CRUD Feedback
-<<<<<<< HEAD
-$routes->get('admin/feedback', 'AdminFeedback::index');
-$routes->get('admin/feedback/view/(:num)', 'AdminFeedback::view/$1');
-$routes->post('admin/feedback/update-status/(:num)', 'AdminFeedback::updateStatus/$1');
-$routes->get('admin/feedback/delete/(:num)', 'AdminFeedback::delete/$1');
+$routes->get('admin/feedback', 'Admin\AdminFeedback::index');
+$routes->get('admin/feedback/view/(:num)', 'Admin\AdminFeedback::view/$1');
+$routes->post('admin/feedback/update-status/(:num)', 'Admin\AdminFeedback::updateStatus/$1');
+$routes->get('admin/feedback/delete/(:num)', 'Admin\AdminFeedback::delete/$1');
 
 // CRUD Direksi
 $routes->get('admin/direksi', 'AdminDireksi::index');
 $routes->get('admin/direksi/edit/(:num)', 'AdminDireksi::edit/$1');
 $routes->post('admin/direksi/update/(:num)', 'AdminDireksi::update/$1');
-=======
-$routes->get('admin/feedback', 'Admin\AdminFeedback::index');
-$routes->get('admin/feedback/view/(:num)', 'Admin\AdminFeedback::view/$1');
-$routes->post('admin/feedback/update-status/(:num)', 'Admin\AdminFeedback::updateStatus/$1');
-$routes->get('admin/feedback/delete/(:num)', 'Admin\AdminFeedback::delete/$1');
->>>>>>> 41309aba68f649b79701eed1bdd7a31fc29d3139
