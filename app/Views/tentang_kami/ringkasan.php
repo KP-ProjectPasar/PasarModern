@@ -98,11 +98,11 @@ $kontak = $kontak ?? [
                         <div class="bg-white rounded-4 shadow-sm p-4 h-100">
                             <h4 class="fw-semibold text-primary mb-3"><i class="bi bi-star-fill me-2 text-warning"></i>Layanan Unggulan</h4>
                             <ul class="list-unstyled mb-0">
-                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Informasi harga komoditas harian yang transparan & mudah diakses</li>
-                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Galeri foto & video inspiratif aktivitas pasar dan UMKM</li>
-                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Berita, edukasi, dan info terkini seputar pasar, UMKM, dan komunitas</li>
-                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Peta digital lokasi, fasilitas, dan tenant pasar modern Tangerang</li>
-                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Form feedback & saran digital untuk membangun pasar bersama</li>
+                                                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Informasi harga komoditas harian yang transparan & mudah diakses</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Galeri foto & video inspiratif aktivitas pasar dan UMKM</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Berita, edukasi, dan info terkini seputar pasar, UMKM, dan komunitas</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Peta digital lokasi, fasilitas, dan tenant pasar modern Tangerang</li>
+                        <li><i class="bi bi-check-circle-fill text-primary me-2"></i>Form feedback & saran digital untuk membangun pasar bersama</li>
                             </ul>
                         </div>
                     </div>

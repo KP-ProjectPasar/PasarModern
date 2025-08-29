@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (progress === 100) {
             progressText.textContent = 'Form siap untuk disimpan!';
-            progressText.style.color = '#198754';
+            progressText.style.color = '#0d6efd';
         } else {
             progressText.textContent = `${filledFields} dari ${totalFields} field wajib telah diisi`;
             progressText.style.color = '#6c757d';

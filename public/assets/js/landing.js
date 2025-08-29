@@ -363,7 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
         right: 20px;
         width: 50px;
         height: 50px;
-        background: linear-gradient(90deg, #0d6efd, #198754);
+        background: linear-gradient(90deg, #0d6efd, #0056b3);
         color: white;
         border: none;
         border-radius: 50%;
@@ -617,11 +617,73 @@ function showNotification(message, type = 'info') {
 function fetchKomoditas() {
     const grid = document.getElementById('komoditasGrid');
     if (!grid) return;
+    
     grid.innerHTML = '<div class="text-center w-100 py-5">Loading data komoditas...</div>';
     
-    setTimeout(() => {
-        grid.innerHTML = '<div class="text-center w-100 py-5">Data komoditas akan tersedia setelah implementasi database.</div>';
-    }, 1000);
+    fetch('/api/harga')
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.length > 0) {
+                displayKomoditas(data);
+            } else {
+                grid.innerHTML = '<div class="text-center w-100 py-5">Belum ada data harga komoditas yang tersedia.</div>';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching harga:', error);
+            grid.innerHTML = '<div class="text-center w-100 py-5">Gagal memuat data harga. Silakan coba lagi nanti.</div>';
+        });
+}
+
+// Fungsi untuk menampilkan data komoditas
+function displayKomoditas(hargaList) {
+    const grid = document.getElementById('komoditasGrid');
+    if (!grid) return;
+    
+    const html = hargaList.slice(0, 3).map(harga => {
+        const imageUrl = harga.foto ? `/uploads/harga/${harga.foto}` : '/assets/img/Picture2.png';
+        const updateDate = new Date(harga.tanggal).toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+
+        const status = harga.change_status || 'flat';
+        const amount = typeof harga.change_amount === 'number' ? Math.abs(Math.round(harga.change_amount)) : null;
+        const badgeIcon = status === 'up' ? 'bi-arrow-up' : (status === 'down' ? 'bi-arrow-down' : 'bi-dash');
+        const badgeText = status === 'up'
+            ? `Naik Rp ${amount?.toLocaleString('id-ID')}`
+            : status === 'down'
+                ? `Turun Rp ${amount?.toLocaleString('id-ID')}`
+                : 'Harga Tetap';
+        const badgeClass = `change-badge ${status}`;
+        
+        return `
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 border-0 shadow-sm komoditas-card">
+                    <div class="position-relative">
+                        <img src="${imageUrl}" class="card-img-top" alt="${harga.komoditas}" 
+                             style="height: 200px; object-fit: cover;"
+                             onerror="this.src='/assets/img/Picture2.png'">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-2">${harga.komoditas}</h5>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="h4 text-primary fw-bold mb-0">Rp ${parseInt(harga.harga).toLocaleString('id-ID')}</span>
+                            <small class="text-muted">
+                                <i class="bi bi-calendar3 me-1"></i>${updateDate}
+                            </small>
+                        </div>
+                        <div class="d-flex justify-content-end align-items-center">
+                            <span class="${badgeClass}"><i class="bi ${badgeIcon}"></i> ${badgeText}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    grid.innerHTML = html;
 }
 
 // AJAX Berita
@@ -630,13 +692,213 @@ function fetchBerita() {
     if (!list) return;
     list.innerHTML = '<div class="text-center w-100 py-5">Loading berita...</div>';
     
-    setTimeout(() => {
-        list.innerHTML = '<div class="text-center w-100 py-5">Data berita akan tersedia setelah implementasi database.</div>';
-    }, 1000);
+    console.log('Fetching berita from API...');
+    
+    fetch('/api/berita')
+        .then(response => {
+            console.log('API Response status:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Berita data received:', data);
+            if (data && data.length > 0) {
+                displayBerita(data);
+            } else {
+                list.innerHTML = '<div class="text-center w-100 py-5">Belum ada berita yang dipublish.</div>';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching berita:', error);
+            list.innerHTML = '<div class="text-center w-100 py-5">Gagal memuat berita. Silakan coba lagi nanti.</div>';
+        });
+}
+
+function displayBerita(beritaList) {
+    const list = document.getElementById('beritaList');
+    if (!list) return;
+    
+    console.log('Displaying berita:', beritaList);
+    
+    const html = beritaList.slice(0, 3).map(berita => {
+        const imageUrl = berita.gambar ? `/uploads/berita/${berita.gambar}` : '/assets/img/Picture2.png';
+        const publishDate = new Date(berita.tanggal_publish).toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+        
+        console.log('Processing berita:', berita.judul, 'Image:', imageUrl);
+        
+        return `
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 border-0 shadow-sm berita-card">
+                    <div class="position-relative">
+                        <img src="${imageUrl}" class="card-img-top" alt="${berita.judul}" 
+                             style="height: 200px; object-fit: cover;"
+                             onerror="this.src='/assets/img/Picture2.png'">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-2">${berita.judul}</h5>
+                        <p class="card-text text-muted small mb-3">
+                            ${berita.isi.length > 100 ? berita.isi.substring(0, 100) + '...' : berita.isi}
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="bi bi-calendar3 me-1"></i>${publishDate}
+                            </small>
+                            <small class="text-muted">
+                                <i class="bi bi-eye me-1"></i>${berita.views || 0} views
+                            </small>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="/informasi/berita/${berita.id}" class="btn btn-outline-primary btn-sm w-100">
+                            Baca Selengkapnya
+                        </a>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    list.innerHTML = html;
+    console.log('Berita HTML generated and inserted');
 }
 
 // Panggil saat halaman siap
 window.addEventListener('DOMContentLoaded', function() {
     fetchKomoditas();
     fetchBerita();
-}); 
+    fetchGaleri();
+    fetchVideo();
+});
+
+// ===== Galeri =====
+async function fetchGaleri() {
+    try {
+        const response = await fetch('/api/galeri');
+        const result = await response.json();
+        
+        if (result.success && result.data) {
+            displayGaleri(result.data);
+        } else {
+            console.error('Gagal mengambil data galeri:', result.message);
+        }
+    } catch (error) {
+        console.error('Error fetching galeri:', error);
+    }
+}
+
+function displayGaleri(items) {
+    const grid = document.getElementById('galeri-list');
+    if (!grid) return;
+
+    const html = items.slice(0, 8).map((g) => {
+        const filename = g.gambar || g.foto || '';
+        let imageUrl = '/assets/img/Picture2.png';
+        if (filename) {
+            if (filename.startsWith('/uploads/') || filename.startsWith('http')) {
+                imageUrl = filename;
+            } else {
+                imageUrl = `/uploads/galeri/${filename}`;
+            }
+        }
+        const title = g.judul || g.title || g.nama || 'Galeri';
+        return `
+            <div class="col-6 col-md-3">
+                <div class="gallery-placeholder p-0" style="border:1px dashed #e1e7ef; border-radius:12px; overflow:hidden; background:#fff;">
+                    <img src="${imageUrl}" alt="${title}" class="w-100" style="height:180px; object-fit:cover;" onerror="this.src='/assets/img/Picture2.png'">
+                    <div class="py-2 text-center small">${title}</div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    grid.innerHTML = html;
+}
+
+// ===== Video =====
+async function fetchVideo() {
+    try {
+        const response = await fetch('/api/video');
+        const result = await response.json();
+        
+        if (result.success && result.data) {
+            displayVideo(result.data);
+        } else {
+            console.error('Gagal mengambil data video:', result.message);
+        }
+    } catch (error) {
+        console.error('Error fetching video:', error);
+    }
+}
+
+function displayVideo(videoData) {
+    const wrap = document.getElementById('videoContainer');
+    if (!wrap) return;
+
+    const v = videoData[0];
+    const title = v.judul || 'Video';
+    
+    // Improved URL to embed conversion
+    const toEmbed = (url) => {
+        // YouTube URL patterns
+        const youtubeMatch = url.match(/(?:https?:\/\/)?(?:www\.)?(?:m\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|embed\/|v\/|shorts\/)?([\w-]{11})(?:\S+)?/);
+        if (youtubeMatch) {
+            return `https://www.youtube.com/embed/${youtubeMatch[1]}?rel=0&modestbranding=1`;
+        }
+        
+        // Google Drive view URL to preview
+        const driveMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/view/);
+        if (driveMatch) {
+            return `https://drive.google.com/file/d/${driveMatch[1]}/preview`;
+        }
+        
+        // If it's already an embed URL, return as is
+        if (url.includes('embed') || url.includes('player')) {
+            return url;
+        }
+        
+        return url;
+    };
+    
+    let content = '';
+    if (v.tipe === 'url' && v.url) {
+        const embedUrl = toEmbed(v.url);
+        const isYouTube = embedUrl.includes('youtube.com/embed');
+        const isGoogleDrive = embedUrl.includes('drive.google.com');
+        
+        content = `
+            <div class="ratio ratio-16x9">
+                <iframe src="${embedUrl}" 
+                        allowfullscreen 
+                        referrerpolicy="no-referrer"
+                        onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                        style="display: none;">
+                </iframe>
+                <div class="video-fallback" style="display: flex; align-items: center; justify-content: center; background: #f8f9fa; color: #6c757d; text-align: center; padding: 2rem;">
+                    <div>
+                        <i class="bi bi-play-circle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <div>
+                            ${isYouTube ? 'Video YouTube' : isGoogleDrive ? 'Video Google Drive' : 'Video Eksternal'}<br>
+                            <small class="text-muted">${v.url}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    } else if (v.file_video) {
+        const src = v.file_video.startsWith('/uploads/') ? v.file_video : `/uploads/video/${v.file_video}`;
+        content = `
+            <video controls class="w-100" style="max-width:900px; height: auto;">
+                <source src="${src}" type="video/mp4">
+                <div class="video-fallback" style="display: flex; align-items: center; justify-content: center; background: #f8f9fa; color: #6c757d; padding: 2rem;">
+                    <i class="bi bi-file-earmark-play me-2"></i>Video tidak dapat diputar
+                </div>
+            </video>
+        `;
+    }
+    
+    wrap.innerHTML = `<div class="col-lg-10">${content}<div class="small text-muted mt-2 text-center">${title}</div></div>`;
+} 

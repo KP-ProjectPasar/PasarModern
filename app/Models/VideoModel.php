@@ -13,6 +13,7 @@ class VideoModel extends Model
         'tipe',
         'views',
         'status',
+        'featured',
         'created_by',
         'created_at',
         'updated_at'
@@ -25,7 +26,8 @@ class VideoModel extends Model
     protected $validationRules = [
         'judul' => 'required|min_length[3]|max_length[100]',
         'tipe' => 'required|in_list[url,file]',
-        'status' => 'permit_empty|in_list[draft,published]'
+        'status' => 'permit_empty|in_list[draft,published]',
+        'featured' => 'permit_empty|in_list[0,1]'
     ];
     
     protected $validationMessages = [
@@ -40,8 +42,26 @@ class VideoModel extends Model
         ],
         'status' => [
             'in_list' => 'Status harus berupa draft atau published'
+        ],
+        'featured' => [
+            'in_list' => 'Featured harus berupa 0 atau 1'
         ]
     ];
+
+    // Get featured videos for landing page
+    public function getFeaturedVideos($limit = 3)
+    {
+        try {
+            return $this->where('status', 'published')
+                        ->where('featured', 1)
+                        ->orderBy('created_at', 'DESC')
+                        ->limit($limit)
+                        ->findAll() ?? [];
+        } catch (\Exception $e) {
+            log_message('error', '[VideoModel::getFeaturedVideos] Error: ' . $e->getMessage());
+            return [];
+        }
+    }
 
     // Get published videos
     public function getPublishedVideos()
@@ -66,6 +86,32 @@ class VideoModel extends Model
         } catch (\Exception $e) {
             log_message('error', '[VideoModel::getDraftVideos] Error: ' . $e->getMessage());
             return [];
+        }
+    }
+
+    // Toggle featured status
+    public function toggleFeatured($id)
+    {
+        try {
+            $current = $this->find($id);
+            if (!$current) return false;
+            
+            $newStatus = $current['featured'] ? 0 : 1;
+            return $this->update($id, ['featured' => $newStatus]);
+        } catch (\Exception $e) {
+            log_message('error', '[VideoModel::toggleFeatured] Error: ' . $e->getMessage());
+            return false;
+        }
+    }
+    
+    // Set featured status
+    public function setFeatured($id, $featured = 1)
+    {
+        try {
+            return $this->update($id, ['featured' => $featured]);
+        } catch (\Exception $e) {
+            log_message('error', '[VideoModel::setFeatured] Error: ' . $e->getMessage());
+            return false;
         }
     }
 

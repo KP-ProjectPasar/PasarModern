@@ -10,33 +10,52 @@ class Feedback extends BaseController
 {
     public function index()
     {
-        return view('feedback_form');
+        return redirect()->to('/#feedback');
     }
 
     public function submit()
     {
-        $feedbackModel = new FeedbackModel();
+        // Set JSON response header
+        $this->response->setContentType('application/json');
         
-        // Validate input
-        $validation = \Config\Services::validation();
-        $validation->setRules([
-            'nama' => 'required|min_length[3]|max_length[100]',
-            'email' => 'required|valid_email|max_length[100]',
-            'telepon' => 'permit_empty|min_length[10]|max_length[15]',
-            'subjek' => 'required|min_length[5]|max_length[200]',
-            'pesan' => 'required|min_length[10]|max_length[1000]',
-            'jenis_feedback' => 'required|in_list[keluhan,saran,pujian,laporan,pertanyaan]'
-        ]);
-
-        if (!$validation->withRequest($this->request)->run()) {
-            return $this->response->setJSON([
-                'success' => false,
-                'message' => 'Validasi gagal',
-                'errors' => $validation->getErrors()
-            ]);
-        }
-
         try {
+            // Log request method and headers
+            log_message('debug', '[Feedback::submit] Request method: ' . $this->request->getMethod());
+            log_message('debug', '[Feedback::submit] Headers: ' . json_encode($this->request->headers()));
+            
+            // Log raw request data
+            log_message('debug', '[Feedback::submit] Raw POST data: ' . json_encode($this->request->getPost()));
+            log_message('debug', '[Feedback::submit] Raw FILES data: ' . json_encode($this->request->getFiles()));
+            
+            // Check if this is a POST request
+            if (!$this->request->is('post')) {
+                log_message('error', '[Feedback::submit] Invalid request method: ' . $this->request->getMethod());
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Invalid request method'
+                ]);
+            }
+            
+            $feedbackModel = new FeedbackModel();
+            
+            // Validate input
+            $validation = \Config\Services::validation();
+            $validation->setRules([
+                'nama' => 'required|min_length[3]|max_length[100]',
+                'email' => 'required|valid_email|max_length[100]',
+                'telepon' => 'permit_empty|min_length[10]|max_length[15]',
+                'subjek' => 'required|min_length[5]|max_length[200]',
+                'pesan' => 'required|min_length[10]|max_length[1000]',
+                'jenis_feedback' => 'required|in_list[keluhan,saran,pujian,laporan,pertanyaan]'
+            ]);
+
+            if (!$validation->withRequest($this->request)->run()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Validasi gagal: ' . implode(', ', $validation->getErrors())
+                ]);
+            }
+
             $fileLampiran = '';
             $file = $this->request->getFile('file_lampiran');
             
@@ -79,18 +98,39 @@ class Feedback extends BaseController
                 'status' => 'pending'
             ];
             
-            $feedbackModel->insert($data);
+            log_message('debug', '[Feedback::submit] Data to insert: ' . json_encode($data));
             
-            return $this->response->setJSON([
-                'success' => true,
-                'message' => 'Feedback berhasil dikirim! Terima kasih atas masukan Anda.'
-            ]);
+            try {
+                $result = $feedbackModel->insert($data);
+                
+                if ($result === false) {
+                    $errors = $feedbackModel->errors();
+                    log_message('error', '[Feedback::submit] Insert failed with errors: ' . json_encode($errors));
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => 'Gagal menyimpan feedback ke database.',
+                        'errors' => $errors
+                    ]);
+                }
+                
+                log_message('info', '[Feedback::submit] Successfully inserted feedback with ID: ' . $result);
+                return $this->response->setJSON([
+                    'success' => true,
+                    'message' => 'Feedback berhasil dikirim! Terima kasih atas masukan Anda.'
+                ]);
+            } catch (\Exception $e) {
+                log_message('error', '[Feedback::submit] Database error: ' . $e->getMessage());
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Terjadi kesalahan saat menyimpan ke database.'
+                ]);
+            }
             
         } catch (\Exception $e) {
             log_message('error', 'Feedback submission error: ' . $e->getMessage());
             return $this->response->setJSON([
                 'success' => false,
-                'message' => 'Terjadi kesalahan saat mengirim feedback. Silakan coba lagi.'
+                'message' => 'Terjadi kesalahan sistem: ' . $e->getMessage()
             ]);
         }
     }

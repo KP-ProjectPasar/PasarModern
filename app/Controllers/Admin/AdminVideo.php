@@ -319,4 +319,28 @@ class AdminVideo extends BaseController
             return redirect()->to('/admin/video')->with('error', 'Gagal mengubah status video: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Toggle featured status for video item
+     */
+    public function toggleFeatured($id = null)
+    {
+        if (!$this->request->isAJAX()) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Invalid request']);
+        }
+
+        try {
+            $videoModel = new \App\Models\VideoModel();
+            $result = $videoModel->toggleFeatured($id);
+            
+            if ($result) {
+                return $this->response->setJSON(['success' => true, 'message' => 'Status featured berhasil diubah']);
+            } else {
+                return $this->response->setJSON(['success' => false, 'message' => 'Gagal mengubah status featured']);
+            }
+        } catch (\Exception $e) {
+            log_message('error', '[AdminVideo::toggleFeatured] Error: ' . $e->getMessage());
+            return $this->response->setJSON(['success' => false, 'message' => 'Terjadi kesalahan sistem']);
+        }
+    }
 } 

@@ -97,7 +97,7 @@
         <div class="dashboard-card">
             <div class="dashboard-card-header">
                 <h5 class="dashboard-card-title">
-                    <i class="bi bi-pie-chart text-success me-2"></i>
+                                            <i class="bi bi-pie-chart text-primary me-2"></i>
                     Distribusi Konten
                 </h5>
             </div>
@@ -129,7 +129,7 @@
                         </div>
                     </div>
                     <div class="info-item">
-                        <div class="info-icon text-success">
+                        <div class="info-icon text-primary">
                             <i class="bi bi-database"></i>
                         </div>
                         <div class="info-content">

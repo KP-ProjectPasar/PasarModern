@@ -14,6 +14,8 @@ $routes->post('feedback/submit', 'Feedback::submit');
 $routes->get('api/komoditas', 'Api::komoditas');
 $routes->get('api/galeri', 'Api::galeri');
 $routes->get('api/berita', 'Api::berita');
+$routes->get('api/harga', 'Api::harga');
+$routes->get('api/video', 'Api::video');
 $routes->post('api/galeri/(:num)/view', 'Api::incrementGaleriView/$1');
 $routes->get('api/dashboard/stats', 'Api::dashboardStats');
 $routes->get('api/test-db', 'Api::testDb');
@@ -27,6 +29,7 @@ $routes->get('informasi/berita/(:num)', 'Informasi::beritaDetail/$1');
 $routes->post('api/berita/(:num)/view', 'Api::incrementBeritaView/$1');
 $routes->get('informasi/harga', 'Informasi::harga');
 $routes->get('informasi/informasi-pasar', 'Informasi::informasi_pasar');
+$routes->get('informasi/galeri', 'Informasi::galeri');
 $routes->get('admin/login', 'Admin\Admin::login');
 $routes->post('admin/login', 'Admin\Admin::login');
 $routes->get('admin/dashboard', 'Admin\Admin::dashboard');
@@ -74,6 +77,7 @@ $routes->get('admin/galeri/edit/(:num)', 'Admin\AdminGaleri::edit/$1');
 $routes->post('admin/galeri/update/(:num)', 'Admin\AdminGaleri::update/$1');
 $routes->get('admin/galeri/delete/(:num)', 'Admin\AdminGaleri::delete/$1');
 $routes->get('admin/galeri/status/(:num)/(:any)', 'Admin\AdminGaleri::changeStatus/$1/$2');
+$routes->post('admin/galeri/toggle-featured/(:num)', 'Admin\AdminGaleri::toggleFeatured/$1');
 
 // CRUD Video
 $routes->get('admin/video', 'Admin\AdminVideo::index');
@@ -83,6 +87,7 @@ $routes->get('admin/video/edit/(:num)', 'Admin\AdminVideo::edit/$1');
 $routes->post('admin/video/update/(:num)', 'Admin\AdminVideo::update/$1');
 $routes->get('admin/video/delete/(:num)', 'Admin\AdminVideo::delete/$1');
 $routes->get('admin/video/changeStatus/(:num)/(:any)', 'Admin\AdminVideo::changeStatus/$1/$2');
+$routes->post('admin/video/toggle-featured/(:num)', 'Admin\AdminVideo::toggleFeatured/$1');
 // Alias agar konsisten dengan berita/galeri
 $routes->get('admin/video/status/(:num)/(:any)', 'Admin\AdminVideo::changeStatus/$1/$2');
 

@@ -56,3 +56,32 @@ function closeDeleteModal() {
     const modal = document.getElementById('deleteModal');
     modal.classList.remove('show');
 } 
+
+/**
+ * Toggle featured status for galeri item
+ */
+function toggleFeatured(type, id, featured) {
+    const url = `/admin/${type}/toggle-featured/${id}`;
+    
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({ featured: featured })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Reload the page to show updated status
+            location.reload();
+        } else {
+            alert('Gagal mengubah status featured: ' + (data.message || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan saat mengubah status featured');
+    });
+} 

@@ -24,7 +24,7 @@
 </div>
 
 <div class="row mb-4">
-    <div class="col-md-3 mb-3">
+    <div class="col-md-2 mb-3">
         <div class="stat-card-mini stat-card-primary">
             <div class="stat-card-mini-icon">
                 <i class="bi bi-images"></i>
@@ -35,7 +35,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
+    <div class="col-md-2 mb-3">
         <div class="stat-card-mini stat-card-success">
             <div class="stat-card-mini-icon">
                 <i class="bi bi-check-circle"></i>
@@ -46,7 +46,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
+    <div class="col-md-2 mb-3">
         <div class="stat-card-mini stat-card-warning">
             <div class="stat-card-mini-icon">
                 <i class="bi bi-clock"></i>
@@ -57,8 +57,19 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
+    <div class="col-md-2 mb-3">
         <div class="stat-card-mini stat-card-info">
+            <div class="stat-card-mini-icon">
+                <i class="bi bi-star"></i>
+            </div>
+            <div class="stat-card-mini-content">
+                <div class="stat-card-mini-number"><?= $stats['featured'] ?? 0 ?></div>
+                <div class="stat-card-mini-label">Featured</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 mb-3">
+        <div class="stat-card-mini stat-card-secondary">
             <div class="stat-card-mini-icon">
                 <i class="bi bi-eye"></i>
             </div>
@@ -112,6 +123,9 @@
                                 <i class="bi bi-circle me-2"></i>Status
                             </th>
                             <th scope="col">
+                                <i class="bi bi-star me-2"></i>Featured
+                            </th>
+                            <th scope="col">
                                 <i class="bi bi-eye me-2"></i>Views
                             </th>
                             <th scope="col">
@@ -163,6 +177,29 @@
                                             <span class="badge bg-warning">Draft</span>
                                         <?php else: ?>
                                             <span class="badge bg-secondary">—</span>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+                                
+                                <td>
+                                    <div class="featured-indicator">
+                                        <?php 
+                                        $featured = $galeri['featured'] ?? 0;
+                                        if ($featured): 
+                                        ?>
+                                            <span class="badge bg-success">Featured</span>
+                                            <button type="button" class="btn btn-sm btn-outline-warning ms-2" 
+                                                    onclick="toggleFeatured('galeri', <?= $galeri['id'] ?>, 0)" 
+                                                    title="Hapus dari Featured">
+                                                <i class="bi bi-star-fill"></i>
+                                            </button>
+                                        <?php else: ?>
+                                            <span class="badge bg-secondary">—</span>
+                                            <button type="button" class="btn btn-sm btn-outline-success ms-2" 
+                                                    onclick="toggleFeatured('galeri', <?= $galeri['id'] ?>, 1)" 
+                                                    title="Tambah ke Featured">
+                                                <i class="bi bi-star"></i>
+                                            </button>
                                         <?php endif; ?>
                                     </div>
                                 </td>

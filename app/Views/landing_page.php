@@ -86,21 +86,21 @@
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100 text-center p-3 border-0 shadow-sm layanan-card">
-                        <div class="mb-3"><i class="bi bi-image text-success" style="font-size:2.5rem;"></i></div>
+                        <div class="mb-3"><i class="bi bi-image text-primary" style="font-size:2.5rem;"></i></div>
                         <h6 class="fw-bold mb-2">Galeri Pasar</h6>
                         <p class="small text-muted">Lihat suasana dan aktivitas pasar melalui galeri foto kami.</p>
                     </div>
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100 text-center p-3 border-0 shadow-sm layanan-card">
-                        <div class="mb-3"><i class="bi bi-newspaper text-warning" style="font-size:2.5rem;"></i></div>
+                        <div class="mb-3"><i class="bi bi-newspaper text-primary" style="font-size:2.5rem;"></i></div>
                         <h6 class="fw-bold mb-2">Berita & Info</h6>
                         <p class="small text-muted">Update berita, kegiatan, dan pengumuman pasar modern Tangerang.</p>
                     </div>
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card h-100 text-center p-3 border-0 shadow-sm layanan-card">
-                        <div class="mb-3"><i class="bi bi-geo-alt-fill text-info" style="font-size:2.5rem;"></i></div>
+                        <div class="mb-3"><i class="bi bi-geo-alt-fill text-primary" style="font-size:2.5rem;"></i></div>
                         <h6 class="fw-bold mb-2">Peta Lokasi Pasar</h6>
                         <p class="small text-muted">Temukan lokasi pasar modern terdekat di Tangerang.</p>
                     </div>
@@ -190,6 +190,22 @@
                     </div>
                 </div>
             </div>
+            <div class="text-center mt-4">
+                <a href="/informasi/galeri" class="btn btn-outline-primary btn-lg">Lihat Semua Foto</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section id="video" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-center">Video Terbaru</h2>
+            <div id="videoContainer" class="row justify-content-center text-center">
+                <!-- diisi oleh JS -->
+            </div>
+            <div class="text-center mt-3">
+                <a href="/informasi/galeri" class="btn btn-outline-primary">Lihat Semua Video</a>
+            </div>
         </div>
     </section>
 
@@ -267,7 +283,7 @@
                             </p>
                         </div>
                         
-                        <form id="feedbackForm" class="feedback-form">
+                        <form id="feedbackForm" class="feedback-form" action="/feedback/submit" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="nama" class="form-label">

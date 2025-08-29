@@ -137,11 +137,6 @@
                         <label class="form-label fw-bold">Tanggal Kirim:</label>
                         <div class="info-value"><?= date('d M Y H:i', strtotime($feedback['created_at'])) ?></div>
                     </div>
-                    
-                    <div class="info-item mb-3">
-                        <label class="form-label fw-bold">IP Address:</label>
-                        <div class="info-value"><?= esc($feedback['ip_address']) ?></div>
-                    </div>
                 </div>
             </div>
         </div>

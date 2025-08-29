@@ -13,7 +13,7 @@ abstract class BaseController extends Controller
 {
     protected $request;
 
-    protected $helpers = ['form', 'url'];
+    protected $helpers = ['form', 'url', 'text', 'security', 'filesystem'];
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {

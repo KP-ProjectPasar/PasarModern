@@ -85,6 +85,12 @@
     letter-spacing: 0.5px;
 }
 
+.stat-card-mini-date {
+    color: #94a3b8;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+
 /* Content Card */
 .content-card {
     background: white;
@@ -203,7 +209,97 @@
 
 .admin-table thead th,
 .admin-table tbody td {
-    padding: 0.75rem 0.5rem;
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+}
+
+/* Blue table header to match other pages */
+.admin-table thead th {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+}
+
+.admin-table thead th i { color: white; }
+
+/* Harga Foto Cell */
+.harga-foto-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.harga-foto-thumbnail {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.harga-foto-thumbnail:hover {
+    transform: scale(1.1);
+    border-color: #3b82f6;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.harga-foto-placeholder {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    background: #f1f5f9;
+    border: 2px dashed #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+/* Harga Category */
+.harga-category {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.category-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.category-badge.category-sayuran {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+}
+
+.category-badge.category-buah {
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    color: #92400e;
+}
+
+.category-badge.category-daging {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+}
+
+.category-badge.category-lainnya {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    color: #475569;
 }
 
 .harga-info-cell {

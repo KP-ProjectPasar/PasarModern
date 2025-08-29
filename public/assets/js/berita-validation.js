@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (charCount < minChars) {
                     wordCountDisplay.classList.add('text-danger');
-                    wordCountDisplay.classList.remove('text-success');
-                } else {
-                    wordCountDisplay.classList.add('text-success');
+                                wordCountDisplay.classList.remove('text-primary');
+        } else {
+            wordCountDisplay.classList.add('text-primary');
                     wordCountDisplay.classList.remove('text-danger');
                 }
             }

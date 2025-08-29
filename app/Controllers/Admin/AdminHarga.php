@@ -8,165 +8,201 @@ use App\Models\KomoditasModel;
 
 class AdminHarga extends BaseController
 {
-    public function index()
-    {
-        // Check if user is logged in
-        if (!session()->get('is_admin')) {
-            return redirect()->to('/admin/login');
-        }
+	public function index()
+	{
+		if (!session()->get('is_admin')) {
+			return redirect()->to('/admin/login');
+		}
 
-        $hargaModel = new HargaModel();
-        $harga = $hargaModel->findAll();
-        $data = [
-            'harga' => $harga,
-            'admin_nama' => session()->get('admin_nama'),
-            'admin_role' => session()->get('admin_role'),
-            'active_page' => 'harga',
-        ];
-        return view('admin/harga/harga_list', $data);
-    }
+		$hargaModel = new HargaModel();
+		$harga = $hargaModel->getLatestPerKomoditas();
+		$stats = $hargaModel->getDashboardStats();
+		
+		return view('admin/harga/harga_list', [
+			'harga' => $harga,
+			'stats' => $stats,
+			'admin_nama' => session()->get('admin_nama'),
+			'admin_role' => session()->get('admin_role'),
+			'active_page' => 'harga',
+		]);
+	}
 
-    public function create()
-    {
-        // Check if user is logged in
-        if (!session()->get('is_admin')) {
-            return redirect()->to('/admin/login');
-        }
+	public function create()
+	{
+		if (!session()->get('is_admin')) {
+			return redirect()->to('/admin/login');
+		}
 
-        $komoditasModel = new KomoditasModel();
-        $komoditas = $komoditasModel->findAll();
-        
-        return view('admin/harga/harga_form', [
-            'komoditas' => $komoditas,
-            'admin_nama' => session()->get('admin_nama'),
-            'admin_role' => session()->get('admin_role'),
-            'title' => 'Tambah Harga',
-            'active_page' => 'harga',
-        ]);
-    }
+		$komoditasModel = new KomoditasModel();
+		$komoditas = $komoditasModel->findAll();
+		
+		return view('admin/harga/harga_form', [
+			'komoditas' => $komoditas,
+			'admin_nama' => session()->get('admin_nama'),
+			'admin_role' => session()->get('admin_role'),
+			'title' => 'Tambah Harga',
+			'active_page' => 'harga',
+		]);
+	}
 
-    public function store()
-    {
-        // Check if user is logged in
-        if (!session()->get('is_admin')) {
-            return redirect()->to('/admin/login');
-        }
+	public function store()
+	{
+		if (!session()->get('is_admin')) {
+			return redirect()->to('/admin/login');
+		}
 
-        // Validation
-        $validation = \Config\Services::validation();
-        $validation->setRules([
-            'komoditas_id' => 'required|numeric',
-            'harga' => 'required|numeric|greater_than[0]',
-            'satuan' => 'required|min_length[2]|max_length[20]',
-            'tanggal' => 'required|valid_date',
-            'keterangan' => 'permit_empty|max_length[500]'
-        ]);
+		$validation = \Config\Services::validation();
+		$validation->setRules([
+			'komoditas' => 'required|min_length[3]|max_length[100]',
+			'kategori' => 'required|in_list[sayuran,buah,daging,lainnya]',
+			'harga' => 'required|numeric|greater_than[0]',
+			'tanggal' => 'required|valid_date',
+			'foto' => 'permit_empty|uploaded[foto]|max_size[foto,5120]|is_image[foto]'
+		]);
 
-        if (!$validation->withRequest($this->request)->run()) {
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-        }
+		if (!$validation->withRequest($this->request)->run()) {
+			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+		}
 
-        $hargaModel = new HargaModel();
-        
-        try {
-            $data = [
-                'komoditas_id' => $this->request->getPost('komoditas_id'),
-                'harga' => $this->request->getPost('harga'),
-                'satuan' => $this->request->getPost('satuan'),
-                'tanggal' => $this->request->getPost('tanggal'),
-                'keterangan' => $this->request->getPost('keterangan') ?? '',
-            ];
-            
-            $hargaModel->insert($data);
-            return redirect()->to('/admin/harga')->with('success', 'Data harga berhasil ditambahkan!');
-            
-        } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('error', 'Gagal menambahkan data harga: ' . $e->getMessage());
-        }
-    }
+		$hargaModel = new HargaModel();
 
-    public function edit($id)
-    {
-        // Check if user is logged in
-        if (!session()->get('is_admin')) {
-            return redirect()->to('/admin/login');
-        }
+		try {
+			$komoditas = $this->request->getPost('komoditas');
+			$tanggal = $this->request->getPost('tanggal');
+			$data = [
+				'komoditas' => $komoditas,
+				'kategori' => $this->request->getPost('kategori'),
+				'harga' => $this->request->getPost('harga'),
+				'tanggal' => $tanggal,
+			];
 
-        $hargaModel = new HargaModel();
-        $komoditasModel = new KomoditasModel();
-        
-        $harga = $hargaModel->find($id);
-        $komoditas = $komoditasModel->findAll();
-        
-        if (!$harga) {
-            return redirect()->to('/admin/harga')->with('error', 'Data harga tidak ditemukan!');
-        }
-        
-        $data = [
-            'harga' => $harga,
-            'komoditas' => $komoditas,
-            'admin_nama' => session()->get('admin_nama'),
-            'admin_role' => session()->get('admin_role'),
-            'title' => 'Edit Harga',
-            'active_page' => 'harga',
-        ];
-        return view('admin/harga/harga_form', $data);
-    }
+			$existing = $hargaModel->where('komoditas', $komoditas)
+				->where('tanggal', $tanggal)
+				->first();
 
-    public function update($id)
-    {
-        // Check if user is logged in
-        if (!session()->get('is_admin')) {
-            return redirect()->to('/admin/login');
-        }
+			$foto = $this->request->getFile('foto');
+			if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+				$newName = $foto->getRandomName();
+				$foto->move(ROOTPATH . 'public/uploads/harga', $newName);
+				$data['foto'] = $newName;
+			} elseif ($existing && !empty($existing['foto'])) {
+				// Pertahankan foto lama jika tidak ada upload baru
+				$data['foto'] = $existing['foto'];
+			}
 
-        // Validation
-        $validation = \Config\Services::validation();
-        $validation->setRules([
-            'komoditas_id' => 'required|numeric',
-            'harga' => 'required|numeric|greater_than[0]',
-            'satuan' => 'required|min_length[2]|max_length[20]',
-            'tanggal' => 'required|valid_date',
-            'keterangan' => 'permit_empty|max_length[500]'
-        ]);
+			if ($existing) {
+				// Simpan metadata harga sebelumnya agar indikator bisa menentukan Tetap/Naik/Turun
+				$data['previous_price'] = $existing['harga'];
+				$data['previous_updated_at'] = $existing['updated_at'];
+				$hargaModel->update($existing['id'], $data);
+			} else {
+				$hargaModel->insert($data);
+			}
 
-        if (!$validation->withRequest($this->request)->run()) {
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-        }
+			return redirect()->to('/admin/harga')->with('success', 'Data harga berhasil disimpan!');
+			
+		} catch (\Exception $e) {
+			return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data harga: ' . $e->getMessage());
+		}
+	}
 
-        $hargaModel = new HargaModel();
-        
-        try {
-            $data = [
-                'komoditas_id' => $this->request->getPost('komoditas_id'),
-                'harga' => $this->request->getPost('harga'),
-                'satuan' => $this->request->getPost('satuan'),
-                'tanggal' => $this->request->getPost('tanggal'),
-                'keterangan' => $this->request->getPost('keterangan') ?? '',
-            ];
-            
-            $hargaModel->update($id, $data);
-            return redirect()->to('/admin/harga')->with('success', 'Data harga berhasil diperbarui!');
-            
-        } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('error', 'Gagal memperbarui data harga: ' . $e->getMessage());
-        }
-    }
+	public function edit($id)
+	{
+		if (!session()->get('is_admin')) {
+			return redirect()->to('/admin/login');
+		}
 
-    public function delete($id)
-    {
-        // Check if user is logged in
-        if (!session()->get('is_admin')) {
-            return redirect()->to('/admin/login');
-        }
+		$hargaModel = new HargaModel();
+		$komoditasModel = new KomoditasModel();
+		
+		$harga = $hargaModel->find($id);
+		$komoditas = $komoditasModel->findAll();
+		
+		if (!$harga) {
+			return redirect()->to('/admin/harga')->with('error', 'Data harga tidak ditemukan!');
+		}
+		
+		return view('admin/harga/harga_form', [
+			'harga' => $harga,
+			'komoditas' => $komoditas,
+			'admin_nama' => session()->get('admin_nama'),
+			'admin_role' => session()->get('admin_role'),
+			'title' => 'Edit Harga',
+			'active_page' => 'harga',
+		]);
+	}
 
-        try {
-            $hargaModel = new HargaModel();
-            $hargaModel->delete($id);
-            return redirect()->to('/admin/harga')->with('success', 'Data harga berhasil dihapus!');
-            
-        } catch (\Exception $e) {
-            return redirect()->to('/admin/harga')->with('error', 'Gagal menghapus data harga: ' . $e->getMessage());
-        }
-    }
+	public function update($id)
+	{
+		if (!session()->get('is_admin')) {
+			return redirect()->to('/admin/login');
+		}
+
+		$validation = \Config\Services::get('validation');
+		$validation->setRules([
+			'komoditas' => 'required|min_length[3]|max_length[100]',
+			'kategori' => 'required|in_list[sayuran,buah,daging,lainnya]',
+			'harga' => 'required|numeric|greater_than[0]',
+			'tanggal' => 'required|valid_date',
+			'foto' => 'permit_empty|uploaded[foto]|max_size[foto,5120]|is_image[foto]'
+		]);
+
+		if (!$validation->withRequest($this->request)->run()) {
+			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+		}
+
+		$hargaModel = new HargaModel();
+
+		try {
+			$komoditas = $this->request->getPost('komoditas');
+			$tanggal = $this->request->getPost('tanggal');
+			$data = [
+				'komoditas' => $komoditas,
+				'kategori' => $this->request->getPost('kategori'),
+				'harga' => $this->request->getPost('harga'),
+				'tanggal' => $tanggal,
+			];
+
+			$existing = $hargaModel->where('komoditas', $komoditas)
+				->where('tanggal', $tanggal)
+				->first();
+
+			$foto = $this->request->getFile('foto');
+			if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+				$newName = $foto->getRandomName();
+				$foto->move(ROOTPATH . 'public/uploads/harga', $newName);
+				$data['foto'] = $newName;
+			} elseif ($existing && !empty($existing['foto'])) {
+				$data['foto'] = $existing['foto'];
+			}
+
+			if ($existing) {
+				$data['previous_price'] = $existing['harga'];
+				$data['previous_updated_at'] = $existing['updated_at'];
+				$hargaModel->update($existing['id'], $data);
+			} else {
+				$hargaModel->update($id, $data);
+			}
+
+			return redirect()->to('/admin/harga')->with('success', 'Data harga berhasil diperbarui!');
+			
+		} catch (\Exception $e) {
+			return redirect()->back()->withInput()->with('error', 'Gagal memperbarui data harga: ' . $e->getMessage());
+		}
+	}
+
+	public function delete($id)
+	{
+		if (!session()->get('is_admin')) {
+			return redirect()->to('/admin/login');
+		}
+
+		try {
+			$hargaModel = new HargaModel();
+			$hargaModel->delete($id);
+			return redirect()->to('/admin/harga')->with('success', 'Data harga berhasil dihapus!');
+		} catch (\Exception $e) {
+			return redirect()->to('/admin/harga')->with('error', 'Gagal menghapus data harga: ' . $e->getMessage());
+		}
+	}
 } 

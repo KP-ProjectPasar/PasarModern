@@ -66,6 +66,8 @@ class BeritaModel extends Model
         }
     }
 
+
+
     // Get draft berita
     public function getDraftBerita()
     {

@@ -20,9 +20,7 @@ class FeedbackModel extends Model
         'pesan',
         'jenis_feedback',
         'file_lampiran',
-        'status',
-        'ip_address',
-        'user_agent'
+        'status'
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -98,14 +96,6 @@ class FeedbackModel extends Model
     {
         if (!isset($data['data']['status'])) {
             $data['data']['status'] = 'pending';
-        }
-        
-        if (!isset($data['data']['ip_address'])) {
-            $data['data']['ip_address'] = $this->request->getIPAddress();
-        }
-        
-        if (!isset($data['data']['user_agent'])) {
-            $data['data']['user_agent'] = $this->request->getUserAgent()->getAgentString();
         }
         
         return $data;

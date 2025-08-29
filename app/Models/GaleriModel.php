@@ -11,6 +11,7 @@ class GaleriModel extends Model
         'gambar', 
         'views',
         'status',
+        'featured',
         'created_by',
         'created_at', 
         'updated_at'
@@ -23,7 +24,8 @@ class GaleriModel extends Model
     protected $validationRules = [
         'judul' => 'required|min_length[3]|max_length[100]',
         'gambar' => 'permit_empty|max_length[255]',
-        'status' => 'permit_empty|in_list[draft,published]'
+        'status' => 'permit_empty|in_list[draft,published]',
+        'featured' => 'permit_empty|in_list[0,1]'
     ];
     
     protected $validationMessages = [
@@ -34,8 +36,26 @@ class GaleriModel extends Model
         ],
         'status' => [
             'in_list' => 'Status harus berupa draft atau published'
+        ],
+        'featured' => [
+            'in_list' => 'Featured harus berupa 0 atau 1'
         ]
     ];
+    
+    // Get featured galeri for landing page
+    public function getFeaturedGaleri($limit = 6)
+    {
+        try {
+            return $this->where('status', 'published')
+                        ->where('featured', 1)
+                        ->orderBy('created_at', 'DESC')
+                        ->limit($limit)
+                        ->findAll() ?? [];
+        } catch (\Exception $e) {
+            log_message('error', '[GaleriModel::getFeaturedGaleri] Error: ' . $e->getMessage());
+            return [];
+        }
+    }
     
     // Get published galeri
     public function getPublishedGaleri()
@@ -60,6 +80,32 @@ class GaleriModel extends Model
         } catch (\Exception $e) {
             log_message('error', '[GaleriModel::getDraftGaleri] Error: ' . $e->getMessage());
             return [];
+        }
+    }
+    
+    // Toggle featured status
+    public function toggleFeatured($id)
+    {
+        try {
+            $current = $this->find($id);
+            if (!$current) return false;
+            
+            $newStatus = $current['featured'] ? 0 : 1;
+            return $this->update($id, ['featured' => $newStatus]);
+        } catch (\Exception $e) {
+            log_message('error', '[GaleriModel::toggleFeatured] Error: ' . $e->getMessage());
+            return false;
+        }
+    }
+    
+    // Set featured status
+    public function setFeatured($id, $featured = 1)
+    {
+        try {
+            return $this->update($id, ['featured' => $featured]);
+        } catch (\Exception $e) {
+            log_message('error', '[GaleriModel::setFeatured] Error: ' . $e->getMessage());
+            return false;
         }
     }
     
@@ -95,52 +141,48 @@ class GaleriModel extends Model
     {
         try {
             // Fetch minimal fields for stats
-            $allGaleri = $this->select('id,gambar,views,status')->findAll();
+            $allGaleri = $this->select('id,gambar,views,status,featured')->findAll();
 
             $stats = [
-                'total_galeri' => 0,   // realtime based on uploaded image records/files
-                'published'     => 0,
-                'draft'         => 0,
-                'total_views'   => 0,  // sum views for published items
+                'total_galeri' => count($allGaleri),
+                'with_image' => 0,
+                'without_image' => 0,
+                'published' => 0,
+                'draft' => 0,
+                'featured' => 0,
+                'total_views' => 0
             ];
 
-            $uploadPath = rtrim(ROOTPATH, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'galeri' . DIRECTORY_SEPARATOR;
-
             foreach ($allGaleri as $galeri) {
-                $rawStatus = $galeri['status'] ?? null;
-                $status = is_string($rawStatus) ? strtolower($rawStatus) : $rawStatus;
-
-                // Count statuses exactly as stored
-                if ($status === 'published') {
+                if (!empty($galeri['gambar'])) {
+                    $stats['with_image']++;
+                } else {
+                    $stats['without_image']++;
+                }
+                
+                if ($galeri['status'] === 'published') {
                     $stats['published']++;
-                } elseif ($status === 'draft') {
+                } elseif ($galeri['status'] === 'draft') {
                     $stats['draft']++;
                 }
-
-                // Consider an item a "real" photo only if there is a filename
-                // and (optionally) the file exists on disk
-                $filename = trim((string)($galeri['gambar'] ?? ''));
-                if ($filename !== '') {
-                    $fileExists = is_file($uploadPath . $filename);
-                    if ($fileExists) {
-                        $stats['total_galeri']++;
-                    }
+                
+                if ($galeri['featured']) {
+                    $stats['featured']++;
                 }
-
-                // Sum views for published only
-                if ($status === 'published') {
-                    $stats['total_views'] += (int)($galeri['views'] ?? 0);
-                }
+                
+                $stats['total_views'] += (int)($galeri['views'] ?? 0);
             }
 
-            log_message('debug', '[GaleriModel::getDashboardStats] Items: ' . count($allGaleri) . ', Stats: ' . json_encode($stats));
             return $stats;
         } catch (\Exception $e) {
             log_message('error', '[GaleriModel::getDashboardStats] Error: ' . $e->getMessage());
             return [
                 'total_galeri' => 0,
+                'with_image' => 0,
+                'without_image' => 0,
                 'published' => 0,
                 'draft' => 0,
+                'featured' => 0,
                 'total_views' => 0
             ];
         }

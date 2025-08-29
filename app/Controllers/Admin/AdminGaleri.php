@@ -357,4 +357,28 @@ class AdminGaleri extends BaseController
             return redirect()->to('/admin/galeri')->with('error', 'Gagal mengubah status galeri: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Toggle featured status for galeri item
+     */
+    public function toggleFeatured($id = null)
+    {
+        if (!$this->request->isAJAX()) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Invalid request']);
+        }
+
+        try {
+            $galeriModel = new \App\Models\GaleriModel();
+            $result = $galeriModel->toggleFeatured($id);
+            
+            if ($result) {
+                return $this->response->setJSON(['success' => true, 'message' => 'Status featured berhasil diubah']);
+            } else {
+                return $this->response->setJSON(['success' => false, 'message' => 'Gagal mengubah status featured']);
+            }
+        } catch (\Exception $e) {
+            log_message('error', '[AdminGaleri::toggleFeatured] Error: ' . $e->getMessage());
+            return $this->response->setJSON(['success' => false, 'message' => 'Terjadi kesalahan sistem']);
+        }
+    }
 } 
