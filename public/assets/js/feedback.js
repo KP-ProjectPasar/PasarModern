@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const fileInfo = document.getElementById('fileInfo');
     const submitBtn = document.getElementById('submitBtn');
 
+    console.log('Feedback form initialized');
+
     // File upload handling (keep existing behaviour)
     if (fileInput) {
         fileInput.addEventListener('change', function() {
@@ -69,6 +71,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Helper to show alert above the form
     function showAlert(type, message) {
+        // Remove existing alerts first
+        const existingAlerts = form.parentNode.querySelectorAll('.alert');
+        existingAlerts.forEach(alert => alert.remove());
+
         const el = document.createElement('div');
         el.className = `alert alert-${type} alert-dismissible fade show`;
         el.innerHTML = `${type === 'success' ? '<i class="bi bi-check-circle me-2"></i>' : '<i class="bi bi-exclamation-triangle me-2"></i>'}${message}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
@@ -77,35 +83,81 @@ document.addEventListener('DOMContentLoaded', function() {
         return el;
     }
 
-    // Submit handler (simplified, guaranteed reset)
+    // Submit handler (improved with better error handling)
     if (form) {
+        console.log('Form found, adding submit listener');
         let submitting = false;
+        
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
-            if (submitting) return; // guard double submit
+            console.log('Form submitted');
+            
+            if (submitting) {
+                console.log('Already submitting, ignoring');
+                return; // guard double submit
+            }
+            
             submitting = true;
+            console.log('Starting form submission');
 
             const original = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Mengirim...';
             submitBtn.disabled = true;
 
             try {
+                // Validate form before submission
+                console.log('Validating form...');
+                if (!form.checkValidity()) {
+                    console.log('Form validation failed');
+                    form.reportValidity();
+                    throw new Error('Mohon lengkapi semua field yang wajib diisi');
+                }
+                console.log('Form validation passed');
+
                 const formData = new FormData(form);
+                
+                // Log form data for debugging
+                console.log('Form data being sent:');
+                for (let [key, value] of formData.entries()) {
+                    console.log(key + ': ' + value);
+                }
+
                 const actionUrl = form.getAttribute('action') || '/feedback/submit';
-                const res = await fetch(actionUrl, { method: 'POST', body: formData });
+                console.log('Submitting to:', actionUrl);
+                
+                // Add timeout to fetch
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+                
+                const res = await fetch(actionUrl, { 
+                    method: 'POST', 
+                    body: formData,
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                console.log('Response status:', res.status);
+                console.log('Response headers:', res.headers);
+                
                 let data;
                 try {
-                    data = await res.json();
-                } catch (_) {
-                    const text = await res.text();
-                    throw new Error(text || 'Response tidak valid');
+                    const responseText = await res.text();
+                    console.log('Raw response:', responseText);
+                    
+                    data = JSON.parse(responseText);
+                    console.log('Parsed response data:', data);
+                } catch (parseError) {
+                    console.error('Failed to parse JSON response:', parseError);
+                    throw new Error('Response tidak valid dari server: ' + parseError.message);
                 }
 
                 if (!res.ok) {
-                    throw new Error(data.message || `HTTP ${res.status}`);
+                    throw new Error(data.message || `HTTP ${res.status}: ${res.statusText}`);
                 }
 
                 if (data && data.success) {
+                    console.log('Success! Showing success message');
                     showAlert('success', data.message || 'Feedback terkirim. Terima kasih!');
                     form.reset();
                     if (filePreview) filePreview.style.display = 'none';
@@ -113,26 +165,39 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (videoPreview) videoPreview.style.display = 'none';
                     if (fileInfo) fileInfo.innerHTML = '';
                     submitBtn.innerHTML = '<i class="bi bi-check2-circle me-2"></i>Terkirim';
+                    
+                    // Reset button text after 2 seconds
+                    setTimeout(() => { 
+                        submitBtn.innerHTML = original; 
+                    }, 2000);
                 } else {
+                    console.log('Server returned error');
                     const msg = (data && (data.message || (data.errors && Object.values(data.errors).join(', ')))) || 'Gagal mengirim feedback';
                     showAlert('danger', msg);
-                    // Fallback to native submit to ensure data reaches server
-                    form.removeEventListener('submit', arguments.callee);
-                    form.submit();
                 }
             } catch (err) {
-                showAlert('danger', `Terjadi kesalahan saat mengirim feedback: ${err.message}`);
-                // Fallback to native submit
-                form.removeEventListener('submit', arguments.callee);
-                form.submit();
+                console.error('Error submitting feedback:', err);
+                let errorMessage = err.message;
+                
+                if (err.name === 'AbortError') {
+                    errorMessage = 'Request timeout. Silakan coba lagi.';
+                } else if (err.name === 'TypeError' && err.message.includes('fetch')) {
+                    errorMessage = 'Tidak dapat terhubung ke server. Silakan cek koneksi internet Anda.';
+                }
+                
+                showAlert('danger', `Terjadi kesalahan saat mengirim feedback: ${errorMessage}`);
             } finally {
+                console.log('Form submission completed');
                 submitBtn.disabled = false;
                 submitting = false;
-                // kembalikan teks tombol setelah 2 detik jika sukses
-                if (submitBtn.innerHTML.includes('Terkirim')) {
-                    setTimeout(() => { submitBtn.innerHTML = original; }, 2000);
+                
+                // Always reset button to original state if not success
+                if (!data || !data.success) {
+                    submitBtn.innerHTML = original;
                 }
             }
         });
+    } else {
+        console.error('Feedback form not found!');
     }
 }); 

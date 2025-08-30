@@ -135,21 +135,5 @@ class Api extends Controller
 		return $this->respond([]);
 	}
 	
-	public function testDb()
-	{
-		try {
-			$db = \Config\Database::connect();
-			$query = $db->query('SELECT COUNT(*) as count FROM berita');
-			$result = $query->getRow();
-			
-			return $this->respond([
-				' status' => 'success',
-				'message' => 'Database connection successful',
-				'berita_count' => $result->count ?? 0,
-				'timestamp' => date('Y-m-d H:i:s')
-			]);
-		} catch (\Exception $e) {
-			return $this->failServerError('Database connection failed: ' . $e->getMessage());
-		}
-	}
+
 } 

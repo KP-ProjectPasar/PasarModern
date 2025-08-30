@@ -42,41 +42,53 @@ class MarketPriceService
     {
         $results = [
             'success' => 0,
-            'failed' => 0,
             'updated' => 0,
             'unchanged' => 0,
+            'failed' => 0,
             'errors' => []
         ];
 
         try {
+            log_message('info', 'Starting automatic price update for all commodities');
+            
             $existingKomoditas = $this->hargaModel->select('komoditas, kategori')
                 ->groupBy('komoditas, kategori')
                 ->findAll();
 
+            log_message('info', 'Found ' . count($existingKomoditas) . ' commodities to update');
+
             foreach ($existingKomoditas as $komoditas) {
-                $result = $this->updateKomoditasPrice($komoditas['komoditas'], $komoditas['kategori']);
+                log_message('info', "Processing commodity: {$komoditas['komoditas']} ({$komoditas['kategori']})");
+                
+                $result = $this->updatePrice($komoditas['komoditas'], $komoditas['kategori']);
                 
                 if ($result['success']) {
                     $results['success']++;
                     if ($result['updated']) {
                         $results['updated']++;
+                        log_message('info', "✓ {$komoditas['komoditas']}: " . $result['message']);
                     } else {
                         $results['unchanged']++;
+                        log_message('info', "○ {$komoditas['komoditas']}: " . $result['message']);
                     }
                 } else {
                     $results['failed']++;
                     $results['errors'][] = $result['error'];
+                    log_message('error', "✗ {$komoditas['komoditas']}: " . $result['error']);
                 }
             }
 
+            log_message('info', "Auto Price Update - Success: {$results['success']}, Failed: {$results['failed']}, Updated: {$results['updated']}, Unchanged: {$results['unchanged']}");
+
         } catch (\Exception $e) {
             $results['errors'][] = 'General error: ' . $e->getMessage();
+            log_message('error', 'General error in updateAllPrices: ' . $e->getMessage());
         }
 
         return $results;
     }
 
-    public function updateKomoditasPrice(string $komoditas, string $kategori): array
+    public function updatePrice(string $komoditas, string $kategori): array
     {
         try {
             $newPrice = $this->getPriceFromSources($komoditas, $kategori);
@@ -133,8 +145,12 @@ class MarketPriceService
             }
 
             if ($todayRow) {
+                // UPDATE data yang sudah ada
+                log_message('info', "Updating existing price for {$komoditas} on {$today} (ID: {$todayRow['id']})");
                 $this->hargaModel->update($todayRow['id'], $dataUpdate);
             } else {
+                // INSERT data baru jika belum ada untuk hari ini
+                log_message('info', "Inserting new price for {$komoditas} on {$today}");
                 $dataUpdate['created_at'] = date('Y-m-d H:i:s');
                 $this->hargaModel->insert($dataUpdate);
             }
@@ -153,6 +169,7 @@ class MarketPriceService
             ];
 
         } catch (\Exception $e) {
+            log_message('error', "Error updating price for {$komoditas}: " . $e->getMessage());
             return [
                 'success' => false,
                 'error' => "Error updating {$komoditas}: " . $e->getMessage(),

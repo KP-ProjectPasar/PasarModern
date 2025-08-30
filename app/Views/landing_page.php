@@ -371,7 +371,7 @@
                             </div>
                             
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+                                <button type="button" class="btn btn-primary btn-lg" id="submitBtn" onclick="submitFeedback()">
                                     <i class="bi bi-send me-2"></i>
                                     Kirim Feedback
                                 </button>
@@ -463,5 +463,123 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/js/landing.js"></script>
     <script src="/assets/js/feedback.js"></script>
+    
+    <!-- Inline JavaScript for feedback form -->
+    <script>
+        // Fallback function for feedback submission
+        window.submitFeedback = async function() {
+            console.log('submitFeedback function called');
+            
+            const form = document.getElementById('feedbackForm');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (!form) {
+                console.error('Feedback form not found');
+                return;
+            }
+            
+            // Validate form
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            // Store original button text
+            const originalButtonText = submitBtn.innerHTML;
+            
+            // Disable button
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Mengirim...';
+            
+            try {
+                const formData = new FormData(form);
+                
+                // Log form data
+                console.log('Submitting feedback data:');
+                for (let [key, value] of formData.entries()) {
+                    console.log(key + ': ' + value);
+                }
+                
+                const response = await fetch('/feedback/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                console.log('Response status:', response.status);
+                
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                if (data.success) {
+                    // Show success message
+                    const alertDiv = document.createElement('div');
+                    alertDiv.className = 'alert alert-success alert-dismissible fade show';
+                    alertDiv.innerHTML = `
+                        <i class="bi bi-check-circle me-2"></i>
+                        ${data.message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    `;
+                    form.parentNode.insertBefore(alertDiv, form);
+                    
+                    // Reset form
+                    form.reset();
+                    
+                    // Reset file preview
+                    const filePreview = document.getElementById('filePreview');
+                    if (filePreview) filePreview.style.display = 'none';
+                    
+                    // Show success state briefly
+                    submitBtn.innerHTML = '<i class="bi bi-check2-circle me-2"></i>Terkirim';
+                    
+                    // Reset button text after 2 seconds
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalButtonText;
+                    }, 2000);
+                    
+                    // Scroll to alert
+                    alertDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    // Show error message
+                    const alertDiv = document.createElement('div');
+                    alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+                    alertDiv.innerHTML = `
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        ${data.message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    `;
+                    form.parentNode.insertBefore(alertDiv, form);
+                    alertDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Reset button to original state
+                    submitBtn.innerHTML = originalButtonText;
+                }
+                
+            } catch (error) {
+                console.error('Error submitting feedback:', error);
+                
+                // Show error message
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+                alertDiv.innerHTML = `
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    Terjadi kesalahan saat mengirim feedback: ${error.message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                form.parentNode.insertBefore(alertDiv, form);
+                alertDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // Reset button to original state
+                submitBtn.innerHTML = originalButtonText;
+            } finally {
+                // Re-enable button
+                submitBtn.disabled = false;
+            }
+        };
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Landing page loaded, feedback form ready');
+        });
+    </script>
 </body>
 </html> 

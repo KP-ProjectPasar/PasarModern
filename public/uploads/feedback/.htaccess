@@ -1,0 +1,17 @@
+# Deny access to all files in this directory
+<Files "*">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# Allow access only to specific file types
+<FilesMatch "\.(jpg|jpeg|png|gif|mp4|avi|mov|wmv|pdf|doc|docx)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
+
+# Prevent execution of uploaded files
+<FilesMatch "\.(php|php3|php4|php5|phtml|pl|py|jsp|asp|sh|cgi)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>

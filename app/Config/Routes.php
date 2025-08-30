@@ -18,7 +18,7 @@ $routes->get('api/harga', 'Api::harga');
 $routes->get('api/video', 'Api::video');
 $routes->post('api/galeri/(:num)/view', 'Api::incrementGaleriView/$1');
 $routes->get('api/dashboard/stats', 'Api::dashboardStats');
-$routes->get('api/test-db', 'Api::testDb');
+
 
 $routes->get('tentang-kami/ringkasan', 'TentangKami::ringkasan');
 $routes->get('tentang-kami/visi-misi', 'TentangKami::visi_misi');
