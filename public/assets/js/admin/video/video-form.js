@@ -275,9 +275,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 return false;
             }
         } else if (tipe === 'file') {
-            if (!fileInput?.files || fileInput.files.length === 0) {
-                showNotification('Pilih file video', 'error');
-                return false;
+            // Check if at least one file is selected OR if editing with existing file
+            const hasNewFile = fileInput?.files && fileInput.files.length > 0;
+            const hasExistingFile = document.getElementById('existing_file') !== null;
+            
+            // Debug logging
+            console.log('Video form validation:', {
+                tipe: tipe,
+                hasNewFile: hasNewFile,
+                hasExistingFile: hasExistingFile,
+                newFileCount: hasNewFile ? fileInput.files.length : 0,
+                existingFileValue: hasExistingFile ? document.getElementById('existing_file').value : 'none'
+            });
+            
+            // For edit mode: allow submission if there's existing file OR new file
+            // For create mode: require new file
+            const isEditMode = window.location.pathname.includes('/edit/');
+            
+            if (isEditMode) {
+                // In edit mode, either new file OR existing file is fine
+                if (!hasNewFile && !hasExistingFile) {
+                    showNotification('Pilih file video atau gunakan file yang sudah ada', 'error');
+                    return false;
+                }
+            } else {
+                // In create mode, new file is required
+                if (!hasNewFile) {
+                    showNotification('Pilih file video', 'error');
+                    return false;
+                }
             }
         }
         

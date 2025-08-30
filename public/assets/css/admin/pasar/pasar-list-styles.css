@@ -70,6 +70,18 @@
     background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
 }
 
+.stat-card-danger .stat-card-mini-icon {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+/* Delete Modal Styles */
+.delete-modal-warning {
+    color: #dc2626;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
 .stat-card-mini-number {
     font-size: 2rem;
     font-weight: 700;

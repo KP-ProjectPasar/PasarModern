@@ -41,7 +41,7 @@
                 <i class="bi bi-check-circle"></i>
             </div>
             <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= count(array_filter($pasar, function($p) { return isset($p['status']) && $p['status'] == 'active'; })) ?></div>
+                <div class="stat-card-mini-number"><?= count(array_filter($pasar, function($p) { return isset($p['status']) && $p['status'] == 'aktif'; })) ?></div>
                 <div class="stat-card-mini-label">Aktif</div>
             </div>
         </div>
@@ -49,26 +49,43 @@
     <div class="col-md-3 mb-3">
         <div class="stat-card-mini stat-card-warning">
             <div class="stat-card-mini-icon">
-                <i class="bi bi-geo-alt"></i>
+                <i class="bi bi-exclamation-triangle"></i>
             </div>
             <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= count(array_unique(array_column($pasar, 'kecamatan'))) ?></div>
-                <div class="stat-card-mini-label">Kecamatan</div>
+                <div class="stat-card-mini-number"><?= count(array_filter($pasar, function($p) { return isset($p['status']) && $p['status'] == 'nonaktif'; })) ?></div>
+                <div class="stat-card-mini-label">Nonaktif</div>
             </div>
         </div>
     </div>
     <div class="col-md-3 mb-3">
-        <div class="stat-card-mini stat-card-info">
+        <div class="stat-card-mini stat-card-danger">
             <div class="stat-card-mini-icon">
-                <i class="bi bi-calendar-check"></i>
+                <i class="bi bi-gear"></i>
             </div>
             <div class="stat-card-mini-content">
-                <div class="stat-card-mini-number"><?= date('d') ?></div>
-                <div class="stat-card-mini-label">Update Hari Ini</div>
+                <div class="stat-card-mini-number"><?= count(array_filter($pasar, function($p) { return isset($p['status']) && $p['status'] == 'maintenance'; })) ?></div>
+                <div class="stat-card-mini-label">Maintenance</div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Flash Messages -->
+<?php if (session()->getFlashdata('success')): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-2"></i>
+        <?= session()->getFlashdata('success') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+
+<?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        <?= session()->getFlashdata('error') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
 
 <div class="content-card">
     <div class="content-card-header">
@@ -115,9 +132,6 @@
                                 <i class="bi bi-circle me-2"></i>Status
                             </th>
                             <th scope="col">
-                                <i class="bi bi-people me-2"></i>Jumlah Pedagang
-                            </th>
-                            <th scope="col">
                                 <i class="bi bi-clock me-2"></i>Jam Operasional
                             </th>
                             <th scope="col" class="text-center" style="width: 150px;">
@@ -159,16 +173,14 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="pedagang-count">
-                                        <i class="bi bi-people me-1"></i>
-                                        <?= $pasar_item['jumlah_pedagang'] ?? 0 ?> pedagang
-        </div>
-                                </td>
-                                <td>
                                     <div class="operational-hours">
                                         <i class="bi bi-clock me-1"></i>
-                                        <?= esc($pasar_item['jam_operasional'] ?? 'N/A') ?>
-    </div>
+                                        <?php if (!empty($pasar_item['jam_buka']) && !empty($pasar_item['jam_tutup'])): ?>
+                                            <?= date('H:i', strtotime($pasar_item['jam_buka'])) ?> - <?= date('H:i', strtotime($pasar_item['jam_tutup'])) ?>
+                                        <?php else: ?>
+                                            N/A
+                                        <?php endif; ?>
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="action-buttons">
@@ -190,18 +202,12 @@
                 </table>
             </div>
             
-            <div class="table-summary mt-4">
+                        <div class="table-summary mt-4">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-12 text-center">
                         <div class="summary-item">
                             <i class="bi bi-info-circle me-2"></i>
                             <span>Total: <strong><?= count($pasar ?? []) ?></strong> pasar</span>
-                        </div>
-                    </div>
-                    <div class="col-md-6 text-end">
-                        <div class="summary-item">
-                            <i class="bi bi-clock me-2"></i>
-                            <span>Update terakhir: <strong><?= date('d M Y H:i') ?></strong></span>
                         </div>
                     </div>
                 </div>
@@ -210,35 +216,24 @@
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    const pasarRows = document.querySelectorAll('.pasar-row');
-    
-    searchInput.addEventListener('input', function() {
-    const searchTerm = this.value.toLowerCase();
-        
-        pasarRows.forEach(row => {
-            const name = row.getAttribute('data-name');
-            const status = row.getAttribute('data-status');
-            
-            const matches = name.includes(searchTerm) || 
-                           status.includes(searchTerm);
-            
-            row.style.display = matches ? '' : 'none';
-        });
-    });
-    
-    window.editPasar = function(id) {
-        window.location.href = `/admin/pasar/edit/${id}`;
-    };
-    
-    window.deletePasar = function(id, name) {
-        if (confirm(`Apakah Anda yakin ingin menghapus data pasar "${name}"?\n\nTindakan ini tidak dapat dibatalkan.`)) {
-            window.location.href = `/admin/pasar/delete/${id}`;
-        }
-    };
-});
-</script>
+<!-- JavaScript sudah dipindah ke file terpisah -->
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="delete-modal">
+    <div class="delete-modal-content">
+        <div class="delete-modal-header">
+            <h5 class="delete-modal-title">Konfirmasi Hapus</h5>
+            <button type="button" class="delete-modal-close" onclick="closeDeleteModal()">&times;</button>
+        </div>
+        <div class="delete-modal-body">
+            <p class="delete-modal-text">Anda yakin ingin menghapus data pasar "<span id="deletePasarName"></span>"?</p>
+            <p class="delete-modal-warning">Tindakan ini tidak dapat dibatalkan.</p>
+        </div>
+        <div class="delete-modal-footer">
+            <button type="button" class="delete-modal-btn delete-modal-btn-cancel" onclick="closeDeleteModal()">Batal</button>
+            <a href="#" id="deletePasarBtn" class="delete-modal-btn delete-modal-btn-delete">Hapus</a>
+        </div>
+    </div>
+</div>
 
 <?= $this->endSection() ?> 

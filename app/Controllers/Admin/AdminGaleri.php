@@ -7,12 +7,49 @@ use App\Models\GaleriModel;
 
 class AdminGaleri extends BaseController
 {
+    /**
+     * Check if current user has permission for specific action
+     */
+    private function checkPermission($permission)
+    {
+        $currentRole = session()->get('admin_role');
+        
+        if (!$currentRole) {
+            return false;
+        }
+        
+        // Superadmin has all permissions
+        if (strtolower($currentRole) === 'superadmin') {
+            return true;
+        }
+        
+        try {
+            $roleModel = new \App\Models\RoleModel();
+            $role = $roleModel->getRoleByName($currentRole);
+            
+            if ($role && !empty($role['permissions'])) {
+                $permissions = json_decode($role['permissions'], true) ?: [];
+                return isset($permissions[$permission]) && $permissions[$permission] === true;
+            }
+        } catch (\Exception $e) {
+            log_message('error', 'Permission check error: ' . $e->getMessage());
+        }
+        
+        return false;
+    }
+
     public function index()
     {
         try {
             // Check if user is logged in
             if (!session()->get('is_admin')) {
                 return redirect()->to('/admin/login');
+            }
+
+            // Check permission
+            if (!$this->checkPermission('galeri_management')) {
+                session()->setFlashdata('error', 'Anda tidak memiliki akses untuk fitur ini!');
+                return redirect()->to('/admin/dashboard');
             }
 
             $galeriModel = new GaleriModel();
@@ -48,6 +85,12 @@ class AdminGaleri extends BaseController
             return redirect()->to('/admin/login');
         }
 
+        // Check permission
+        if (!$this->checkPermission('galeri_management')) {
+            session()->setFlashdata('error', 'Anda tidak memiliki akses untuk fitur ini!');
+            return redirect()->to('/admin/dashboard');
+        }
+
         return view('admin/galeri/galeri_form', [
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
@@ -61,6 +104,12 @@ class AdminGaleri extends BaseController
         // Check if user is logged in
         if (!session()->get('is_admin')) {
             return redirect()->to('/admin/login');
+        }
+
+        // Check permission
+        if (!$this->checkPermission('galeri_management')) {
+            session()->setFlashdata('error', 'Anda tidak memiliki akses untuk fitur ini!');
+            return redirect()->to('/admin/dashboard');
         }
 
         // Validation (client sends multiple as gambar[])
@@ -241,6 +290,7 @@ class AdminGaleri extends BaseController
             // Handle file upload if new images uploaded (take first)
             $files = $this->request->getFileMultiple('gambar');
             $firstFile = (!empty($files) && isset($files[0])) ? $files[0] : null;
+            
             if ($firstFile && $firstFile->isValid() && !$firstFile->hasMoved()) {
                 // Manual validation
                 $allowedMime = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/webp'];
@@ -263,6 +313,12 @@ class AdminGaleri extends BaseController
                 $gambarName = $firstFile->getRandomName();
                 $firstFile->move($uploadPath, $gambarName);
                 $data['gambar'] = $gambarName;
+                
+                // Log successful image update
+                log_message('info', '[AdminGaleri::update] New image uploaded: ' . $gambarName);
+            } else {
+                // No new image uploaded, keep existing image
+                log_message('info', '[AdminGaleri::update] No new image uploaded, keeping existing image');
             }
             
             $galeriModel->update($id, $data);

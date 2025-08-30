@@ -33,6 +33,18 @@ class UpdateHargaTableStructure extends Migration
                 ]
             ]);
         }
+        
+        // Add foto column only if it doesn't exist
+        if (!in_array('foto', $fields)) {
+            $this->forge->addColumn('harga', [
+                'foto' => [
+                    'type' => 'VARCHAR',
+                    'constraint' => 255,
+                    'null' => true,
+                    'after' => 'tanggal'
+                ]
+            ]);
+        }
     }
 
     public function down()
@@ -52,7 +64,8 @@ class UpdateHargaTableStructure extends Migration
             ]
         ]);
         
-        // Remove kategori column if it was added
+        // Remove kategori and foto columns if they were added
         $this->forge->dropColumn('harga', 'kategori');
+        $this->forge->dropColumn('harga', 'foto');
     }
 }

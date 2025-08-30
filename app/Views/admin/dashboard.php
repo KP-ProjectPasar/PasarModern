@@ -35,7 +35,7 @@
                 <i class="bi bi-building"></i>
             </div>
             <div class="stat-card-content">
-                <h3 class="stat-card-number"><?= $total_pasar ?? 0 ?></h3>
+                <h3 class="stat-card-number" data-stat="total_pasar"><?= $total_pasar ?? 0 ?></h3>
                 <p class="stat-card-label">Jumlah Pasar</p>
             </div>
         </div>
@@ -47,7 +47,7 @@
                 <i class="bi bi-newspaper"></i>
             </div>
             <div class="stat-card-content">
-                <h3 class="stat-card-number"><?= $total_berita ?? 0 ?></h3>
+                <h3 class="stat-card-number" data-stat="total_berita"><?= $total_berita ?? 0 ?></h3>
                 <p class="stat-card-label">Berita</p>
             </div>
         </div>
@@ -59,7 +59,7 @@
                 <i class="bi bi-chat-dots"></i>
             </div>
             <div class="stat-card-content">
-                <h3 class="stat-card-number"><?= $total_feedback ?? 0 ?></h3>
+                <h3 class="stat-card-number" data-stat="total_feedback"><?= $total_feedback ?? 0 ?></h3>
                 <p class="stat-card-label">Feedback</p>
             </div>
         </div>
@@ -71,7 +71,7 @@
                 <i class="bi bi-eye"></i>
             </div>
             <div class="stat-card-content">
-                <h3 class="stat-card-number"><?= $total_views ?? 0 ?></h3>
+                <h3 class="stat-card-number" data-stat="total_views"><?= $total_views ?? 0 ?></h3>
                 <p class="stat-card-label">Total Views</p>
             </div>
         </div>

@@ -120,6 +120,8 @@
                                      alt="Gambar Galeri"
                                      class="img-thumbnail"
                                      style="max-width: 200px; max-height: 150px;">
+                                <!-- Hidden input to track existing image -->
+                                <input type="hidden" id="existingImage" name="existingImage" value="<?= esc($galeri['gambar']) ?>">
                             </div>
                         <?php endif; ?>
                         

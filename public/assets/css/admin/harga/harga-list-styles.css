@@ -503,4 +503,12 @@
         flex-direction: column;
         gap: 0.25rem;
     }
+}
+
+/* Delete Modal Styles */
+.delete-modal-warning {
+    color: #dc2626;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin: 0;
 } 

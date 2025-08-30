@@ -4,15 +4,51 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\HargaModel;
-use App\Models\KomoditasModel;
 
 class AdminHarga extends BaseController
 {
+    /**
+     * Check if current user has permission for specific action
+     */
+    private function checkPermission($permission)
+    {
+        $currentRole = session()->get('admin_role');
+        
+        if (!$currentRole) {
+            return false;
+        }
+        
+        // Superadmin has all permissions
+        if (strtolower($currentRole) === 'superadmin') {
+            return true;
+        }
+        
+        try {
+            $roleModel = new \App\Models\RoleModel();
+            $role = $roleModel->getRoleByName($currentRole);
+            
+            if ($role && !empty($role['permissions'])) {
+                $permissions = json_decode($role['permissions'], true) ?: [];
+                return isset($permissions[$permission]) && $permissions[$permission] === true;
+            }
+        } catch (\Exception $e) {
+            log_message('error', 'Permission check error: ' . $e->getMessage());
+        }
+        
+        return false;
+    }
+
 	public function index()
 	{
 		if (!session()->get('is_admin')) {
 			return redirect()->to('/admin/login');
 		}
+
+		// Check permission
+		if (!$this->checkPermission('harga_management')) {
+            session()->setFlashdata('error', 'Anda tidak memiliki akses untuk fitur ini!');
+            return redirect()->to('/admin/dashboard');
+        }
 
 		$hargaModel = new HargaModel();
 		$harga = $hargaModel->getLatestPerKomoditas();
@@ -33,8 +69,22 @@ class AdminHarga extends BaseController
 			return redirect()->to('/admin/login');
 		}
 
-		$komoditasModel = new KomoditasModel();
-		$komoditas = $komoditasModel->findAll();
+		// Check permission
+		if (!$this->checkPermission('harga_management')) {
+            session()->setFlashdata('error', 'Anda tidak memiliki akses untuk fitur ini!');
+            return redirect()->to('/admin/dashboard');
+        }
+
+		// Get existing komoditas from harga table
+		$hargaModel = new HargaModel();
+		$existingKomoditas = $hargaModel->select('komoditas')
+			->groupBy('komoditas')
+			->orderBy('komoditas', 'ASC')
+			->findAll();
+		
+		$komoditas = array_map(function($item) {
+			return ['nama' => $item['komoditas']];
+		}, $existingKomoditas);
 		
 		return view('admin/harga/harga_form', [
 			'komoditas' => $komoditas,
@@ -50,6 +100,12 @@ class AdminHarga extends BaseController
 		if (!session()->get('is_admin')) {
 			return redirect()->to('/admin/login');
 		}
+
+		// Check permission
+		if (!$this->checkPermission('harga_management')) {
+            session()->setFlashdata('error', 'Anda tidak memiliki akses untuk fitur ini!');
+            return redirect()->to('/admin/dashboard');
+        }
 
 		$validation = \Config\Services::validation();
 		$validation->setRules([
@@ -113,10 +169,18 @@ class AdminHarga extends BaseController
 		}
 
 		$hargaModel = new HargaModel();
-		$komoditasModel = new KomoditasModel();
 		
 		$harga = $hargaModel->find($id);
-		$komoditas = $komoditasModel->findAll();
+		
+		// Get existing komoditas from harga table
+		$existingKomoditas = $hargaModel->select('komoditas')
+			->groupBy('komoditas')
+			->orderBy('komoditas', 'ASC')
+			->findAll();
+		
+		$komoditas = array_map(function($item) {
+			return ['nama' => $item['komoditas']];
+		}, $existingKomoditas);
 		
 		if (!$harga) {
 			return redirect()->to('/admin/harga')->with('error', 'Data harga tidak ditemukan!');

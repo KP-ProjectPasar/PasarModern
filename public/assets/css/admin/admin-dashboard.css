@@ -237,6 +237,11 @@ body {
     font-size: 0.8rem;
     color: #64748b;
     text-transform: capitalize;
+    background: none;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    font-weight: 400;
 }
 
 /* Dropdown Menu Z-Index Fix */

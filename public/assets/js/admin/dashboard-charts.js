@@ -2,22 +2,68 @@
 
 // Inisialisasi chart saat halaman dimuat
 document.addEventListener('DOMContentLoaded', function() {
-    initializeCharts();
+    loadDashboardData();
     initializeTimeUpdate();
 });
 
+// Load dashboard data from API
+async function loadDashboardData() {
+    try {
+        const response = await fetch('/api/dashboard/stats');
+        const data = await response.json();
+        
+        // Update stat cards
+        updateStatCards(data);
+        
+        // Initialize charts with real data
+        initializeCharts(data);
+        
+    } catch (error) {
+        console.error('Error loading dashboard data:', error);
+        // Initialize charts with default data
+        initializeCharts();
+    }
+}
+
+// Update stat cards with real data
+function updateStatCards(data) {
+    const statCards = {
+        'total_pasar': data.total_pasar || 0,
+        'total_berita': data.total_berita || 0,
+        'total_feedback': data.total_feedback || 0,
+        'total_views': data.total_views || 0
+    };
+    
+    // Update each stat card
+    Object.keys(statCards).forEach(key => {
+        const elements = document.querySelectorAll(`[data-stat="${key}"]`);
+        elements.forEach(element => {
+            element.textContent = statCards[key];
+        });
+    });
+}
+
 // Inisialisasi semua chart
-function initializeCharts() {
+function initializeCharts(data = null) {
     // Chart Aktivitas (Harga Komoditas)
     const activityCtx = document.getElementById('activityChart');
     if (activityCtx) {
+        // Prepare chart data
+        let chartLabels = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+        let chartData = [0, 0, 0, 0, 0, 0, 0];
+        
+        if (data && data.chart_data && data.chart_data.length > 0) {
+            chartLabels = data.chart_data.map(item => item.day);
+            chartData = data.chart_data.map(item => item.price);
+        }
+        
         const activityChart = new Chart(activityCtx, {
             type: 'line',
             data: {
-                labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+                labels: chartLabels,
                 datasets: [{
                     label: 'Harga Rata-rata',
-                    data: [0, 0, 0, 0, 0, 0, 0],
+                    data: chartData,
                     borderColor: 'rgb(59, 130, 246)',
                     backgroundColor: 'rgba(59, 130, 246, 0.1)',
                     tension: 0.4,
@@ -58,24 +104,30 @@ function initializeCharts() {
             const canvas = document.getElementById('activityChart');
             if (loading) loading.style.display = 'none';
             if (canvas) canvas.style.display = 'block';
-        }, 2000);
+        }, 1000);
     }
 
     // Chart Distribusi Konten
     const contentCtx = document.getElementById('contentChart');
     if (contentCtx) {
+        // Prepare content distribution data
+        let contentLabels = ['Berita', 'Galeri', 'Pasar', 'Feedback'];
+        let contentData = [0, 0, 0, 0];
+        let contentColors = ['#3b82f6', '#10b981', '#f59e0b', '#06b6d4'];
+        
+        if (data && data.content_distribution && data.content_distribution.length > 0) {
+            contentLabels = data.content_distribution.map(item => item.label);
+            contentData = data.content_distribution.map(item => item.value);
+            contentColors = data.content_distribution.map(item => item.color);
+        }
+        
         new Chart(contentCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Berita', 'Galeri', 'Pasar', 'Feedback'],
+                labels: contentLabels,
                 datasets: [{
-                    data: [0, 0, 3, 0],
-                    backgroundColor: [
-                        '#3b82f6',
-                        '#10b981',
-                        '#f59e0b',
-                        '#06b6d4'
-                    ],
+                    data: contentData,
+                    backgroundColor: contentColors,
                     borderWidth: 2,
                     borderColor: '#ffffff'
                 }]

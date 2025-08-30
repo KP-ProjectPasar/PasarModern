@@ -7,12 +7,49 @@ use App\Models\BeritaModel;
 
 class AdminBerita extends BaseController
 {
+    /**
+     * Check if current user has permission for specific action
+     */
+    private function checkPermission($permission)
+    {
+        $currentRole = session()->get('admin_role');
+        
+        if (!$currentRole) {
+            return false;
+        }
+        
+        // Superadmin has all permissions
+        if (strtolower($currentRole) === 'superadmin') {
+            return true;
+        }
+        
+        try {
+            $roleModel = new \App\Models\RoleModel();
+            $role = $roleModel->getRoleByName($currentRole);
+            
+            if ($role && !empty($role['permissions'])) {
+                $permissions = json_decode($role['permissions'], true) ?: [];
+                return isset($permissions[$permission]) && $permissions[$permission] === true;
+            }
+        } catch (\Exception $e) {
+            log_message('error', 'Permission check error: ' . $e->getMessage());
+        }
+        
+        return false;
+    }
+
     public function index()
     {
         try {
             // Check if user is logged in
             if (!session()->get('is_admin')) {
                 return redirect()->to('/admin/login');
+            }
+
+            // Check permission
+            if (!$this->checkPermission('berita_management')) {
+                session()->setFlashdata('error', 'Anda tidak memiliki akses untuk fitur ini!');
+                return redirect()->to('/admin/dashboard');
             }
 
             $beritaModel = new BeritaModel();
@@ -48,6 +85,12 @@ class AdminBerita extends BaseController
             return redirect()->to('/admin/login');
         }
 
+        // Check permission
+        if (!$this->checkPermission('berita_management')) {
+            session()->setFlashdata('error', 'Anda tidak memiliki akses untuk fitur ini!');
+            return redirect()->to('/admin/dashboard');
+        }
+
         return view('admin/berita/berita_form', [
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
@@ -62,6 +105,12 @@ class AdminBerita extends BaseController
             // Check if user is logged in
             if (!session()->get('is_admin')) {
                 return redirect()->to('/admin/login');
+            }
+
+            // Check permission
+            if (!$this->checkPermission('berita_management')) {
+                session()->setFlashdata('error', 'Anda tidak memiliki akses untuk fitur ini!');
+                return redirect()->to('/admin/dashboard');
             }
 
             // Validation

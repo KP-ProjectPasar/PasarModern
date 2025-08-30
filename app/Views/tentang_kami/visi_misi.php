@@ -19,7 +19,7 @@
         .stat-card { background: #f5f7fa; border-radius: 14px; padding: 1.2rem 1.5rem; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
         .stat-value { font-size: 2rem; font-weight: 700; color: #1a237e; }
         .stat-label { font-size: 1rem; color: #3949ab; }
-        .illustration-box { background: #e3f2fd; border-radius: 16px; min-height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; }
+                 .illustration-box { background: transparent; border-radius: 16px; min-height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; }
         .section-title { font-weight: 700; font-size: 1.5rem; color: #1a237e; margin-bottom: 1rem; }
         .visi-misi-box { background: #f8fafc; border-radius: 14px; padding: 1.5rem; margin-bottom: 2rem; }
         .visi-misi-flex { display: flex; gap: 2rem; flex-wrap: wrap; }
@@ -35,17 +35,57 @@
     </style>
 </head>
 <body>
-    <?php include(APPPATH.'Views/landing_page.php'); ?>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="/assets/img/logo/Logorbg.png" alt="Logo Pasar Modern" class="img-fluid">
+                <span class="fw-bold text-primary">Pasar Modern Tangerang</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Beranda</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Tentang Kami
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/tentang-kami/ringkasan">Ringkasan</a></li>
+                            <li><a class="dropdown-item active" href="/tentang-kami/visi-misi">Visi & Misi</a></li>
+                            <li><a class="dropdown-item" href="/tentang-kami/peraturan">Peraturan</a></li>
+                            <li><a class="dropdown-item" href="/tentang-kami/pesan-direksi">Pesan Direksi</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Informasi
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/informasi/berita">Berita</a></li>
+                            <li><a class="dropdown-item" href="/informasi/harga">Harga</a></li>
+                            <li><a class="dropdown-item" href="/informasi/informasi-pasar">Informasi Pasar</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/informasi/galeri">Galeri</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/#faq">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/#feedback">Feedback</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/#kontak">Kontak</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <main class="container">
         <section class="main-section">
             <div class="row">
                 <div class="col-lg-8">
                     <h1 class="title-main mb-2">Visi & Misi</h1>
                     <div class="subtitle-main">Menjaga transparansi dan keberlanjutan pasar lokal melalui data, teknologi, dan kolaborasi.</div>
-                    <div class="nav-btns mb-4">
-                        <button class="btn btn-dark">Lihat Visi & Misi</button>
-                        <button class="btn btn-outline-dark">Lihat Statistik Pasar</button>
-                    </div>
+                                         <div class="nav-btns mb-4">
+                         <button class="btn btn-dark">Lihat Visi & Misi</button>
+                     </div>
                     <div class="row stats-row">
                         <div class="col-6 col-md-3 mb-3">
                             <div class="stat-card">
@@ -73,11 +113,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 d-flex align-items-center">
-                    <div class="illustration-box w-100">
-                        <span class="text-secondary">Ilustrasi pasar (foto/vektor)</span>
-                    </div>
-                </div>
+                                 <div class="col-lg-4 d-flex align-items-center">
+                     <div class="illustration-box w-100">
+                         <img src="/assets/img/banner/bannerpasar.jpeg" alt="Pasar Modern Tangerang" class="img-fluid rounded-3 shadow-sm" style="max-height: 300px; object-fit: cover;">
+                     </div>
+                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-8">

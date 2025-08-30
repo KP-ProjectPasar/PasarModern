@@ -1,7 +1,7 @@
 <?= $this->extend('admin/layout') ?>
 
 <?= $this->section('head') ?>
-<script src="/assets/js/admin/pasar/pasar-form.js" defer></script>
+<!-- Form sudah menggunakan submit biasa, tidak perlu JavaScript -->
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -34,6 +34,23 @@
     </div>
     
     <div class="modern-form-body">
+        <!-- Flash Messages -->
+        <?php if (session()->getFlashdata('success')): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle me-2"></i>
+                <?= session()->getFlashdata('success') ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
+        <?php if (session()->getFlashdata('error')): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                <?= session()->getFlashdata('error') ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
         <form action="<?= isset($pasar) ? '/admin/pasar/update/' . $pasar['id'] : '/admin/pasar/store' ?>" 
               method="POST" 
               enctype="multipart/form-data" 

@@ -10,6 +10,18 @@ class CreateFeedbacksTable extends Migration
     {
         // Check if table already exists
         if ($this->db->tableExists('feedbacks')) {
+            // If table exists, just remove IP and user_agent columns if they exist
+            $fields = $this->db->getFieldNames('feedbacks');
+            $drop = [];
+            if (in_array('ip_address', $fields)) {
+                $drop['ip_address'] = ['type' => 'VARCHAR', 'constraint' => 45];
+            }
+            if (in_array('user_agent', $fields)) {
+                $drop['user_agent'] = ['type' => 'TEXT'];
+            }
+            if (!empty($drop)) {
+                $this->forge->dropColumn('feedbacks', array_keys($drop));
+            }
             return;
         }
 

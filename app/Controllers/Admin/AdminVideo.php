@@ -7,11 +7,48 @@ use App\Models\VideoModel;
 
 class AdminVideo extends BaseController
 {
+    /**
+     * Check if current user has permission for specific action
+     */
+    private function checkPermission($permission)
+    {
+        $currentRole = session()->get('admin_role');
+        
+        if (!$currentRole) {
+            return false;
+        }
+        
+        // Superadmin has all permissions
+        if (strtolower($currentRole) === 'superadmin') {
+            return true;
+        }
+        
+        try {
+            $roleModel = new \App\Models\RoleModel();
+            $role = $roleModel->getRoleByName($currentRole);
+            
+            if ($role && !empty($role['permissions'])) {
+                $permissions = json_decode($role['permissions'], true) ?: [];
+                return isset($permissions[$permission]) && $permissions[$permission] === true;
+            }
+        } catch (\Exception $e) {
+            log_message('error', 'Permission check error: ' . $e->getMessage());
+        }
+        
+        return false;
+    }
+
     public function index()
     {
         // Check if user is logged in
         if (!session()->get('is_admin')) {
             return redirect()->to('/admin/login');
+        }
+
+        // Check permission
+        if (!$this->checkPermission('video_management')) {
+            session()->setFlashdata('error', 'Anda tidak memiliki akses untuk fitur ini!');
+            return redirect()->to('/admin/dashboard');
         }
 
         $videoModel = new VideoModel();
@@ -43,6 +80,12 @@ class AdminVideo extends BaseController
             return redirect()->to('/admin/login');
         }
 
+        // Check permission
+        if (!$this->checkPermission('video_management')) {
+            session()->setFlashdata('error', 'Anda tidak memiliki akses untuk fitur ini!');
+            return redirect()->to('/admin/dashboard');
+        }
+
         return view('admin/video/video_form', [
             'admin_nama' => session()->get('admin_nama'),
             'admin_role' => session()->get('admin_role'),
@@ -56,6 +99,12 @@ class AdminVideo extends BaseController
         // Check if user is logged in
         if (!session()->get('is_admin')) {
             return redirect()->to('/admin/login');
+        }
+
+        // Check permission
+        if (!$this->checkPermission('video_management')) {
+            session()->setFlashdata('error', 'Anda tidak memiliki akses untuk fitur ini!');
+            return redirect()->to('/admin/dashboard');
         }
 
         $videoModel = new VideoModel();
@@ -241,10 +290,16 @@ class AdminVideo extends BaseController
                     // Jika tidak ada file baru yang diupload, pertahankan file yang ada jika masih ada
                     $existing = $videoModel->find($id);
                     $hasExisting = (bool) $this->request->getPost('existing_file');
+                    
+                    // Log for debugging
+                    log_message('info', '[AdminVideo::update] File handling: existing=' . json_encode($existing) . ', hasExisting=' . ($hasExisting ? 'true' : 'false'));
+                    
                     if ($hasExisting && $existing && !empty($existing['file_video'])) {
                         $data['file_video'] = $existing['file_video'];
                         $data['url'] = '/uploads/video/' . $existing['file_video'];
+                        log_message('info', '[AdminVideo::update] Keeping existing file: ' . $existing['file_video']);
                     } else {
+                        log_message('warning', '[AdminVideo::update] No new file uploaded and no existing file found');
                         return redirect()->back()->withInput()->with('errors', ['video_file' => 'Silakan pilih file video atau gunakan tipe URL.']);
                     }
                 }

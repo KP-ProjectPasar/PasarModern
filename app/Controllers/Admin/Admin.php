@@ -90,7 +90,7 @@ class Admin extends BaseController
         
         $total_berita = 0;
         $total_galeri = 0;
-        $total_pasar = 3;
+        $total_pasar = 0;
         $total_feedback = 0;
         $total_views = 0;
         
@@ -102,6 +102,10 @@ class Admin extends BaseController
             // Get total galeri
             $galeriModel = new \App\Models\GaleriModel();
             $total_galeri = $galeriModel->countAllResults();
+            
+            // Get total pasar (menggunakan PasarModel)
+            $pasarModel = new \App\Models\PasarModel();
+            $total_pasar = $pasarModel->countAllResults();
             
             // Get total feedback
             $feedbackModel = new \App\Models\FeedbackModel();

@@ -2,7 +2,6 @@
 namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\HargaModel;
-use App\Models\KomoditasModel;
 
 class Informasi extends Controller
 {
@@ -84,7 +83,33 @@ class Informasi extends Controller
 		return view('informasi/berita_detail', $data);
 	}
 	
-	public function informasi_pasar() { return view('informasi/informasi_pasar'); }
+	public function informasi_pasar() 
+	{
+		$pasarModel = new \App\Models\PasarModel();
+		// Tampilkan semua pasar yang bukan nonaktif
+		$data['pasar_list'] = $pasarModel->whereIn('status', ['aktif', 'maintenance'])->findAll();
+		$data['selected_pasar'] = null;
+		
+		return view('informasi/informasi_pasar', $data);
+	}
+	
+	public function informasi_pasar_detail($id = null) 
+	{
+		$pasarModel = new \App\Models\PasarModel();
+		
+		if ($id) {
+			$data['selected_pasar'] = $pasarModel->find($id);
+			if (!$data['selected_pasar']) {
+				return redirect()->to('/informasi/informasi-pasar')->with('error', 'Pasar tidak ditemukan');
+			}
+		} else {
+			$data['selected_pasar'] = null;
+		}
+		
+		$data['pasar_list'] = $pasarModel->whereIn('status', ['aktif', 'maintenance'])->findAll();
+		
+		return view('informasi/informasi_pasar', $data);
+	}
 
 	public function galeri() { return view('informasi/galeri'); }
 }

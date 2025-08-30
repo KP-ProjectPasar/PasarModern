@@ -840,12 +840,18 @@ function displayVideo(videoData) {
     const v = videoData[0];
     const title = v.judul || 'Video';
     
+    // Debug logging
+    console.log('Displaying video:', v);
+    if (v.tipe === 'url' && v.url) {
+        console.log('Original URL:', v.url);
+    }
+    
     // Improved URL to embed conversion
     const toEmbed = (url) => {
         // YouTube URL patterns
         const youtubeMatch = url.match(/(?:https?:\/\/)?(?:www\.)?(?:m\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|embed\/|v\/|shorts\/)?([\w-]{11})(?:\S+)?/);
         if (youtubeMatch) {
-            return `https://www.youtube.com/embed/${youtubeMatch[1]}?rel=0&modestbranding=1`;
+            return `https://www.youtube.com/embed/${youtubeMatch[1]}`;
         }
         
         // Google Drive view URL to preview
@@ -868,26 +874,57 @@ function displayVideo(videoData) {
         const isYouTube = embedUrl.includes('youtube.com/embed');
         const isGoogleDrive = embedUrl.includes('drive.google.com');
         
-        content = `
-            <div class="ratio ratio-16x9">
-                <iframe src="${embedUrl}" 
-                        allowfullscreen 
-                        referrerpolicy="no-referrer"
-                        onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
-                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                        style="display: none;">
-                </iframe>
-                <div class="video-fallback" style="display: flex; align-items: center; justify-content: center; background: #f8f9fa; color: #6c757d; text-align: center; padding: 2rem;">
-                    <div>
-                        <i class="bi bi-play-circle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+        // Debug logging
+        console.log('Embed URL:', embedUrl);
+        console.log('Is YouTube:', isYouTube);
+        console.log('Is Google Drive:', isGoogleDrive);
+        
+        if (isYouTube) {
+            // YouTube video - direct display
+            content = `
+                <div class="ratio ratio-16x9">
+                    <iframe src="${embedUrl}" 
+                            width="100%" 
+                            height="100%" 
+                            frameborder="0" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+            `;
+        } else if (isGoogleDrive) {
+            // Google Drive video
+            content = `
+                <div class="ratio ratio-16x9">
+                    <iframe src="${embedUrl}" 
+                            allowfullscreen 
+                            referrerpolicy="no-referrer"
+                            style="width: 100%; height: 100%; border: 0;">
+                    </iframe>
+                </div>
+            `;
+        } else {
+            // Other external videos with fallback
+            content = `
+                <div class="ratio ratio-16x9">
+                    <iframe src="${embedUrl}" 
+                            allowfullscreen 
+                            referrerpolicy="no-referrer"
+                            onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                            style="display: none;">
+                    </iframe>
+                    <div class="video-fallback" style="display: flex; align-items: center; justify-content: center; background: #f8f9fa; color: #6c757d; text-align: center; padding: 2rem;">
                         <div>
-                            ${isYouTube ? 'Video YouTube' : isGoogleDrive ? 'Video Google Drive' : 'Video Eksternal'}<br>
-                            <small class="text-muted">${v.url}</small>
+                            <i class="bi bi-play-circle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                            <div>
+                                Video Eksternal<br>
+                                <small class="text-muted">${v.url}</small>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
+        }
     } else if (v.file_video) {
         const src = v.file_video.startsWith('/uploads/') ? v.file_video : `/uploads/video/${v.file_video}`;
         content = `

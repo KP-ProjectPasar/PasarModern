@@ -11,13 +11,14 @@ $routes->get('/', 'LandingPage::index');
 $routes->get('feedback', 'Feedback::index');
 $routes->post('feedback/submit', 'Feedback::submit');
 
-$routes->get('api/komoditas', 'Api::komoditas');
+// API Routes
 $routes->get('api/galeri', 'Api::galeri');
+$routes->get('api/video', 'Api::video');
 $routes->get('api/berita', 'Api::berita');
 $routes->get('api/harga', 'Api::harga');
-$routes->get('api/video', 'Api::video');
-$routes->post('api/galeri/(:num)/view', 'Api::incrementGaleriView/$1');
 $routes->get('api/dashboard/stats', 'Api::dashboardStats');
+$routes->get('api/dashboard/activities', 'Api::dashboardActivities');
+$routes->post('api/galeri/(:num)/view', 'Api::incrementGaleriView/$1');
 
 
 $routes->get('tentang-kami/ringkasan', 'TentangKami::ringkasan');
@@ -29,6 +30,7 @@ $routes->get('informasi/berita/(:num)', 'Informasi::beritaDetail/$1');
 $routes->post('api/berita/(:num)/view', 'Api::incrementBeritaView/$1');
 $routes->get('informasi/harga', 'Informasi::harga');
 $routes->get('informasi/informasi-pasar', 'Informasi::informasi_pasar');
+$routes->get('informasi/informasi-pasar/(:num)', 'Informasi::informasi_pasar_detail/$1');
 $routes->get('informasi/galeri', 'Informasi::galeri');
 $routes->get('admin/login', 'Admin\Admin::login');
 $routes->post('admin/login', 'Admin\Admin::login');
@@ -92,12 +94,7 @@ $routes->post('admin/video/toggle-featured/(:num)', 'Admin\AdminVideo::toggleFea
 $routes->get('admin/video/status/(:num)/(:any)', 'Admin\AdminVideo::changeStatus/$1/$2');
 
 // CRUD Komoditas
-$routes->get('admin/komoditas', 'Admin\AdminKomoditas::index');
-$routes->get('admin/komoditas/create', 'Admin\AdminKomoditas::create');
-$routes->post('admin/komoditas/store', 'Admin\AdminKomoditas::store');
-$routes->get('admin/komoditas/edit/(:num)', 'Admin\AdminKomoditas::edit/$1');
-$routes->post('admin/komoditas/update/(:num)', 'Admin\AdminKomoditas::update/$1');
-$routes->get('admin/komoditas/delete/(:num)', 'Admin\AdminKomoditas::delete/$1');
+// Routes untuk komoditas dihapus karena tabel komoditas sudah dihapus
 
 // CRUD Data Pasar
 $routes->get('admin/pasar', 'Admin\AdminPasar::index');
@@ -112,8 +109,7 @@ $routes->get('admin/feedback', 'Admin\AdminFeedback::index');
 $routes->get('admin/feedback/view/(:num)', 'Admin\AdminFeedback::view/$1');
 $routes->post('admin/feedback/update-status/(:num)', 'Admin\AdminFeedback::updateStatus/$1');
 $routes->get('admin/feedback/delete/(:num)', 'Admin\AdminFeedback::delete/$1');
+$routes->get('admin/feedback/export/(:any)', 'Admin\AdminFeedback::export/$1');
 
 // CRUD Direksi
-$routes->get('admin/direksi', 'AdminDireksi::index');
-$routes->get('admin/direksi/edit/(:num)', 'AdminDireksi::edit/$1');
-$routes->post('admin/direksi/update/(:num)', 'AdminDireksi::update/$1');
+// Routes untuk direksi dihapus karena tabel direksi sudah dihapus

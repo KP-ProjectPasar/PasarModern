@@ -211,35 +211,24 @@
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    const hargaRows = document.querySelectorAll('.harga-row');
-    
+<!-- JavaScript sudah dipindah ke file terpisah -->
 
-    
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        
-        hargaRows.forEach(row => {
-            const komoditas = row.getAttribute('data-komoditas');
-            
-            const matches = komoditas.includes(searchTerm);
-            
-            row.style.display = matches ? '' : 'none';
-        });
-    });
-    
-    window.editHarga = function(id) {
-        window.location.href = `/admin/harga/edit/${id}`;
-    };
-    
-    window.deleteHarga = function(id, komoditas) {
-        if (confirm(`Apakah Anda yakin ingin menghapus harga komoditas "${komoditas}"?\n\nTindakan ini tidak dapat dibatalkan.`)) {
-            window.location.href = `/admin/harga/delete/${id}`;
-        }
-    };
-});
-</script>
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="delete-modal">
+    <div class="delete-modal-content">
+        <div class="delete-modal-header">
+            <h5 class="delete-modal-title">Konfirmasi Hapus</h5>
+            <button type="button" class="delete-modal-close" onclick="closeDeleteModal()">&times;</button>
+        </div>
+        <div class="delete-modal-body">
+            <p class="delete-modal-text">Anda yakin ingin menghapus harga komoditas "<span id="deleteHargaKomoditas"></span>"?</p>
+            <p class="delete-modal-warning">Tindakan ini tidak dapat dibatalkan.</p>
+        </div>
+        <div class="delete-modal-footer">
+            <button type="button" class="delete-modal-btn delete-modal-btn-cancel" onclick="closeDeleteModal()">Batal</button>
+            <a href="#" id="deleteHargaBtn" class="delete-modal-btn delete-modal-btn-delete">Hapus</a>
+        </div>
+    </div>
+</div>
 
 <?= $this->endSection() ?> 

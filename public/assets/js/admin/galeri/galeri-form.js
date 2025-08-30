@@ -235,10 +235,34 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // kategori dihapus dari form/database
         
-        // Check if at least one image is selected
-        if (!fileInput.files || fileInput.files.length === 0) {
-            showNotification('Minimal satu gambar harus dipilih', 'error');
-            return false;
+        // Check if at least one image is selected OR if editing with existing image
+        const hasNewImages = fileInput.files && fileInput.files.length > 0;
+        const hasExistingImage = document.getElementById('existingImage') !== null;
+        
+        // Debug logging
+        console.log('Form validation:', {
+            hasNewImages: hasNewImages,
+            hasExistingImage: hasExistingImage,
+            newImageCount: hasNewImages ? fileInput.files.length : 0,
+            existingImageValue: hasExistingImage ? document.getElementById('existingImage').value : 'none'
+        });
+        
+        // For edit mode: allow submission if there's existing image OR new images
+        // For create mode: require new images
+        const isEditMode = window.location.pathname.includes('/edit/');
+        
+        if (isEditMode) {
+            // In edit mode, either new images OR existing image is fine
+            if (!hasNewImages && !hasExistingImage) {
+                showNotification('Minimal satu gambar harus dipilih', 'error');
+                return false;
+            }
+        } else {
+            // In create mode, new images are required
+            if (!hasNewImages) {
+                showNotification('Minimal satu gambar harus dipilih', 'error');
+                return false;
+            }
         }
         
         return true;

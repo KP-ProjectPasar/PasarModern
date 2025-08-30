@@ -165,7 +165,14 @@
                             Format umum: MP4, MOV, AVI, WMV, FLV, WEBM, MKV • Maksimal: 100MB
                         </div>
                         <?php if (isset($video) && !empty($video['file_video'])): ?>
-                            <div class="modern-form-help">File saat ini: <?= esc($video['file_video']) ?></div>
+                            <div class="mt-3">
+                                <label class="form-label">File Video Saat Ini:</label>
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-file-earmark-play text-primary"></i>
+                                    <span class="text-muted"><?= esc($video['file_video']) ?></span>
+                                </div>
+                            </div>
+                            <!-- Hidden input to track existing file -->
                             <input type="hidden" name="existing_file" id="existing_file" value="1">
                         <?php endif; ?>
                     </div>

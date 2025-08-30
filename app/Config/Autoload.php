@@ -95,6 +95,7 @@ class Autoload extends AutoloadConfig
         'url',
         'text',
         'security',
-        'filesystem'
+        'filesystem',
+        'permission'
     ];
 }
